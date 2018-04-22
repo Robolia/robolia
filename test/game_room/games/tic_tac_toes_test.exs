@@ -68,5 +68,14 @@ defmodule GameRoom.Games.TicTacToesTest do
         |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id})
       end
     end
+
+    test "when given an existent TicTacToe and a player_id which is not playing the given game then raises a GameError exception", ctx do
+      another_player = insert(:user)
+
+      assert_raise GameError, fn ->
+        ctx.game
+        |> TicTacToes.add_moviment!(%{position: 1, player_id: another_player.id})
+      end
+    end
   end
 end
