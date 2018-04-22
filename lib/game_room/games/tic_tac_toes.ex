@@ -12,10 +12,10 @@ defmodule GameRoom.Games.TicTacToes do
 
   def add_moviment!(%TicTacToe{id: game_id} = game, %{position: position} = attrs) do
     unless valid_position_number?(position),
-      do: raise GameError, message: "Position #{position} is invalid for this game"
+      do: raise(GameError, message: "Position #{position} is invalid for this game")
 
     unless game |> player_playing?(attrs),
-      do: raise GameError, message: "Given player is not playing this game"
+      do: raise(GameError, message: "Given player is not playing this game")
 
     attrs = attrs |> Map.merge(%{tic_tac_toe_id: game_id})
 
@@ -28,8 +28,7 @@ defmodule GameRoom.Games.TicTacToes do
   end
 
   defp player_playing?(game, %{player_id: player_id}) do
-    import GameRoom.Games.TicTacToes.Queries,
-      only: [for_game: 2, for_player: 2, count: 1]
+    import GameRoom.Games.TicTacToes.Queries, only: [for_game: 2, for_player: 2, count: 1]
 
     TicTacToe
     |> for_game(%{id: game.id})
@@ -42,6 +41,6 @@ defmodule GameRoom.Games.TicTacToes do
   end
 
   defp error(exception) do
-    reraise GameError, [exception: exception], System.stacktrace
+    reraise GameError, [exception: exception], System.stacktrace()
   end
 end

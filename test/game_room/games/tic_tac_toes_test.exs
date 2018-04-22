@@ -20,11 +20,12 @@ defmodule GameRoom.Games.TicTacToesTest do
         winner_id: nil
       }
 
-      result = TicTacToes.create_game!(%{
-        first_player_id: ctx.first_player.id,
-        second_player_id: ctx.second_player.id
-      })
-      |> Map.take([:first_player_id, :second_player_id, :next_player_id, :winner_id])
+      result =
+        TicTacToes.create_game!(%{
+          first_player_id: ctx.first_player.id,
+          second_player_id: ctx.second_player.id
+        })
+        |> Map.take([:first_player_id, :second_player_id, :next_player_id, :winner_id])
 
       assert result == expected
     end
@@ -44,21 +45,30 @@ defmodule GameRoom.Games.TicTacToesTest do
 
   describe "add_moviment!/2" do
     setup ctx do
-      game = insert(:tic_tac_toe, first_player_id: ctx.first_player.id, second_player_id: ctx.second_player.id)
+      game =
+        insert(
+          :tic_tac_toe,
+          first_player_id: ctx.first_player.id,
+          second_player_id: ctx.second_player.id
+        )
+
       {:ok, game: game}
     end
 
-    test "when giving an existent TicTacToe and a valid position and player_id then creates a moviment", ctx do
+    test "when giving an existent TicTacToe and a valid position and player_id then creates a moviment",
+         ctx do
       position = 1
+
       expected = %{
         position: position,
         tic_tac_toe_id: ctx.game.id,
         player_id: ctx.first_player.id
       }
 
-      result = ctx.game
-               |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id})
-               |> Map.take([:position, :tic_tac_toe_id, :player_id])
+      result =
+        ctx.game
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id})
+        |> Map.take([:position, :tic_tac_toe_id, :player_id])
 
       assert result == expected
     end
@@ -70,7 +80,8 @@ defmodule GameRoom.Games.TicTacToesTest do
       end
     end
 
-    test "when given an existent TicTacToe and a player_id which is not playing the given game then raises a GameError exception", ctx do
+    test "when given an existent TicTacToe and a player_id which is not playing the given game then raises a GameError exception",
+         ctx do
       another_player = insert(:user)
 
       assert_raise GameError, fn ->
@@ -79,7 +90,8 @@ defmodule GameRoom.Games.TicTacToesTest do
       end
     end
 
-    test "when given a position already filled by the same player then raises a GameError exception", ctx do
+    test "when given a position already filled by the same player then raises a GameError exception",
+         ctx do
       position = 1
 
       ctx.game
@@ -91,7 +103,8 @@ defmodule GameRoom.Games.TicTacToesTest do
       end
     end
 
-    test "when given a position already filled by the other player then raises a GameError exception", ctx do
+    test "when given a position already filled by the other player then raises a GameError exception",
+         ctx do
       position = 1
 
       ctx.game
@@ -122,9 +135,11 @@ defmodule GameRoom.Games.TicTacToesTest do
     end
 
     test "when given a position between 1 and 9 then creates a moviment", ctx do
-      (1..9) |> Enum.each(fn position ->
-        result = ctx.game
-                 |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
+      1..9
+      |> Enum.each(fn position ->
+        result =
+          ctx.game
+          |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
 
         assert %TicTacToeMoviment{} = result
       end)

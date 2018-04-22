@@ -12,7 +12,7 @@ defmodule GameRoom.Application do
       # Start the Ecto repository
       supervisor(GameRoom.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(GameRoomWeb.Endpoint, []),
+      supervisor(GameRoomWeb.Endpoint, [])
       # Start your own worker by calling: GameRoom.Worker.start_link(arg1, arg2, arg3)
       # worker(GameRoom.Worker, [arg1, arg2, arg3]),
     ]

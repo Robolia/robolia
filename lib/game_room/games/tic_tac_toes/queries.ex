@@ -8,8 +8,7 @@ defmodule GameRoom.Games.TicTacToes.Queries do
   def for_player(query, %{id: player_id}) do
     from(
       q in query,
-      where: q.first_player_id == ^player_id
-        or q.second_player_id == ^player_id
+      where: q.first_player_id == ^player_id or q.second_player_id == ^player_id
     )
   end
 end

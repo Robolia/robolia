@@ -25,13 +25,13 @@ defmodule GameRoomWeb.ChannelCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(GameRoom.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(GameRoom.Repo, {:shared, self()})
     end
+
     :ok
   end
-
 end

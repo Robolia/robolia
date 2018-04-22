@@ -3,7 +3,7 @@ defmodule GameRoom.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
-    field :auth_key, :string
+    field(:auth_key, :string)
 
     timestamps()
   end
