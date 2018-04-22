@@ -1,6 +1,7 @@
 defmodule GameRoom.Games.TicTacToesTest do
   use GameRoom.DataCase
   alias GameRoom.Games.TicTacToes
+  alias GameRoom.Games.TicTacToes.TicTacToeMoviment
   alias GameRoom.GameError
 
   setup do
@@ -76,6 +77,57 @@ defmodule GameRoom.Games.TicTacToesTest do
         ctx.game
         |> TicTacToes.add_moviment!(%{position: 1, player_id: another_player.id})
       end
+    end
+
+    test "when given a position already filled by the same player then raises a GameError exception", ctx do
+      position = 1
+
+      ctx.game
+      |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id})
+
+      assert_raise GameError, fn ->
+        ctx.game
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id})
+      end
+    end
+
+    test "when given a position already filled by the other player then raises a GameError exception", ctx do
+      position = 1
+
+      ctx.game
+      |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id})
+
+      assert_raise GameError, fn ->
+        ctx.game
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
+      end
+    end
+
+    test "when given a position above 9 then raises a GameError exception", ctx do
+      position = 10
+
+      assert_raise GameError, fn ->
+        ctx.game
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
+      end
+    end
+
+    test "when given a position below 1 then raises a GameError exception", ctx do
+      position = 0
+
+      assert_raise GameError, fn ->
+        ctx.game
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
+      end
+    end
+
+    test "when given a position between 1 and 9 then creates a moviment", ctx do
+      (1..9) |> Enum.each(fn position ->
+        result = ctx.game
+                 |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
+
+        assert %TicTacToeMoviment{} = result
+      end)
     end
   end
 end
