@@ -5,8 +5,8 @@ defmodule GameRoom.Games.TicTacToesTest do
   alias GameRoom.GameError
 
   setup do
-    first_player = insert(:user)
-    second_player = insert(:user)
+    first_player = insert(:player)
+    second_player = insert(:player)
 
     {:ok, %{first_player: first_player, second_player: second_player}}
   end
@@ -82,7 +82,7 @@ defmodule GameRoom.Games.TicTacToesTest do
 
     test "when given an existent TicTacToe and a player_id which is not playing the given game then raises a GameError exception",
          ctx do
-      another_player = insert(:user)
+      another_player = insert(:player)
 
       assert_raise GameError, fn ->
         ctx.game

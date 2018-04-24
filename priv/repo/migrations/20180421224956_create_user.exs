@@ -3,11 +3,9 @@ defmodule GameRoom.Repo.Migrations.CreateUser do
 
   def change do
     create table(:users) do
-      add :auth_key, :string, null: false, default: ""
+      add :name, :string, null: false, default: ""
 
       timestamps()
     end
-
-    create unique_index(:users, [:auth_key])
   end
 end

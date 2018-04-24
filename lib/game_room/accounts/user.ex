@@ -3,7 +3,7 @@ defmodule GameRoom.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
-    field(:auth_key, :string)
+    field(:name, :string)
 
     timestamps()
   end
@@ -13,8 +13,8 @@ defmodule GameRoom.Accounts.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:auth_key])
-    |> validate_required([:auth_key])
-    |> unique_constraint(:auth_key)
+    |> cast(params, [:name])
+    |> validate_required([:name])
+    |> unique_constraint(:name)
   end
 end

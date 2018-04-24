@@ -3,10 +3,10 @@ defmodule GameRoom.Repo.Migrations.CreateTicTacToe do
 
   def change do
     create table(:tic_tac_toes) do
-      add :first_player_id, references(:users, on_delete: :nilify_all), null: false
-      add :second_player_id, references(:users, on_delete: :nilify_all), null: false
-      add :winner_id, references(:users, on_delete: :nilify_all), null: true
-      add :next_player_id, references(:users, on_delete: :nilify_all), null: true
+      add :first_player_id, references(:players, on_delete: :nilify_all), null: false
+      add :second_player_id, references(:players, on_delete: :nilify_all), null: false
+      add :winner_id, references(:players, on_delete: :nilify_all), null: true
+      add :next_player_id, references(:players, on_delete: :nilify_all), null: true
 
       timestamps()
     end

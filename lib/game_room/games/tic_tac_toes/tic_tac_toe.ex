@@ -1,7 +1,7 @@
 defmodule GameRoom.Games.TicTacToes.TicTacToe do
   use Ecto.Schema
   import Ecto.Changeset
-  alias GameRoom.Accounts.User, as: Player
+  alias GameRoom.Accounts.Player
   alias __MODULE__
 
   schema "tic_tac_toes" do
