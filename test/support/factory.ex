@@ -1,6 +1,7 @@
 defmodule GameRoom.Factory do
   use ExMachina.Ecto, repo: GameRoom.Repo
-  alias GameRoom.Games.TicTacToes.TicTacToe
+  alias GameRoom.Games.TicTacToes.{TicTacToeMatch, TicTacToeMoviment}
+  alias GameRoom.Games.Game
   alias GameRoom.Accounts.{User, Player}
 
   def user_factory do
@@ -9,20 +10,38 @@ defmodule GameRoom.Factory do
     }
   end
 
+  def game_factory do
+    %Game{
+      name: sequence("game_"),
+      slug: sequence("game-")
+    }
+  end
+
   def player_factory do
     %Player{
-      repository: sequence("url_"),
-      game: "tic_tac_toe",
+      repository_url: sequence("url_"),
+      language: "elixir",
+      game_id: build(:game).id,
       user_id: build(:user).id
     }
   end
 
-  def tic_tac_toe_factory do
-    %TicTacToe{
+  def tic_tac_toe_match_factory do
+    %TicTacToeMatch{
       first_player_id: build(:player).id,
       second_player_id: build(:player).id,
       next_player_id: nil,
       winner_id: nil
+    }
+  end
+
+  def tic_tac_toe_moviment_factory do
+    match = build(:tic_tac_toe_match)
+
+    %TicTacToeMoviment{
+      position: 1,
+      tic_tac_toe_match_id: match.id,
+      player_id: match.first_player_id
     }
   end
 end

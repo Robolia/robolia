@@ -13,3 +13,5 @@ config :logger, level: :warn
 config :game_room, GameRoom.Repo,
   database: "game_room_test",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :game_room, player_script_runner: GameRoom.PlayerScriptMock

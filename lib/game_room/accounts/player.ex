@@ -4,9 +4,10 @@ defmodule GameRoom.Accounts.Player do
   alias GameRoom.Accounts.User
 
   schema "players" do
-    field :repository, :string
-    field :game, :string
-    belongs_to :user, User, foreign_key: :user_id
+    field(:repository_url, :string)
+    field(:language, :string)
+    belongs_to(:game, User, foreign_key: :game_id)
+    belongs_to(:user, User, foreign_key: :user_id)
 
     timestamps()
   end
@@ -16,7 +17,7 @@ defmodule GameRoom.Accounts.Player do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:repository, :game])
-    |> validate_required([:repository, :game])
+    |> cast(params, [:repository_url, :game_id, :language, :user_id])
+    |> validate_required([:repository_url, :game_id, :language, :user_id])
   end
 end

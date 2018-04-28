@@ -10,7 +10,14 @@ defmodule GameRoom.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -42,8 +49,12 @@ defmodule GameRoom.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:confex, "~> 3.3.1"},
+      {:opus, "~> 0.3"},
+      {:slugger, "~> 0.2"},
       # Test
-      {:ex_machina, "~> 2.2", only: [:test, :dev]}
+      {:ex_machina, "~> 2.2", only: [:test, :dev]},
+      {:mox, "~> 0.3", only: [:test]},
+      {:excoveralls, "~> 0.8", only: :test}
     ]
   end
 
