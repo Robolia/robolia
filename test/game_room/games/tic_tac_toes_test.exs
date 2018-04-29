@@ -23,7 +23,7 @@ defmodule GameRoom.Games.TicTacToesTest do
   end
 
   describe "match_finished?/1" do
-    test "returns true when match has 9 moviments", ctx do
+    test "returns true when match has 9 moviments and no winner move is found", ctx do
       insert(
         :tic_tac_toe_moviment,
         position: 1,
@@ -61,28 +61,28 @@ defmodule GameRoom.Games.TicTacToesTest do
 
       insert(
         :tic_tac_toe_moviment,
-        position: 6,
+        position: 7,
         tic_tac_toe_match_id: ctx.match.id,
         player_id: ctx.match.second_player_id
       )
 
       insert(
         :tic_tac_toe_moviment,
-        position: 7,
+        position: 6,
         tic_tac_toe_match_id: ctx.match.id,
         player_id: ctx.match.first_player_id
       )
 
       insert(
         :tic_tac_toe_moviment,
-        position: 8,
+        position: 9,
         tic_tac_toe_match_id: ctx.match.id,
         player_id: ctx.match.second_player_id
       )
 
       insert(
         :tic_tac_toe_moviment,
-        position: 9,
+        position: 8,
         tic_tac_toe_match_id: ctx.match.id,
         player_id: ctx.match.first_player_id
       )
@@ -90,7 +90,46 @@ defmodule GameRoom.Games.TicTacToesTest do
       assert TicTacToes.match_finished?(ctx.match) == {true, %{winner: nil}}
     end
 
-    test "returns false when match has 8 or less moviments", ctx do
+    test "returns true when match has an winner", ctx do
+      match =
+        insert(
+          :tic_tac_toe_match,
+          first_player_id: ctx.first_player.id,
+          second_player_id: ctx.second_player.id,
+          game_id: ctx.game.id,
+          winner_id: ctx.second_player.id
+        )
+
+      assert TicTacToes.match_finished?(match) == {true, %{winner: ctx.second_player}}
+    end
+
+    test "returns true when match has not a registered winner but current state has a winner move",
+         ctx do
+      insert(
+        :tic_tac_toe_moviment,
+        position: 1,
+        tic_tac_toe_match_id: ctx.match.id,
+        player_id: ctx.match.first_player_id
+      )
+
+      insert(
+        :tic_tac_toe_moviment,
+        position: 2,
+        tic_tac_toe_match_id: ctx.match.id,
+        player_id: ctx.match.first_player_id
+      )
+
+      insert(
+        :tic_tac_toe_moviment,
+        position: 3,
+        tic_tac_toe_match_id: ctx.match.id,
+        player_id: ctx.match.first_player_id
+      )
+
+      assert TicTacToes.match_finished?(ctx.match) == {true, %{winner: ctx.first_player}}
+    end
+
+    test "returns false when match has 8 or less moviments and no winner move is found", ctx do
       insert(
         :tic_tac_toe_moviment,
         position: 1,
@@ -128,21 +167,21 @@ defmodule GameRoom.Games.TicTacToesTest do
 
       insert(
         :tic_tac_toe_moviment,
-        position: 6,
+        position: 7,
         tic_tac_toe_match_id: ctx.match.id,
         player_id: ctx.match.second_player_id
       )
 
       insert(
         :tic_tac_toe_moviment,
-        position: 7,
+        position: 6,
         tic_tac_toe_match_id: ctx.match.id,
         player_id: ctx.match.first_player_id
       )
 
       insert(
         :tic_tac_toe_moviment,
-        position: 8,
+        position: 9,
         tic_tac_toe_match_id: ctx.match.id,
         player_id: ctx.match.second_player_id
       )

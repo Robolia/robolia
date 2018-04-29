@@ -1,6 +1,8 @@
 # GameRoom
 
-Game Room is a platform for scripting battle on top of different games.
+Game Room is a platform for bot battles on top of different games.
+
+[![Build Status](https://travis-ci.org/game-room-space/game_room.svg?branch=master)](https://travis-ci.org/game-room-space/game_room)
 
 ### Prerequisites
 

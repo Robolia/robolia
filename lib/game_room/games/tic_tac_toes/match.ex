@@ -1,5 +1,4 @@
 defmodule GameRoom.Games.TicTacToes.Match do
-  use Confex, otp_app: :game_room
   alias GameRoom.Games.TicTacToes
   alias GameRoom.GameError
   alias GameRoom.Repo
@@ -37,8 +36,24 @@ defmodule GameRoom.Games.TicTacToes.Match do
     e in GameError -> {:error, e}
   end
 
-  def calculate_winner(_match) do
-    {:error, nil}
+  def calculate_winner(match) do
+    match = match |> Repo.preload([:first_player, :second_player])
+
+    winner =
+      %{
+        current_state: TicTacToes.current_state(match),
+        first_player: match.first_player,
+        second_player: match.second_player
+      }
+      |> GameRoom.Games.TicTacToes.Match.Winner.calculate()
+
+    case winner do
+      nil ->
+        {:error, nil}
+
+      winner ->
+        {:ok, winner}
+    end
   end
 
   defp player_script(), do: Application.get_env(:game_room, :player_script_runner)

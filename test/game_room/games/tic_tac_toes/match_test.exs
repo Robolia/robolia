@@ -31,7 +31,7 @@ defmodule GameRoom.Games.TicTacToes.MatchTest do
        }}
     end
 
-    test "returns a finished {:ok, match}", ctx do
+    test "returns a finished {:ok, match} when a winner move is found in the game", ctx do
       GameRoom.PlayerScriptMock |> stub(:run, fn %{next_turn: turn} -> '#{turn}\n' end)
       {:ok, match} = Match.play(ctx.match)
       match = match |> Repo.preload(:moviments)
@@ -51,9 +51,7 @@ defmodule GameRoom.Games.TicTacToes.MatchTest do
         %{position: 4, tic_tac_toe_match_id: match.id, player_id: ctx.second_player_id},
         %{position: 5, tic_tac_toe_match_id: match.id, player_id: ctx.first_player_id},
         %{position: 6, tic_tac_toe_match_id: match.id, player_id: ctx.second_player_id},
-        %{position: 7, tic_tac_toe_match_id: match.id, player_id: ctx.first_player_id},
-        %{position: 8, tic_tac_toe_match_id: match.id, player_id: ctx.second_player_id},
-        %{position: 9, tic_tac_toe_match_id: match.id, player_id: ctx.first_player_id}
+        %{position: 7, tic_tac_toe_match_id: match.id, player_id: ctx.first_player_id}
       ]
 
       result =

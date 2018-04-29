@@ -46,18 +46,25 @@ defmodule GameRoom.Games.TicTacToes do
     e in Ecto.ConstraintError -> error(e)
   end
 
-  def match_finished?(%TicTacToeMatch{} = match) do
-    match = match |> Repo.preload(:moviments)
+  def match_finished?(%TicTacToeMatch{winner_id: winner_id} = match)
+      when is_nil(winner_id) == false do
+    match = match |> Repo.preload([:winner])
+    {true, %{winner: match.winner}}
+  end
 
-    case {Match.calculate_winner(match), match.moviments |> Enum.count() >= 9} do
-      {{:ok, winner}, _} ->
+  def match_finished?(%TicTacToeMatch{} = match) do
+    case Match.calculate_winner(match) do
+      {:ok, winner} ->
         {true, %{winner: winner}}
 
-      {{:error, _}, true} ->
-        {true, %{winner: nil}}
+      {:error, _} ->
+        match = match |> Repo.preload([:moviments])
 
-      {{:error, _}, false} ->
-        {false, %{winner: nil}}
+        if match.moviments |> Enum.count() >= 9 do
+          {true, %{winner: nil}}
+        else
+          {false, %{winner: nil}}
+        end
     end
   end
 
@@ -77,9 +84,12 @@ defmodule GameRoom.Games.TicTacToes do
     match =
       match |> Repo.preload(moviments: from(m in TicTacToeMoviment, order_by: m.inserted_at))
 
-    for {m, i} <- Enum.with_index(match.moviments) do
-      {String.to_atom("p#{m.position}"), if(rem(i, 2) == 0, do: :x, else: :o)}
-    end
+    match.moviments
+    |> Enum.map(fn %{player_id: player_id} = mov ->
+      mark = if player_id == match.first_player_id, do: :x, else: :o
+
+      {String.to_atom("p#{mov.position}"), mark}
+    end)
     |> Map.new()
     |> Enum.into(%{
       p1: nil,
