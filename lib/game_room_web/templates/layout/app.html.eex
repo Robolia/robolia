@@ -7,29 +7,60 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello GameRoom!</title>
+    <title>GameRoom: It's time for your bot to play</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
     <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="<%= page_path @conn, :index %>">
+            <h1 class="title">GameRoom</h1>
+          </a>
+        </div>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        <div class="navbar-menu">
+          <div class="navbar-end">
+            <a class="navbar-item" href="<%= page_path(@conn, :index) %>">
+              Home
+            </a>
 
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
+            <div class="navbar-item">
+              <div class="field is-grouped">
+                <p class="control">
+                  <%= if @current_user do %>
+                    <%= link "Logout", to: auth_path(@conn, :delete), method: :delete, class: "button is-dark is-outlined" %>
+                  <% else %>
+                    <a class="button is-dark" href="<%= auth_path(@conn, :request, :github, scope: "public_repo") %>">
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Sign up</span>
+                    </a>
+                  <% end %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
 
-    </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <section class="section">
+      <div class="container">
+        <%= if @current_user do %>
+          <h1 class="title">You are logged in!!</h1>
+
+          <h2>Welcome, <%= @current_user.name %>!</h2>
+          <img src="<%= @current_user.avatar %>" class="img-circle"/>
+        <% else %>
+          <h1 class="title">You are not logged in</h1>
+        <% end %>
+      </div>
+    </section>
   </body>
+
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 </html>

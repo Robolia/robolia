@@ -51,6 +51,7 @@ defmodule GameRoom.Mixfile do
       {:confex, "~> 3.3.1"},
       {:opus, "~> 0.3"},
       {:slugger, "~> 0.2"},
+      {:ueberauth_github, "~> 0.7"},
       # Test
       {:ex_machina, "~> 2.2", only: [:test, :dev]},
       {:mox, "~> 0.3", only: [:test]},

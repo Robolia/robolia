@@ -4,6 +4,7 @@ defmodule GameRoom.Accounts.User do
 
   schema "users" do
     field(:name, :string)
+    field(:github_id, :integer)
 
     timestamps()
   end
@@ -13,8 +14,8 @@ defmodule GameRoom.Accounts.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name])
-    |> validate_required([:name])
-    |> unique_constraint(:name)
+    |> cast(params, [:name, :github_id])
+    |> validate_required([:name, :github_id])
+    |> unique_constraint(:github_id)
   end
 end
