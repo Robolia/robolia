@@ -1,8 +1,8 @@
-# GameRoom
+# Robolia
 
-Game Room is a platform for bot battles on top of different games.
+Robolia is a platform for bot battles on top of different games.
 
-[![Build Status](https://travis-ci.org/game-room-space/game_room.svg?branch=master)](https://travis-ci.org/game-room-space/game_room)
+[![Build Status](https://travis-ci.org/Robolia/robolia.svg?branch=master)](https://travis-ci.org/Robolia/robolia)
 
 ### Prerequisites
 
