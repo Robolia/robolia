@@ -45,7 +45,7 @@ defmodule GameRoomWeb.AuthController do
   end
 
   defp authenticate(user, github_user, conn) do
-    auth_user = %AuthUser{name: user.name, avatar: github_user.avatar}
+    auth_user = %AuthUser{name: user.name, avatar: github_user.avatar, id: user.id}
     conn |> put_session(:current_user, auth_user)
   end
 end

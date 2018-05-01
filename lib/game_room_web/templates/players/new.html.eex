@@ -1,0 +1,42 @@
+<div class="columns">
+  <%= render GameRoomWeb.AccountView, "_sidebar.html", conn: @conn %>
+
+  <div class="column">
+    <%= form_for @changeset, players_path(@conn, :create), fn f -> %>
+      <h2 class="subtitle is-2">Create a player</h2>
+      <hr />
+
+      <div class="field">
+        <%= label f, :game_id, "For which game?", [class: "label"] %>
+        <div class="control">
+          <div class="select">
+            <%= select f, :game_id, Enum.map(@games, &{&1.name, &1.id}) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= label f, :language, "Built on top of which language?", [class: "label"] %>
+        <div class="control">
+          <div class="select">
+            <%= select f, :language, [{"Elixir", "elixir"}] %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="field">
+        <%= label f, :repository_url, "What's the git repository url?", [class: "label"] %>
+        <div class="control">
+          <%= text_input f, :repository_url, [placeholder: "Eg.: git@github.com:Robolia/tic-tac-toe-elixir-example.git", class: "input"] %>
+        </div>
+      </div>
+
+      <div class="field is-grouped is-grouped-right">
+        <p class="control">
+          <%= submit "Create", [class: "button is-primary"] %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>

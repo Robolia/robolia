@@ -1,3 +1,3 @@
 defmodule GameRoomWeb.AuthUser do
-  defstruct [:name, :avatar]
+  defstruct [:id, :name, :avatar]
 end

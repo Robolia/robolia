@@ -17,7 +17,7 @@ defmodule GameRoomWeb.Router do
     # Use the default browser stack
     pipe_through(:browser)
 
-    get("/", PageController, :index)
+    get("/", HomeController, :index)
   end
 
   scope "/auth", GameRoomWeb do
@@ -27,6 +27,14 @@ defmodule GameRoomWeb.Router do
     get("/:provider/callback", AuthController, :callback)
     post("/:provider/callback", AuthController, :callback)
     delete("/logout", AuthController, :delete)
+  end
+
+  scope "/account", GameRoomWeb do
+    pipe_through(:browser)
+
+    get("/", AccountController, :index)
+    get("/players/new", PlayersController, :new)
+    post("/players", PlayersController, :create)
   end
 
   # Other scopes may use custom stacks.

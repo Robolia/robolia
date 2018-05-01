@@ -1,0 +1,8 @@
+<div class="columns">
+  <%= render "_sidebar.html", conn: @conn %>
+
+  <div class="column">
+    <h2>Welcome, <%= @current_user.name %>!</h2>
+    <img src="<%= @current_user.avatar %>" class="img-circle"/>
+  </div>
+</div>

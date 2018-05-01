@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>GameRoom: It's time for your bot to play</title>
+    <title>Robolia: It's time for your bot to play</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
@@ -15,33 +15,46 @@
     <div class="container">
       <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" href="<%= page_path @conn, :index %>">
-            <h1 class="title">GameRoom</h1>
+          <a class="navbar-item" href="<%= home_path @conn, :index %>">
+            <h1 class="title">Robolia</h1>
           </a>
         </div>
 
         <div class="navbar-menu">
           <div class="navbar-end">
-            <a class="navbar-item" href="<%= page_path(@conn, :index) %>">
+            <a class="navbar-item" href="<%= home_path(@conn, :index) %>">
               Home
             </a>
 
-            <div class="navbar-item">
-              <div class="field is-grouped">
-                <p class="control">
-                  <%= if @current_user do %>
+            <%= if @current_user do %>
+
+              <a class="navbar-item" href="<%= account_path(@conn, :index) %>">
+                My Account
+              </a>
+              <div class="navbar-item">
+                <div class="field is-grouped">
+                  <p class="control">
                     <%= link "Logout", to: auth_path(@conn, :delete), method: :delete, class: "button is-dark is-outlined" %>
-                  <% else %>
+                  </p>
+                </div>
+              </div>
+
+            <% else %>
+
+              <div class="navbar-item">
+                <div class="field is-grouped">
+                  <p class="control">
                     <a class="button is-dark" href="<%= auth_path(@conn, :request, :github, scope: "public_repo") %>">
                       <span class="icon">
                         <i class="fab fa-github"></i>
                       </span>
                       <span>Sign up</span>
                     </a>
-                  <% end %>
-                </p>
+                  </p>
+                </div>
               </div>
-            </div>
+
+            <% end %>
           </div>
         </div>
       </nav>
@@ -49,14 +62,15 @@
 
     <section class="section">
       <div class="container">
-        <%= if @current_user do %>
-          <h1 class="title">You are logged in!!</h1>
-
-          <h2>Welcome, <%= @current_user.name %>!</h2>
-          <img src="<%= @current_user.avatar %>" class="img-circle"/>
-        <% else %>
-          <h1 class="title">You are not logged in</h1>
+        <%= if get_flash(@conn, :info) do  %>
+        <article class="message is-success">
+          <div class="message-body">
+            <%= get_flash(@conn, :info) %>
+          </div>
+        </article>
         <% end %>
+
+        <%= render @view_module, @view_template, assigns %>
       </div>
     </section>
   </body>

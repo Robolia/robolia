@@ -1,0 +1,10 @@
+<div class="column is-one-fifth">
+  <aside class="menu">
+    <p class="menu-label">
+      Players / Bots
+    </p>
+    <ul class="menu-list">
+      <li><a href="<%= players_path(@conn, :new) %>">Create a player</a></li>
+    </ul>
+  </aside>
+</div>

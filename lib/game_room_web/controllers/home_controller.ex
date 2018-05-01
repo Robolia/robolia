@@ -1,4 +1,4 @@
-defmodule GameRoomWeb.PageController do
+defmodule GameRoomWeb.HomeController do
   use GameRoomWeb, :controller
 
   def index(conn, _params) do
