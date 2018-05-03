@@ -9,6 +9,13 @@ defmodule GameRoom.Games.Queries do
     )
   end
 
+  def for_game(query, %{slug: game_slug}) do
+    from(
+      q in query,
+      where: q.slug == ^game_slug
+    )
+  end
+
   def count(query) do
     query |> Repo.aggregate(:count, :id)
   end
