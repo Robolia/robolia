@@ -3,7 +3,7 @@
 
   <div class="column">
     <%= form_for @changeset, players_path(@conn, :create), fn f -> %>
-      <h2 class="subtitle is-2">Create a player</h2>
+      <h2 class="subtitle is-3">Create a player</h2>
       <hr />
 
       <div class="field">

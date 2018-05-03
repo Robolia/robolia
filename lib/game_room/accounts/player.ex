@@ -2,11 +2,12 @@ defmodule GameRoom.Accounts.Player do
   use Ecto.Schema
   import Ecto.Changeset
   alias GameRoom.Accounts.User
+  alias GameRoom.Games.Game
 
   schema "players" do
     field(:repository_url, :string)
     field(:language, :string)
-    belongs_to(:game, User, foreign_key: :game_id)
+    belongs_to(:game, Game, foreign_key: :game_id)
     belongs_to(:user, User, foreign_key: :user_id)
 
     timestamps()

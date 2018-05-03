@@ -5,6 +5,7 @@
     </p>
     <ul class="menu-list">
       <li><a href="<%= players_path(@conn, :new) %>">Create a player</a></li>
+      <li><a href="<%= players_path(@conn, :index) %>">List players</a></li>
     </ul>
   </aside>
 </div>

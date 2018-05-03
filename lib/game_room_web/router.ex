@@ -35,6 +35,7 @@ defmodule GameRoomWeb.Router do
     get("/", AccountController, :index)
     get("/players/new", PlayersController, :new)
     post("/players", PlayersController, :create)
+    get("/players", PlayersController, :index)
   end
 
   # Other scopes may use custom stacks.

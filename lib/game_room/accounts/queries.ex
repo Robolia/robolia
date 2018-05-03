@@ -17,4 +17,13 @@ defmodule GameRoom.Accounts.Queries do
       where: m.github_id == ^github_id
     )
   end
+
+  def for_user(%{id: _} = filter), do: for_user(Player, filter)
+
+  def for_user(query, %{id: user_id}) do
+    from(
+      q in query,
+      where: q.user_id == ^user_id
+    )
+  end
 end
