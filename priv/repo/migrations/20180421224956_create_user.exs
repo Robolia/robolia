@@ -5,6 +5,7 @@ defmodule GameRoom.Repo.Migrations.CreateUser do
     create table(:users) do
       add :name, :string, null: false, default: ""
       add :github_id, :integer, null: false
+      add :avatar_url, :string
 
       timestamps()
     end
