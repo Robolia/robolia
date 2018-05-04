@@ -26,11 +26,14 @@ defmodule GameRoomWeb.AuthController do
         conn =
           case Queries.for_github(%{id: github_user.id}) |> Repo.one() do
             nil ->
+              IO.inspect(github_user)
               Accounts.create_user!(%{name: github_user.name, github_id: github_user.id})
-              |> authenticate(github_user, conn)
+              |> authenticate(conn)
 
             user ->
-              user |> authenticate(github_user, conn)
+              user
+              |> maybe_update_user(github_user)
+              |> authenticate(conn)
           end
 
         conn
@@ -44,8 +47,20 @@ defmodule GameRoomWeb.AuthController do
     end
   end
 
-  defp authenticate(user, github_user, conn) do
-    auth_user = %AuthUser{name: user.name, avatar: github_user.avatar, id: user.id}
+  defp authenticate(user, conn) do
+    auth_user = %AuthUser{name: user.name, avatar: user.avatar_url, id: user.id}
     conn |> put_session(:current_user, auth_user)
+  end
+
+  defp maybe_update_user(user, github_user) do
+    user = Ecto.Changeset.change(user, name: github_user.name, avatar_url: github_user.avatar)
+
+    case Repo.update user do
+      {:ok, updated} ->
+        updated
+      {:error, changeset} ->
+        require Logger
+        Logger.error("Error updating user: #{changeset}")
+    end
   end
 end
