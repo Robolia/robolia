@@ -1,8 +1,8 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-info" role="navigation" aria-label="main navigation">
   <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item" href="<%= home_path @conn, :index %>">
-        <h1 class="title">Robolia</h1>
+        <h1 class="title has-text-white">Robolia</h1>
       </a>
 
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
@@ -14,23 +14,23 @@
 
     <div id="navbar" class="navbar-menu">
       <div class="navbar-end">
-        <a class="navbar-item" href="<%= home_path(@conn, :index) %>">
-          Home
-        </a>
 
         <%= if @current_user do %>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              <figure class="image">
+                <img src="<%= @current_user.avatar %>" class="is-rounded">
+              </figure>
+            </a>
 
-          <a class="navbar-item" href="<%= account_path(@conn, :index) %>">
-            My Account
-          </a>
-          <div class="navbar-item">
-            <div class="field is-grouped">
-              <p class="control">
-                <%= link "Logout", to: auth_path(@conn, :delete), method: :delete, class: "button is-dark is-outlined" %>
-              </p>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="<%= account_path(@conn, :index) %>">
+                Settings
+              </a>
+
+              <%= link "Logout", to: auth_path(@conn, :delete), method: :delete, class: "navbar-item" %>
             </div>
           </div>
-
         <% else %>
 
           <div class="navbar-item">

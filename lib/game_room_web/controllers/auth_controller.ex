@@ -37,7 +37,6 @@ defmodule GameRoomWeb.AuthController do
           end
 
         conn
-        |> put_flash(:info, "Successfully authenticated.")
         |> redirect(to: "/")
 
       {:error, reason} ->
