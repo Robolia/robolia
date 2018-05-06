@@ -7,6 +7,7 @@ defmodule GameRoom.Repo.Migrations.CreatePlayer do
       add :language, :string
       add :user_id, references(:users, on_delete: :nilify_all)
       add :game_id, references(:games, on_delete: :nilify_all)
+      add :active, :boolean, default: false
 
       timestamps()
     end

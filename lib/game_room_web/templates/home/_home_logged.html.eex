@@ -1,4 +1,4 @@
-  <h1 class="title">You are logged in!!</h1>
+  <h3 class="subtitle is-3">My latest games</h3>
 
   <table class="table is-fullwidth is-striped is-bordered">
     <thead>

@@ -9,7 +9,10 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-game = GameRoom.Games.create_game!(%{name: "Tic Tac Toe"})
+game = GameRoom.Games.create_game!(%{
+  name: "Tic Tac Toe",
+  image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Tic_tac_toe.svg/2000px-Tic_tac_toe.svg.png"
+})
 
 if Mix.env() == :dev do
   user1 = GameRoom.Accounts.create_user!(%{

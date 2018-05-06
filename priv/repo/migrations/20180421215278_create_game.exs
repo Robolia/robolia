@@ -5,6 +5,7 @@ defmodule GameRoom.Repo.Migrations.CreateGame do
     create table(:games) do
       add :name, :string
       add :slug, :string
+      add :image_url, :string
 
       timestamps()
     end
