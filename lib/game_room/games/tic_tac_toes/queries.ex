@@ -1,7 +1,10 @@
 defmodule GameRoom.Games.TicTacToes.Queries do
   import Ecto.Query, only: [from: 2]
   alias GameRoom.Games.Queries, as: GameQueries
+  alias GameRoom.Accounts.Queries, as: AccountQueries
+  alias GameRoom.Accounts.Player
   alias GameRoom.Games.TicTacToes.{TicTacToeMoviment, TicTacToeMatch}
+  alias GameRoom.Repo
 
   defdelegate count(query), to: GameQueries
 
@@ -18,6 +21,15 @@ defmodule GameRoom.Games.TicTacToes.Queries do
       where: q.tic_tac_toe_match_id == ^match_id
     )
   end
+
+  def for_user(query, %{id: user_id}) do
+    Player
+    |> AccountQueries.for_user(%{id: user_id})
+    |> Repo.one()
+    |> for_player()
+  end
+
+  def for_player(filters), do: for_player(TicTacToeMatch, filters)
 
   def for_player(query, %{id: player_id}) do
     from(

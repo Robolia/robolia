@@ -1,0 +1,42 @@
+<table class="table is-fullwidth is-striped is-bordered">
+  <thead>
+    <tr>
+      <th class="has-text-centered">Game</th>
+      <th class="has-text-centered">Match</th>
+      <th class="has-text-centered">Status</th>
+      <th class="has-text-centered">Finished at</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for match <- @matches do %>
+      <tr>
+        <td class="has-text-centered vertical-align">
+          <figure class="image is-48x48 is-inline-block">
+            <img src="<%= match.game.image_url %>" alt="<%= match.game.name %>" title="<%= match.game.name %>" />
+          </figure>
+        </td>
+        <td class="has-text-centered vertical-align">
+          <figure class="image is-48x48 is-inline-block" style="vertical-align: middle">
+            <img src="<%= match.first_player.user.avatar_url %>" class="is-rounded" alt="<%= match.first_player.user.name %>" title="<%= match.first_player.user.name %>"/>
+          </figure>
+          <span class="versus-mark">x</span>
+          <figure class="image is-48x48 is-inline-block" style="vertical-align: middle">
+            <img src="<%= match.second_player.user.avatar_url %>" class="is-rounded" alt="<%= match.second_player.user.name %>" title="<%= match.second_player.user.name %>"/>
+          </figure>
+        </td>
+        <td class="has-text-centered vertical-align">
+          <%= match.status |> status_label %>
+        </td>
+        <td class="has-text-centered vertical-align">
+          <%= format_match_date(match.finished_at) %>
+        </td>
+        <td class="has-text-centered vertical-align">
+          <a class="button is-secondary" href="<%= tic_tac_toes_path(@conn, :show, match.id) %>">
+            Click for details
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
