@@ -6,7 +6,7 @@ defmodule GameRoomWeb.HomeController do
   def index(conn, _params) do
     case current_user(conn) do
       nil ->
-        conn |> render("index.html")
+        conn |> render("index.html", current_user: nil)
 
       user ->
         conn

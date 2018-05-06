@@ -1,0 +1,25 @@
+<section class="hero is-fullheight is-info">
+  <%= render "_navbar_hero.html", conn: @conn %>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">
+        The plataform for game bots
+      </h1>
+      <h2 class="subtitle">
+        Designed for programmers who want to create invincible bots to battle against others
+      </h2>
+
+      <section class="section">
+        <div class="container">
+          <a class="button is-link is-inverted is-rounded is-large" href="<%= auth_path(@conn, :request, :github, scope: "public_repo") %>">
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span>
+            <span>Start here</span>
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

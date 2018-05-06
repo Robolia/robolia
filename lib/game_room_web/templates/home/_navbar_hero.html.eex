@@ -1,0 +1,37 @@
+<div class="hero-head">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="<%= home_path @conn, :index %>">
+          <h1 class="title">Robolia</h1>
+        </a>
+        <span class="navbar-burger burger" data-target="navbarMenuHeroB">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </div>
+
+      <div id="navbarMenuHeroB" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="<%= home_path(@conn, :index) %>">
+            Home
+          </a>
+
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <a class="button is-dark" href="<%= auth_path(@conn, :request, :github, scope: "public_repo") %>">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Sign up | Sign in</span>
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>

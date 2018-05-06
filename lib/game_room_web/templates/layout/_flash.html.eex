@@ -1,0 +1,11 @@
+<%= if get_flash(@conn, :info) do  %>
+<section class="section">
+  <div class="container">
+    <article class="message is-success">
+      <div class="message-body">
+        <%= get_flash(@conn, :info) %>
+      </div>
+    </article>
+  </div>
+</section>
+<% end %>

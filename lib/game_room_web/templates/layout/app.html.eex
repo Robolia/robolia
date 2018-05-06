@@ -12,67 +12,11 @@
   </head>
 
   <body>
-    <div class="container">
-      <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="<%= home_path @conn, :index %>">
-            <h1 class="title">Robolia</h1>
-          </a>
-        </div>
+    <%#= render "_navbar.html", conn: @conn, current_user: @current_user %>
 
-        <div class="navbar-menu">
-          <div class="navbar-end">
-            <a class="navbar-item" href="<%= home_path(@conn, :index) %>">
-              Home
-            </a>
+    <%= render "_flash.html", conn: @conn %>
 
-            <%= if @current_user do %>
-
-              <a class="navbar-item" href="<%= account_path(@conn, :index) %>">
-                My Account
-              </a>
-              <div class="navbar-item">
-                <div class="field is-grouped">
-                  <p class="control">
-                    <%= link "Logout", to: auth_path(@conn, :delete), method: :delete, class: "button is-dark is-outlined" %>
-                  </p>
-                </div>
-              </div>
-
-            <% else %>
-
-              <div class="navbar-item">
-                <div class="field is-grouped">
-                  <p class="control">
-                    <a class="button is-dark" href="<%= auth_path(@conn, :request, :github, scope: "public_repo") %>">
-                      <span class="icon">
-                        <i class="fab fa-github"></i>
-                      </span>
-                      <span>Sign up | Sign in</span>
-                    </a>
-                  </p>
-                </div>
-              </div>
-
-            <% end %>
-          </div>
-        </div>
-      </nav>
-    </div>
-
-    <section class="section">
-      <div class="container">
-        <%= if get_flash(@conn, :info) do  %>
-        <article class="message is-success">
-          <div class="message-body">
-            <%= get_flash(@conn, :info) %>
-          </div>
-        </article>
-        <% end %>
-
-        <%= render @view_module, @view_template, assigns %>
-      </div>
-    </section>
+    <%= render @view_module, @view_template, assigns %>
   </body>
 
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
