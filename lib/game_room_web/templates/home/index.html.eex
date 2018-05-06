@@ -1,5 +1,32 @@
 <%= if @current_user do %>
   <h1 class="title">You are logged in!!</h1>
+
+  <table class="table is-fullwidth is-striped is-bordered">
+    <thead>
+      <tr>
+        <th class="has-text-centered">Match</th>
+        <th class="has-text-centered">Started at</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for match <- @last_tic_tac_toe_matches do %>
+        <tr>
+          <td class="has-text-centered">
+            <%= match.first_player.user.name %> x <%= match.second_player.user.name %>
+          </td>
+          <td class="has-text-centered">
+            <%= format_match_date(match.inserted_at) %>
+          </td>
+          <td class="has-text-centered">
+            <a class="button is-secondary" href="<%= tic_tac_toes_path(@conn, :show, match.id) %>">
+              Click for details
+            </a>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
   <h1 class="title">You are not logged in</h1>
 <% end %>

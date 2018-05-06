@@ -28,63 +28,72 @@ defmodule GameRoom.Games.TicTacToesTest do
         :tic_tac_toe_moviment,
         position: 1,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 1
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 2,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.second_player_id
+        player_id: ctx.match.second_player_id,
+        turn: 2
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 3,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 3
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 4,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.second_player_id
+        player_id: ctx.match.second_player_id,
+        turn: 4
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 5,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 5
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 7,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.second_player_id
+        player_id: ctx.match.second_player_id,
+        turn: 6
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 6,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 7
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 9,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.second_player_id
+        player_id: ctx.match.second_player_id,
+        turn: 8
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 8,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 9
       )
 
       assert TicTacToes.match_finished?(ctx.match) == {true, %{winner: nil}}
@@ -109,21 +118,24 @@ defmodule GameRoom.Games.TicTacToesTest do
         :tic_tac_toe_moviment,
         position: 1,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 1
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 2,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 2
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 3,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 3
       )
 
       assert TicTacToes.match_finished?(ctx.match) == {true, %{winner: ctx.first_player}}
@@ -134,56 +146,64 @@ defmodule GameRoom.Games.TicTacToesTest do
         :tic_tac_toe_moviment,
         position: 1,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 1
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 2,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.second_player_id
+        player_id: ctx.match.second_player_id,
+        turn: 2
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 3,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 3
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 4,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.second_player_id
+        player_id: ctx.match.second_player_id,
+        turn: 4
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 5,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 5
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 7,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.second_player_id
+        player_id: ctx.match.second_player_id,
+        turn: 6
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 6,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.first_player_id
+        player_id: ctx.match.first_player_id,
+        turn: 7
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 9,
         tic_tac_toe_match_id: ctx.match.id,
-        player_id: ctx.match.second_player_id
+        player_id: ctx.match.second_player_id,
+        turn: 8
       )
 
       assert TicTacToes.match_finished?(ctx.match) == {false, %{winner: nil}}
@@ -237,7 +257,7 @@ defmodule GameRoom.Games.TicTacToesTest do
 
       result =
         ctx.match
-        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id})
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id, turn: 1})
         |> Map.take([:position, :tic_tac_toe_match_id, :player_id])
 
       assert result == expected
@@ -248,7 +268,7 @@ defmodule GameRoom.Games.TicTacToesTest do
       |> Enum.each(fn position ->
         result =
           ctx.match
-          |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
+          |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id, turn: 1})
 
         assert %TicTacToeMoviment{} = result
       end)
@@ -256,7 +276,7 @@ defmodule GameRoom.Games.TicTacToesTest do
 
     test "updates match.next_player to the second_player if current next player is the first",
          ctx do
-      ctx.match |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id, turn: 1})
       match = TicTacToeMatch |> Queries.for_match(%{id: ctx.match.id}) |> Repo.one!()
       assert match.next_player_id == ctx.second_player.id
     end
@@ -264,22 +284,22 @@ defmodule GameRoom.Games.TicTacToesTest do
     test "updates match.next_player to the first_player if current next player is the second",
          ctx do
       match = ctx.match |> TicTacToes.update_match!(%{next_player_id: ctx.second_player.id})
-      match |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.second_player.id})
+      match |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.second_player.id, turn: 2})
       match = TicTacToeMatch |> Queries.for_match(%{id: ctx.match.id}) |> Repo.one!()
       assert match.next_player_id == ctx.first_player.id
     end
 
     test "updates match.next_player to nil if this was the last possible moviment in the match",
          ctx do
-      ctx.match |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 2, player_id: ctx.second_player.id})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 3, player_id: ctx.first_player.id})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 4, player_id: ctx.second_player.id})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 5, player_id: ctx.first_player.id})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 6, player_id: ctx.second_player.id})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 7, player_id: ctx.first_player.id})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 8, player_id: ctx.second_player.id})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 9, player_id: ctx.first_player.id})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id, turn: 1})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 2, player_id: ctx.second_player.id, turn: 2})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 3, player_id: ctx.first_player.id, turn: 3})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 4, player_id: ctx.second_player.id, turn: 4})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 5, player_id: ctx.first_player.id, turn: 5})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 6, player_id: ctx.second_player.id, turn: 6})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 7, player_id: ctx.first_player.id, turn: 7})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 8, player_id: ctx.second_player.id, turn: 8})
+      ctx.match |> TicTacToes.add_moviment!(%{position: 9, player_id: ctx.first_player.id, turn: 9})
       match = TicTacToeMatch |> Queries.for_match(%{id: ctx.match.id}) |> Repo.one!()
       assert match.next_player_id == nil
     end
@@ -287,7 +307,7 @@ defmodule GameRoom.Games.TicTacToesTest do
     test "raises a GameError exception when given a non-existent TicTacToe", ctx do
       assert_raise GameError, fn ->
         build(:tic_tac_toe_match, id: 999)
-        |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id})
+        |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id, turn: 1})
       end
     end
 
@@ -297,7 +317,7 @@ defmodule GameRoom.Games.TicTacToesTest do
 
       assert_raise GameError, fn ->
         ctx.match
-        |> TicTacToes.add_moviment!(%{position: 1, player_id: another_player.id})
+        |> TicTacToes.add_moviment!(%{position: 1, player_id: another_player.id, turn: 1})
       end
     end
 
@@ -306,11 +326,11 @@ defmodule GameRoom.Games.TicTacToesTest do
       position = 1
 
       ctx.match
-      |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id})
+      |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id, turn: 1})
 
       assert_raise GameError, fn ->
         ctx.match
-        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id})
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id, turn: 2})
       end
     end
 
@@ -319,11 +339,11 @@ defmodule GameRoom.Games.TicTacToesTest do
       position = 1
 
       ctx.match
-      |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id})
+      |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.first_player.id, turn: 1})
 
       assert_raise GameError, fn ->
         ctx.match
-        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id, turn: 2})
       end
     end
 
@@ -332,7 +352,7 @@ defmodule GameRoom.Games.TicTacToesTest do
 
       assert_raise GameError, fn ->
         ctx.match
-        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id, turn: 1})
       end
     end
 
@@ -341,7 +361,7 @@ defmodule GameRoom.Games.TicTacToesTest do
 
       assert_raise GameError, fn ->
         ctx.match
-        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id})
+        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id, turn: 1})
       end
     end
   end
@@ -356,7 +376,8 @@ defmodule GameRoom.Games.TicTacToesTest do
         :tic_tac_toe_moviment,
         position: 1,
         tic_tac_toe_match_id: match.id,
-        player_id: match.first_player_id
+        player_id: match.first_player_id,
+        turn: 1
       )
 
       assert TicTacToes.next_turn(match) == 2
@@ -367,14 +388,16 @@ defmodule GameRoom.Games.TicTacToesTest do
         :tic_tac_toe_moviment,
         position: 1,
         tic_tac_toe_match_id: match.id,
-        player_id: match.first_player_id
+        player_id: match.first_player_id,
+        turn: 1
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 2,
         tic_tac_toe_match_id: match.id,
-        player_id: match.second_player_id
+        player_id: match.second_player_id,
+        turn: 2
       )
 
       assert TicTacToes.next_turn(match) == 3
@@ -385,63 +408,72 @@ defmodule GameRoom.Games.TicTacToesTest do
         :tic_tac_toe_moviment,
         position: 1,
         tic_tac_toe_match_id: match.id,
-        player_id: match.first_player_id
+        player_id: match.first_player_id,
+        turn: 1
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 2,
         tic_tac_toe_match_id: match.id,
-        player_id: match.second_player_id
+        player_id: match.second_player_id,
+        turn: 2
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 3,
         tic_tac_toe_match_id: match.id,
-        player_id: match.first_player_id
+        player_id: match.first_player_id,
+        turn: 3
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 4,
         tic_tac_toe_match_id: match.id,
-        player_id: match.second_player_id
+        player_id: match.second_player_id,
+        turn: 4
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 5,
         tic_tac_toe_match_id: match.id,
-        player_id: match.first_player_id
+        player_id: match.first_player_id,
+        turn: 5
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 6,
         tic_tac_toe_match_id: match.id,
-        player_id: match.second_player_id
+        player_id: match.second_player_id,
+        turn: 6
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 7,
         tic_tac_toe_match_id: match.id,
-        player_id: match.first_player_id
+        player_id: match.first_player_id,
+        turn: 7
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 8,
         tic_tac_toe_match_id: match.id,
-        player_id: match.second_player_id
+        player_id: match.second_player_id,
+        turn: 8
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 9,
         tic_tac_toe_match_id: match.id,
-        player_id: match.first_player_id
+        player_id: match.first_player_id,
+        turn: 9
       )
 
       assert TicTacToes.next_turn(match) == nil
@@ -454,21 +486,24 @@ defmodule GameRoom.Games.TicTacToesTest do
         :tic_tac_toe_moviment,
         position: 1,
         tic_tac_toe_match_id: match.id,
-        player_id: match.first_player_id
+        player_id: match.first_player_id,
+        turn: 1
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 5,
         tic_tac_toe_match_id: match.id,
-        player_id: match.second_player_id
+        player_id: match.second_player_id,
+        turn: 2
       )
 
       insert(
         :tic_tac_toe_moviment,
         position: 9,
         tic_tac_toe_match_id: match.id,
-        player_id: match.first_player_id
+        player_id: match.first_player_id,
+        turn: 3
       )
 
       result = TicTacToes.current_state(match)

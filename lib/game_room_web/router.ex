@@ -38,6 +38,14 @@ defmodule GameRoomWeb.Router do
     get("/players", PlayersController, :index)
   end
 
+  scope "/games", GameRoomWeb do
+    scope "/tic_tac_toes" do
+      pipe_through(:browser)
+
+      get("/:match_id", TicTacToesController, :show)
+    end
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", GameRoomWeb do
   #   pipe_through :api

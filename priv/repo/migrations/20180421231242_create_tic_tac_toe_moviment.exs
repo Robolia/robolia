@@ -4,6 +4,7 @@ defmodule GameRoom.Repo.Migrations.CreateTicTacToeMoviment do
   def change do
     create table(:tic_tac_toe_moviments) do
       add :position, :integer
+      add :turn, :integer
       add :tic_tac_toe_match_id, references(:tic_tac_toe_matches, on_delete: :nilify_all)
       add :player_id, references(:players, on_delete: :nilify_all)
 

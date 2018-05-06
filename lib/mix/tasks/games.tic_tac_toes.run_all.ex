@@ -16,12 +16,12 @@ defmodule Mix.Tasks.Games.TicTacToes.RunAll do
   import Mix.Ecto
 
   def run(_args) do
-    Mix.shell.info "Running all Tic Tac Toe games."
+    Mix.shell().info("Running all Tic Tac Toe games.")
     ensure_started(GameRoom.Repo, [])
 
     tictactoe = Game |> Queries.for_game(%{slug: "tic-tac-toe"}) |> Repo.one!()
 
     RunMatchesPipeline.call(%{game: tictactoe})
-    Mix.shell.info "Done."
+    Mix.shell().info("Done.")
   end
 end
