@@ -22,7 +22,7 @@ defmodule GameRoom.Games.TicTacToes.Queries do
     )
   end
 
-  def for_user(query, %{id: user_id}) do
+  def for_user(TicTacToeMatch, %{id: user_id}) do
     Player
     |> AccountQueries.for_user(%{id: user_id})
     |> Repo.one()

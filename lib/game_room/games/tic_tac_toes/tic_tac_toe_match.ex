@@ -6,7 +6,7 @@ defmodule GameRoom.Games.TicTacToes.TicTacToeMatch do
   alias GameRoom.Games.TicTacToes.TicTacToeMoviment
   alias __MODULE__
 
-  @statuses {:ongoing, :draw, :winner}
+  # @statuses {:ongoing, :draw, :winner}
 
   schema "tic_tac_toe_matches" do
     field(:status, :integer)

@@ -1,0 +1,24 @@
+<div class="hero-head">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="<%= home_path @conn, :index %>">
+          <h1 class="title">Robolia</h1>
+        </a>
+        <span class="navbar-burger burger" data-target="navbarMenuHeroB">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </div>
+
+      <div id="navbarMenuHeroB" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="<%= home_path(@conn, :index) %>">
+            Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>

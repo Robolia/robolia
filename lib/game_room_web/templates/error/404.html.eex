@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Not found | Robolia</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <section class="hero is-fullheight is-info">
+      <%= render "_navbar_hero.html", conn: @conn %>
+
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title">
+            Page not found
+          </h1>
+          <h2 class="subtitle is-padded">
+            Maybe you want to <a class="has-text-light" href="<%= home_path(@conn, :index) %>">click here and start from the beginning?</a>
+          </h2>
+        </div>
+      </div>
+    </section>
+  </body>
+
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+</html>
