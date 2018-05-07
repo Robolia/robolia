@@ -1,4 +1,23 @@
-.versus-mark {
-  color: #777;
-  padding: 0 1.5em;
+.matches {
+  .versus-mark {
+    padding: 0 .3em;
+  }
+
+  .game-image {
+    margin: 0 1em;
+  }
+
+  .info-list li:after {
+    padding-right: 7px;
+  }
+
+  .info-list li:after {
+    padding-left: 7px;
+    font-size: 10px;
+    content: "\2022";
+  }
+  .info-list li:last-child:after {
+    padding-left: 0;
+    content: "";
+  }
 }

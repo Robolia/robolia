@@ -12,8 +12,6 @@
   </head>
 
   <body>
-    <%#= render "_navbar.html", conn: @conn, current_user: @current_user %>
-
     <%= render "_flash.html", conn: @conn %>
 
     <%= render @view_module, @view_template, assigns %>

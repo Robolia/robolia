@@ -1,8 +1,25 @@
-<div class="columns">
-  <%= render "_sidebar.html", conn: @conn %>
+<%= render GameRoomWeb.LayoutView, "_navbar.html", assigns %>
 
-  <div class="column">
-    <h2>Welcome, <%= @current_user.name %>!</h2>
-    <img src="<%= @current_user.avatar %>" class="img-circle"/>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <%= render "_sidebar.html", conn: @conn %>
+
+      <div class="column">
+        <div class="columns">
+          <div class="column is-3">
+            <figure class="image">
+              <img src="<%= @current_user.avatar %>" />
+            </figure>
+          </div>
+          <div class="column">
+            <ul>
+              <li class="is-size-4"><%= @current_user.name %></li>
+              <li class="is-size-6">Active bot(s): <%= @active_bots %></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>

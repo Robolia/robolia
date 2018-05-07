@@ -1,5 +1,0 @@
-<h3 class="subtitle is-3">My latest games</h3>
-<%= render "_top_table.html", conn: @conn, matches: @user_last_tic_tac_toe_matches %>
-
-<h3 class="subtitle is-3">All latest games</h3>
-<%= render "_top_table.html", conn: @conn, matches: @last_tic_tac_toe_matches %>

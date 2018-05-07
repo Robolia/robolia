@@ -1,11 +1,18 @@
 <div class="column is-one-fifth">
   <aside class="menu">
     <p class="menu-label">
-      Players / Bots
+      General
     </p>
     <ul class="menu-list">
-      <li><a href="<%= players_path(@conn, :new) %>">Create a player</a></li>
-      <li><a href="<%= players_path(@conn, :index) %>">List players</a></li>
+      <li><a href="<%= account_path(@conn, :index) %>">My profile</a></li>
+    </ul>
+
+    <p class="menu-label">
+      Bots
+    </p>
+    <ul class="menu-list">
+      <li><a href="<%= players_path(@conn, :new) %>">Create a bot</a></li>
+      <li><a href="<%= players_path(@conn, :index) %>">My bots</a></li>
     </ul>
   </aside>
 </div>

@@ -1,12 +1,3 @@
-<%= if @current_user do %>
-  <%= render GameRoomWeb.LayoutView, "_navbar.html", assigns %>
-
-  <section class="section">
-    <div class="container">
-      <%= render "_home_logged.html", assigns %>
-    </div>
-  </section>
-
-<% else %>
+<%= unless @current_user do %>
   <%= render "_home_unlogged.html", conn: @conn %>
 <% end %>

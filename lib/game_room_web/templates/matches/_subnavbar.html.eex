@@ -1,0 +1,10 @@
+<nav class="navbar is-dark sub-navbar" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div id="navbar" class="navbar-menu">
+      <div id="navbar" class="navbar-start">
+        <a href="<%= matches_path(@conn, :index) %>" class="navbar-item <%= maybe_active_navbar_item(@conn, matches_path(@conn, :index)) %>">All</a>
+        <a href="<%= matches_path(@conn, :user_latests) %>" class="navbar-item <%= maybe_active_navbar_item(@conn, matches_path(@conn, :user_latests)) %>">My matches</a>
+      </div>
+    </div>
+  </div>
+</nav>

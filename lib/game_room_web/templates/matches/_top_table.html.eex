@@ -1,0 +1,29 @@
+<table class="table is-fullwidth is-striped matches">
+  <tbody>
+    <%= for match <- @matches do %>
+      <tr>
+        <td>
+          <figure class="image is-32x32 is-inline-block game-image">
+            <img src="<%= match.game.image_url %>" alt="<%= match.game.name %>" title="<%= match.game.name %>" />
+          </figure>
+
+          <div class="is-inline-block">
+            <span class="is-block title is-6">
+              <a class="has-text-link" href="<%= tic_tac_toes_path(@conn, :show, match.id) %>">
+                <%= match.first_player.user.name |> format_player_name %>
+                <span class="versus-mark">x</span>
+                <%= match.second_player.user.name |> format_player_name %>
+              </a>
+            </span>
+            <div class="is-block subtitle is-7">
+              <ul class="info-list">
+                <li class="is-inline"><%= match.status |> status_label %></li>
+                <li class="is-inline">Last update at <%= format_match_date(match.updated_at) %></li>
+              </ul>
+            </div>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,7 +1,7 @@
 <nav class="navbar is-info" role="navigation" aria-label="main navigation">
   <div class="container">
     <div class="navbar-brand">
-      <a class="navbar-item" href="<%= home_path @conn, :index %>">
+      <a class="navbar-item" href="<%= matches_path @conn, :index %>">
         <h1 class="title has-text-white">Robolia</h1>
       </a>
 
