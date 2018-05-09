@@ -43,5 +43,24 @@ defmodule GameRoomWeb.PlayersController do
     end
   end
 
+  def update(conn, %{"id" => player_id, "player" => %{"active" => active}}) do
+    player = Player
+             |> Queries.for_player(%{id: player_id})
+             |> Queries.for_user(%{id: current_user(conn).id})
+             |> Repo.one()
+
+    case player do
+      nil ->
+        conn |> redirect(to: account_path(conn, :index))
+
+      player ->
+        {:ok, _} = player
+                   |> Ecto.Changeset.change(%{active: active |> String.to_existing_atom })
+                   |> Repo.update()
+
+        conn |> redirect(to: account_path(conn, :index))
+    end
+  end
+
   defp current_user(conn), do: get_session(conn, :current_user)
 end

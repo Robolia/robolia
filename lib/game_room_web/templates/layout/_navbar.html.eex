@@ -16,6 +16,15 @@
       <div class="navbar-end">
 
         <%= if @current_user do %>
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <a class="button is-dark is-inverted is-outlined" href="<%= players_path(@conn, :new) %>">
+                  Create a bot
+                </a>
+              </p>
+            </div>
+          </div>
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
               <figure class="image">

@@ -7,6 +7,7 @@ defmodule GameRoomWeb.Helpers.UserHelper do
     case names |> length do
       names_count when names_count > 2 ->
         "#{at(names, 0)} #{at(names, 1)}"
+
       _ ->
         user.name
     end

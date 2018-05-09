@@ -4,10 +4,22 @@ defmodule GameRoomWeb.AccountController do
   alias GameRoom.Repo
 
   def index(conn, _params) do
+    players =
+      Player
+      |> Queries.for_user(%{id: current_user(conn).id})
+
     conn
     |> render(
       "index.html",
-      active_bots: Player |> Queries.for_user(%{id: current_user(conn).id}) |> Repo.all() |> Enum.count,
+      players:
+        players
+        |> Repo.all()
+        |> Repo.preload([:game]),
+      active_players:
+        players
+        |> Queries.active()
+        |> Repo.all()
+        |> Enum.count(),
       current_user: current_user(conn)
     )
   end

@@ -36,6 +36,7 @@ defmodule GameRoomWeb.Router do
     get("/players/new", PlayersController, :new)
     post("/players", PlayersController, :create)
     get("/players", PlayersController, :index)
+    put("/players/:id", PlayersController, :update)
   end
 
   scope "/matches", GameRoomWeb do

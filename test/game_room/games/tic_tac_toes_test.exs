@@ -268,7 +268,11 @@ defmodule GameRoom.Games.TicTacToesTest do
       |> Enum.each(fn position ->
         result =
           ctx.match
-          |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id, turn: 1})
+          |> TicTacToes.add_moviment!(%{
+            position: position,
+            player_id: ctx.second_player.id,
+            turn: 1
+          })
 
         assert %TicTacToeMoviment{} = result
       end)
@@ -276,7 +280,9 @@ defmodule GameRoom.Games.TicTacToesTest do
 
     test "updates match.next_player to the second_player if current next player is the first",
          ctx do
-      ctx.match |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id, turn: 1})
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id, turn: 1})
+
       match = TicTacToeMatch |> Queries.for_match(%{id: ctx.match.id}) |> Repo.one!()
       assert match.next_player_id == ctx.second_player.id
     end
@@ -291,15 +297,33 @@ defmodule GameRoom.Games.TicTacToesTest do
 
     test "updates match.next_player to nil if this was the last possible moviment in the match",
          ctx do
-      ctx.match |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id, turn: 1})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 2, player_id: ctx.second_player.id, turn: 2})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 3, player_id: ctx.first_player.id, turn: 3})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 4, player_id: ctx.second_player.id, turn: 4})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 5, player_id: ctx.first_player.id, turn: 5})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 6, player_id: ctx.second_player.id, turn: 6})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 7, player_id: ctx.first_player.id, turn: 7})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 8, player_id: ctx.second_player.id, turn: 8})
-      ctx.match |> TicTacToes.add_moviment!(%{position: 9, player_id: ctx.first_player.id, turn: 9})
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 1, player_id: ctx.first_player.id, turn: 1})
+
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 2, player_id: ctx.second_player.id, turn: 2})
+
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 3, player_id: ctx.first_player.id, turn: 3})
+
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 4, player_id: ctx.second_player.id, turn: 4})
+
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 5, player_id: ctx.first_player.id, turn: 5})
+
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 6, player_id: ctx.second_player.id, turn: 6})
+
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 7, player_id: ctx.first_player.id, turn: 7})
+
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 8, player_id: ctx.second_player.id, turn: 8})
+
+      ctx.match
+      |> TicTacToes.add_moviment!(%{position: 9, player_id: ctx.first_player.id, turn: 9})
+
       match = TicTacToeMatch |> Queries.for_match(%{id: ctx.match.id}) |> Repo.one!()
       assert match.next_player_id == nil
     end
@@ -343,7 +367,11 @@ defmodule GameRoom.Games.TicTacToesTest do
 
       assert_raise GameError, fn ->
         ctx.match
-        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id, turn: 2})
+        |> TicTacToes.add_moviment!(%{
+          position: position,
+          player_id: ctx.second_player.id,
+          turn: 2
+        })
       end
     end
 
@@ -352,7 +380,11 @@ defmodule GameRoom.Games.TicTacToesTest do
 
       assert_raise GameError, fn ->
         ctx.match
-        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id, turn: 1})
+        |> TicTacToes.add_moviment!(%{
+          position: position,
+          player_id: ctx.second_player.id,
+          turn: 1
+        })
       end
     end
 
@@ -361,7 +393,11 @@ defmodule GameRoom.Games.TicTacToesTest do
 
       assert_raise GameError, fn ->
         ctx.match
-        |> TicTacToes.add_moviment!(%{position: position, player_id: ctx.second_player.id, turn: 1})
+        |> TicTacToes.add_moviment!(%{
+          position: position,
+          player_id: ctx.second_player.id,
+          turn: 1
+        })
       end
     end
   end

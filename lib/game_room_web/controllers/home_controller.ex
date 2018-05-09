@@ -5,6 +5,7 @@ defmodule GameRoomWeb.HomeController do
     case current_user(conn) do
       nil ->
         conn |> render("index.html", current_user: nil)
+
       _ ->
         conn |> redirect(to: matches_path(conn, :index))
     end

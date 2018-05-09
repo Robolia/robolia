@@ -1,0 +1,27 @@
+.player.horizontal-card {
+  .image, .info {
+    vertical-align: middle;
+  }
+
+  .info {
+    margin-left: 10px;
+
+    .info-list li:after {
+      padding-right: 5px;
+    }
+
+    .info-list li:after {
+      padding-left: 7px;
+      font-size: 10px;
+      content: "\2022";
+    }
+    .info-list li:last-child:after {
+      padding-left: 0;
+      content: "";
+    }
+  }
+
+  .action-buttons {
+    margin-top: .5em;
+  }
+}

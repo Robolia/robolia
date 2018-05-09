@@ -35,7 +35,7 @@ defmodule GameRoomWeb.MatchesController do
             |> Queries.for_user(%{id: user.id})
             |> Queries.lasts(%{limit: 20})
             |> Repo.all()
-            |> Repo.preload([:game, first_player: :user, second_player: :user]),
+            |> Repo.preload([:game, first_player: :user, second_player: :user])
         })
     end
   end

@@ -12,10 +12,12 @@ defmodule GameRoomWeb.TicTacToesController do
         |> render("404.html", current_user: conn |> current_user())
 
       match ->
-        moviments = TicTacToeMoviment
-                    |> Queries.for_match(match)
-                    |> Repo.all()
-                    |> Repo.preload(player: :user)
+        moviments =
+          TicTacToeMoviment
+          |> Queries.for_match(match)
+          |> Repo.all()
+          |> Repo.preload(player: :user)
+
         render(
           conn,
           "show.html",

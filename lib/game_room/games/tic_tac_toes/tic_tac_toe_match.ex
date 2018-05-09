@@ -27,7 +27,14 @@ defmodule GameRoom.Games.TicTacToes.TicTacToeMatch do
   """
   def changeset(%TicTacToeMatch{} = tic_tak_toe, params \\ %{}) do
     tic_tak_toe
-    |> cast(params, [:first_player_id, :second_player_id, :next_player_id, :game_id, :status, :finished_at])
+    |> cast(params, [
+      :first_player_id,
+      :second_player_id,
+      :next_player_id,
+      :game_id,
+      :status,
+      :finished_at
+    ])
     |> validate_required([:first_player_id, :second_player_id, :next_player_id, :game_id])
   end
 end

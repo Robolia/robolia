@@ -7,6 +7,7 @@ defmodule GameRoom.Accounts.Player do
   schema "players" do
     field(:repository_url, :string)
     field(:language, :string)
+    field(:active, :boolean)
     belongs_to(:game, Game, foreign_key: :game_id)
     belongs_to(:user, User, foreign_key: :user_id)
 

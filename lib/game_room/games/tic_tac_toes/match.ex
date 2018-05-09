@@ -25,7 +25,11 @@ defmodule GameRoom.Games.TicTacToes.Match do
           |> elem(0)
 
         match
-        |> TicTacToes.add_moviment!(%{position: player_moviment, player_id: match.next_player.id, turn: next_turn})
+        |> TicTacToes.add_moviment!(%{
+          position: player_moviment,
+          player_id: match.next_player.id,
+          turn: next_turn
+        })
 
         match
         |> TicTacToes.refresh()

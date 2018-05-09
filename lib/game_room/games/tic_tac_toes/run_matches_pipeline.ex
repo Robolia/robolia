@@ -20,6 +20,7 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
     players =
       Player
       |> AccountQueries.for_game(%{game_id: game.id})
+      |> AccountQueries.active()
       |> Repo.all()
 
     put_in(data, [:players], players)

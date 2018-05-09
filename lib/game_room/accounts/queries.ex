@@ -26,4 +26,18 @@ defmodule GameRoom.Accounts.Queries do
       where: q.user_id == ^user_id
     )
   end
+
+  def for_player(Player = query, %{id: player_id}) do
+    from(
+      q in query,
+      where: q.id == ^player_id
+    )
+  end
+
+  def active(query) do
+    from(
+      q in query,
+      where: q.active == true
+    )
+  end
 end
