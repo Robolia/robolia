@@ -2,23 +2,8 @@ defmodule GameRoomWeb.PlayersController do
   use GameRoomWeb, :controller
   alias GameRoom.Repo
   alias GameRoom.Games.Game
-  alias GameRoom.Accounts
+  alias GameRoom.Games.Queries, as: GameQueries
   alias GameRoom.Accounts.{Player, Queries}
-
-  def index(conn, _params) do
-    players =
-      Player
-      |> Queries.for_user(%{id: current_user(conn).id})
-      |> Repo.all()
-      |> Repo.preload(:game)
-
-    render(
-      conn,
-      "index.html",
-      players: players,
-      current_user: conn |> current_user()
-    )
-  end
 
   def new(conn, _params) do
     render(
@@ -26,20 +11,22 @@ defmodule GameRoomWeb.PlayersController do
       "new.html",
       current_user: conn |> current_user(),
       games: Game |> Repo.all(),
-      changeset: Player.changeset(%Player{})
+      games_count: GameQueries.count_active_bots_per_game() |> Repo.all() |> Enum.into(%{})
     )
   end
 
-  def create(conn, %{
-        "player" => %{"game_id" => _, "language" => _, "repository_url" => _} = player_params
-      }) do
-    with _new_player <-
-           player_params
-           |> Map.merge(%{"user_id" => current_user(conn).id})
-           |> Accounts.create_player!() do
-      conn
-      |> put_flash(:info, "Player created!")
-      |> redirect(to: account_path(conn, :index))
+  def new_for_game(conn, %{"game_slug" => game_slug}) do
+    case Game |> GameQueries.for_game(%{slug: game_slug}) do
+      nil ->
+        conn |> put_status(404) |> render("404.html")
+
+      game ->
+        conn
+        |> render(
+          "#{game_slug |> String.replace("-", "_")}_new.html",
+           current_user: conn |> current_user(),
+           game: game
+         )
     end
   end
 

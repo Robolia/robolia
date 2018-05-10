@@ -33,9 +33,10 @@ defmodule GameRoomWeb.Router do
     pipe_through(:browser)
 
     get("/", AccountController, :index)
-    get("/players/new", PlayersController, :new)
-    post("/players", PlayersController, :create)
     get("/players", PlayersController, :index)
+    post("/players", PlayersController, :create)
+    get("/players/new", PlayersController, :new)
+    get("/players/new/:game_slug", PlayersController, :new_for_game)
     put("/players/:id", PlayersController, :update)
   end
 
