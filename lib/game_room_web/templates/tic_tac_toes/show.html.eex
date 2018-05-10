@@ -1,22 +1,28 @@
-<div class="columns">
-  <div class="column is-7">
-    <%= render GameRoomWeb.Games.TicTacToeView, "board.html", conn: @conn, moviments: @moviments |> map_by_position %>
-  </div>
-  <div class="column is-3 is-offset-2">
-    <h4 class="subtitle is-4">Moviments</h4>
+<%= render GameRoomWeb.LayoutView, "_navbar.html", assigns %>
 
-    <ol>
-      <%= for moviment <- @moviments do %>
-      <li><%= moviment.player.user |> user_name %> played at <strong><%= moviment.position %></strong></li>
-      <% end %>
-    </ol>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-7">
+        <%= render GameRoomWeb.Games.TicTacToeView, "board.html", conn: @conn, moviments: @moviments |> map_by_position %>
+      </div>
+      <div class="column is-3 is-offset-2">
+        <h4 class="subtitle is-4">Moviments</h4>
 
-    <hr />
+        <ol>
+          <%= for moviment <- @moviments do %>
+          <li><%= moviment.player.user |> user_name %> played at <strong><%= moviment.position %></strong></li>
+          <% end %>
+        </ol>
 
-    <h4 class="subtitle is-4">Resume</h4>
+        <hr />
 
-    <ul>
-      <li><strong>Winner:</strong> <%= @match.winner.user |> user_name %></li>
-    </ul>
+        <h4 class="subtitle is-4">Resume</h4>
+
+        <ul>
+          <li><strong>Winner:</strong> <%= @match.winner.user |> user_name %></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

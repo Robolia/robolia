@@ -18,7 +18,8 @@ defmodule GameRoom.Games.TicTacToes.Queries do
   def for_match(TicTacToeMoviment = query, %{id: match_id}) do
     from(
       q in query,
-      where: q.tic_tac_toe_match_id == ^match_id
+      where: q.tic_tac_toe_match_id == ^match_id,
+      order_by: q.inserted_at
     )
   end
 
