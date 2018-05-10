@@ -1,6 +1,7 @@
 defmodule GameRoom.Accounts.Queries do
   import Ecto.Query, only: [from: 2]
   alias GameRoom.Accounts.{Player, User}
+  alias GameRoom.Games.Game
 
   def for_game(Player = model, %{game_id: game_id}) do
     from(
@@ -38,6 +39,25 @@ defmodule GameRoom.Accounts.Queries do
     from(
       q in query,
       where: q.active == true
+    )
+  end
+
+  def count_bots_per_game do
+    from(
+      p in Player,
+      join: g in Game,
+      where: g.id == p.game_id,
+      group_by: g.slug,
+      select: {g.slug, count(p.id)}
+    )
+  end
+
+  def count_bots_per_language(game = %Game{}) do
+    from(
+      p in Player,
+      where: p.game_id == ^game.id,
+      group_by: p.language,
+      select: {p.language, count(p.id)}
     )
   end
 end

@@ -5,8 +5,9 @@
     <div class="columns">
       <%= render GameRoomWeb.AccountView, "_sidebar.html", conn: @conn %>
 
-      <div class="column is-12">
+      <div class="column">
         <h3 class="title is-4">Which game?</h3>
+        <hr />
         <div class="subtitle is-6">Choose the game you want your bot to battle</div>
 
         <div class="columns is-multiline">

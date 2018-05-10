@@ -11,21 +11,31 @@ defmodule GameRoomWeb.PlayersController do
       "new.html",
       current_user: conn |> current_user(),
       games: Game |> Repo.all(),
-      games_count: GameQueries.count_active_bots_per_game() |> Repo.all() |> Enum.into(%{})
+      games_count:
+        Queries.count_bots_per_game()
+        |> Queries.active()
+        |> Repo.all()
+        |> Enum.into(%{})
     )
   end
 
   def new_for_game(conn, %{"game_slug" => game_slug}) do
-    case Game |> GameQueries.for_game(%{slug: game_slug}) do
+    case Game |> GameQueries.for_game(%{slug: game_slug}) |> Repo.one() do
       nil ->
         conn |> put_status(404) |> render("404.html")
 
       game ->
         conn
         |> render(
-          "#{game_slug |> String.replace("-", "_")}_new.html",
+          "new_for_game.html",
            current_user: conn |> current_user(),
-           game: game
+           game: game,
+           languages_count:
+            game
+            |> Queries.count_bots_per_language()
+            |> Queries.active()
+            |> Repo.all()
+            |> Enum.into(%{})
          )
     end
   end

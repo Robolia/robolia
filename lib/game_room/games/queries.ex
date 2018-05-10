@@ -18,16 +18,6 @@ defmodule GameRoom.Games.Queries do
     )
   end
 
-  def count_active_bots_per_game do
-    from(
-      p in Player,
-      join: g in Game,
-      where: g.id == p.game_id,
-      group_by: g.slug,
-      select: {g.slug, count(p.id)}
-    )
-  end
-
   def count(query) do
     query |> Repo.aggregate(:count, :id)
   end
