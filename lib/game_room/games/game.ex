@@ -1,11 +1,14 @@
 defmodule GameRoom.Games.Game do
   use Ecto.Schema
   import Ecto.Changeset
+  alias GameRoom.Games.GameRepository
 
   schema "games" do
     field(:name, :string)
     field(:slug, :string)
     field(:image_url, :string)
+
+    has_many :repositories, {"game_repositories", GameRepository}
 
     timestamps()
   end

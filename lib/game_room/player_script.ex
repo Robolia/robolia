@@ -4,7 +4,7 @@ defmodule GameRoom.PlayerScript do
     """
     docker build -t #{game_slug}:#{player.id} \
                  -f Dockerfile_#{player.language} \
-                 --build-arg player_repo_url=#{player.repository_url} .
+                 --build-arg player_repo_url=#{player.repository_clone_url} .
     """
     |> run_cmd
   end

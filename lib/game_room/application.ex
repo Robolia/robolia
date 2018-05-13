@@ -7,6 +7,8 @@ defmodule GameRoom.Application do
     import Supervisor.Spec
     Confex.resolve_env!(:game_room)
 
+    :ok = GameRoomWeb.Github.WebhookCreation.create_fork_hook()
+
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository

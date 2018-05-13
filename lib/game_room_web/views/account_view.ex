@@ -4,7 +4,7 @@ defmodule GameRoomWeb.AccountView do
   def format_player_status(active) do
     case active do
       true -> "Active"
-      false -> "Not active"
+      false -> "Inactive"
     end
   end
 

@@ -1,8 +1,6 @@
 defmodule GameRoom.Games.Queries do
   import Ecto.Query, only: [from: 2]
   alias GameRoom.Repo
-  alias GameRoom.Accounts.Player
-  alias GameRoom.Games.Game
 
   def for_game(query, %{id: game_id}) do
     from(
@@ -15,6 +13,13 @@ defmodule GameRoom.Games.Queries do
     from(
       q in query,
       where: q.slug == ^game_slug
+    )
+  end
+
+  def for_repository(query, %{repository_url: url}) do
+    from(
+      q in query,
+      where: q.repository_url == ^url
     )
   end
 

@@ -14,28 +14,24 @@ game = GameRoom.Games.create_game!(%{
   image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Tic_tac_toe.svg/2000px-Tic_tac_toe.svg.png"
 })
 
-if Mix.env() == :dev do
-  user1 = GameRoom.Accounts.create_user!(%{
-    name: "Rafael Soares",
-    github_id: 438257,
-    avatar_url: "https://avatars1.githubusercontent.com/u/438257?s=400&u=17a971c8ae0e64b56d104b87eee16917547b418c&v=4"
-  })
-  GameRoom.Accounts.create_player!(%{
-    repository_url: "git@github.com:Robolia/tic-tac-toe-elixir-example.git",
-    language: "elixir",
-    game_id: game.id,
-    user_id: user1.id
-  })
+{:ok, _} = %GameRoom.Games.GameRepository{
+  repository_url: "https://github.com/Robolia/tic-tac-toe-elixir",
+  language: "elixir",
+  image_url: "https://avatars0.githubusercontent.com/u/1481354",
+  game_id: game.id
+} |> GameRoom.Repo.insert()
 
-  user2 = GameRoom.Accounts.create_user!(%{
-    name: "Leandro Bighetti",
-    github_id: 234,
-    avatar_url: "https://avatars0.githubusercontent.com/u/2095914?s=460&v=4"
-  })
-  GameRoom.Accounts.create_player!(%{
-    repository_url: "git@github.com:Robolia/tic-tac-toe-elixir-example.git",
-    language: "elixir",
-    game_id: game.id,
-    user_id: user2.id
-  })
-end
+user = GameRoom.Accounts.create_user!(%{
+  name: "Robolia",
+  github_id: -1,
+  avatar_url: "https://avatars3.githubusercontent.com/u/38855042?s=200&v=4"
+})
+
+GameRoom.Accounts.create_player!(%{
+  repository_url: "https://github.com/Robolia/tic-tac-toe-elixir",
+  repository_clone_url: "git@github.com:Robolia/tic-tac-toe-elixir.git",
+  language: "elixir",
+  game_id: game.id,
+  user_id: user.id,
+  active: true
+})

@@ -29,7 +29,7 @@ defmodule GameRoomWeb.PlayersController do
         |> render(
           "new_for_game.html",
            current_user: conn |> current_user(),
-           game: game,
+           game: game |> Repo.preload([:repositories]),
            languages_count:
             game
             |> Queries.count_bots_per_language()

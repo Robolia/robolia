@@ -13,8 +13,8 @@
         <div class="has-text-centered">
           <h5 class="subtitle is-5">1. Choose the language of your new bot</h5>
 
-          <%= for language <- languages(@game.slug) do %>
-            <%= render "_language_horizontal_card.html", conn: @conn, language: language, languages_count: @languages_count %>
+          <%= for repository <- @game.repositories do %>
+            <%= render "_language_horizontal_card.html", conn: @conn, repository: repository, languages_count: @languages_count %>
           <% end %>
 
           <br />
@@ -27,7 +27,7 @@
           </p>
           <br />
           <p class="has-text-left">
-            By default, your bot will be <strong>deactivated</strong>.
+            By default, your bot will be <strong>inactive</strong>.
             When you think your bot is ready to battle, just go to <a href="<%= account_path(@conn, :index) %>">your profile</a> and click on the
             <strong><i>Activate</i></strong> button on your bot. And you're done!
           </p>

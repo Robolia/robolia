@@ -39,6 +39,8 @@ defmodule GameRoom.Games.TicTacToes.Queries do
     )
   end
 
+  def for_player(query, _), do: query
+
   def lasts(), do: lasts(TicTacToeMatch, %{limit: 10})
 
   def lasts(%{} = filters), do: lasts(TicTacToeMatch, filters)

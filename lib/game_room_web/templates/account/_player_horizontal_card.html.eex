@@ -1,4 +1,4 @@
-<div class="column is-4">
+<div class="column is-5">
   <div class="box player horizontal-card">
     <figure class="image is-64x64 is-inline-block">
       <img src="<%= @player.game.image_url %>" />
@@ -10,14 +10,15 @@
         <ul class="info-list">
           <li class="is-inline"><%= @player.language |> format_player_language %></li>
           <li class="is-inline"><%= @player.active |> format_player_status %></li>
+          <li class="is-inline"><a target="_blank" href="<%= @player.repository_url %>">Repository</a></li>
         </ul>
       </div>
     </div>
     <div class="is-block action-buttons">
       <%= if @player.active do %>
-        <%= link("Deactivate", to: players_path(@conn, :update, @player.id, player: [active: false]), method: :put, class: "button is-fullwidth is-danger is-outlined") %>
+        <%= link("Click to deactivate", to: players_path(@conn, :update, @player.id, player: [active: false]), method: :put, class: "button is-fullwidth is-danger is-outlined") %>
       <% else %>
-        <%= link("Activate", to: players_path(@conn, :update, @player.id, player: [active: true]), method: :put, class: "button is-fullwidth is-link is-outlined") %>
+        <%= link("Click to activate", to: players_path(@conn, :update, @player.id, player: [active: true]), method: :put, class: "button is-fullwidth is-link is-outlined") %>
       <% end %>
     </div>
   </div>

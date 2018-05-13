@@ -4,6 +4,7 @@ defmodule GameRoom.Repo.Migrations.CreatePlayer do
   def change do
     create table(:players) do
       add :repository_url, :string
+      add :repository_clone_url, :string
       add :language, :string
       add :user_id, references(:users, on_delete: :nilify_all)
       add :game_id, references(:games, on_delete: :nilify_all)

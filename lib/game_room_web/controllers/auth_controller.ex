@@ -21,13 +21,12 @@ defmodule GameRoomWeb.AuthController do
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     case UserFromProvider.find_or_create(auth) do
-      {:ok, github_user} ->
+      {:ok, %{id: github_id, name: name, avatar: avatar_url} = github_user} ->
         conn =
-          case Queries.for_github(%{id: github_user.id}) |> Repo.one() do
-            nil ->
-              IO.inspect(github_user)
+          case Queries.for_github(%{id: github_id}) |> Repo.one() do
 
-              Accounts.create_user!(%{name: github_user.name, github_id: github_user.id})
+            nil ->
+              Accounts.create_user!(%{name: name, github_id: github_id, avatar_url: avatar_url})
               |> authenticate(conn)
 
             user ->
@@ -51,8 +50,8 @@ defmodule GameRoomWeb.AuthController do
     conn |> put_session(:current_user, auth_user)
   end
 
-  defp maybe_update_user(user, github_user) do
-    user = Ecto.Changeset.change(user, name: github_user.name, avatar_url: github_user.avatar)
+  defp maybe_update_user(user, %{name: name, avatar: avatar_url}) do
+    user = Ecto.Changeset.change(user, name: name, avatar_url: avatar_url)
 
     case Repo.update(user) do
       {:ok, updated} ->

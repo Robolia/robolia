@@ -14,15 +14,12 @@ defmodule GameRoomWeb.Router do
   end
 
   scope "/", GameRoomWeb do
-    # Use the default browser stack
     pipe_through(:browser)
-
     get("/", HomeController, :index)
   end
 
   scope "/auth", GameRoomWeb do
     pipe_through(:browser)
-
     get("/:provider", AuthController, :request)
     get("/:provider/callback", AuthController, :callback)
     post("/:provider/callback", AuthController, :callback)
@@ -31,10 +28,8 @@ defmodule GameRoomWeb.Router do
 
   scope "/account", GameRoomWeb do
     pipe_through(:browser)
-
     get("/", AccountController, :index)
-    get("/players", PlayersController, :index)
-    post("/players", PlayersController, :create)
+
     get("/players/new", PlayersController, :new)
     get("/players/new/:game_slug", PlayersController, :new_for_game)
     put("/players/:id", PlayersController, :update)
@@ -42,11 +37,16 @@ defmodule GameRoomWeb.Router do
 
   scope "/matches", GameRoomWeb do
     pipe_through(:browser)
-
     get("/", MatchesController, :index)
     get("/user/latests", MatchesController, :user_latests)
     get("/tic_tac_toes/:match_id", TicTacToesController, :show)
   end
+
+  scope "/github", GameRoomWeb do
+    pipe_through :api
+    post("/fork", GithubForkController, :create)
+  end
+
 
   # Other scopes may use custom stacks.
   # scope "/api", GameRoomWeb do
