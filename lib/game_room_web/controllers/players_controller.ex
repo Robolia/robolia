@@ -28,32 +28,34 @@ defmodule GameRoomWeb.PlayersController do
         conn
         |> render(
           "new_for_game.html",
-           current_user: conn |> current_user(),
-           game: game |> Repo.preload([:repositories]),
-           languages_count:
+          current_user: conn |> current_user(),
+          game: game |> Repo.preload([:repositories]),
+          languages_count:
             game
             |> Queries.count_bots_per_language()
             |> Queries.active()
             |> Repo.all()
             |> Enum.into(%{})
-         )
+        )
     end
   end
 
   def update(conn, %{"id" => player_id, "player" => %{"active" => active}}) do
-    player = Player
-             |> Queries.for_player(%{id: player_id})
-             |> Queries.for_user(%{id: current_user(conn).id})
-             |> Repo.one()
+    player =
+      Player
+      |> Queries.for_player(%{id: player_id})
+      |> Queries.for_user(%{id: current_user(conn).id})
+      |> Repo.one()
 
     case player do
       nil ->
         conn |> redirect(to: account_path(conn, :index))
 
       player ->
-        {:ok, _} = player
-                   |> Ecto.Changeset.change(%{active: active |> String.to_existing_atom })
-                   |> Repo.update()
+        {:ok, _} =
+          player
+          |> Ecto.Changeset.change(%{active: active |> String.to_existing_atom()})
+          |> Repo.update()
 
         conn |> redirect(to: account_path(conn, :index))
     end

@@ -13,11 +13,12 @@ defmodule GameRoom.Games.TicTacToes.Match do
         next_turn = match |> TicTacToes.next_turn()
 
         try do
-          player_moviment = fetch_player_moviment(%{
-            match: match,
-            current_state: current_state,
-            next_turn: next_turn
-          })
+          player_moviment =
+            fetch_player_moviment(%{
+              match: match,
+              current_state: current_state,
+              next_turn: next_turn
+            })
 
           match
           |> TicTacToes.add_moviment!(%{
@@ -63,7 +64,6 @@ defmodule GameRoom.Games.TicTacToes.Match do
         {:ok, winner}
     end
   end
-
 
   defp fetch_player_moviment(%{match: match, current_state: current_state, next_turn: next_turn}) do
     player_script().run(%{

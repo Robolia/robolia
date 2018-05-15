@@ -43,10 +43,9 @@ defmodule GameRoomWeb.Router do
   end
 
   scope "/github", GameRoomWeb do
-    pipe_through :api
+    pipe_through(:api)
     post("/fork", GithubForkController, :create)
   end
-
 
   # Other scopes may use custom stacks.
   # scope "/api", GameRoomWeb do

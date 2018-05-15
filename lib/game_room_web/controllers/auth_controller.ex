@@ -24,7 +24,6 @@ defmodule GameRoomWeb.AuthController do
       {:ok, %{id: github_id, name: name, avatar: avatar_url} = github_user} ->
         conn =
           case Queries.for_github(%{id: github_id}) |> Repo.one() do
-
             nil ->
               Accounts.create_user!(%{name: name, github_id: github_id, avatar_url: avatar_url})
               |> authenticate(conn)

@@ -14,20 +14,18 @@ defmodule GameRoomWeb.Github.WebhookCreation do
   end
 
   def create_fork_hook do
-    @fork_hook_repos |> Enum.each(fn repo_name ->
-      client() |> Tentacat.Hooks.create(
-        @github_account_name,
-        repo_name,
-        %{
-          name: "web",
-          active: true,
-          events: ["fork"],
-          config: %{
-            url: fork_callback_url(),
-            content_type: "json"
-          }
+    @fork_hook_repos
+    |> Enum.each(fn repo_name ->
+      client()
+      |> Tentacat.Hooks.create(@github_account_name, repo_name, %{
+        name: "web",
+        active: true,
+        events: ["fork"],
+        config: %{
+          url: fork_callback_url(),
+          content_type: "json"
         }
-      )
+      })
     end)
   end
 

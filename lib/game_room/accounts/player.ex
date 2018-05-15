@@ -20,7 +20,14 @@ defmodule GameRoom.Accounts.Player do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:repository_url, :repository_clone_url, :game_id, :language, :user_id, :active])
+    |> cast(params, [
+      :repository_url,
+      :repository_clone_url,
+      :game_id,
+      :language,
+      :user_id,
+      :active
+    ])
     |> validate_required([:repository_url, :repository_clone_url, :game_id, :language, :user_id])
   end
 end

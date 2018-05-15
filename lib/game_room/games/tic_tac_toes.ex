@@ -21,7 +21,6 @@ defmodule GameRoom.Games.TicTacToes do
     unless match |> player_playing?(attrs),
       do: raise(GameError, message: "Given player is not playing this match")
 
-
     case valid_position_number?(position) do
       true ->
         moviment =
@@ -31,10 +30,15 @@ defmodule GameRoom.Games.TicTacToes do
 
         case match_finished?(match) do
           {true, %{winner: nil}} ->
-            match |> update_match!(%{next_player_id: nil, status: TicTacToeMatch.draw})
+            match |> update_match!(%{next_player_id: nil, status: TicTacToeMatch.draw()})
 
           {true, %{winner: winner}} ->
-            match |> update_match!(%{next_player_id: nil, winner_id: winner.id, status: TicTacToeMatch.winner})
+            match
+            |> update_match!(%{
+              next_player_id: nil,
+              winner_id: winner.id,
+              status: TicTacToeMatch.winner()
+            })
 
           {false, _} ->
             match |> update_next_player!
@@ -46,16 +50,25 @@ defmodule GameRoom.Games.TicTacToes do
         moviment =
           %TicTacToeMoviment{}
           |> TicTacToeMoviment.changeset(
-            Map.merge(attrs, %{tic_tac_toe_match_id: match_id, valid: false, details: "Invalid moviment"})
+            Map.merge(attrs, %{
+              tic_tac_toe_match_id: match_id,
+              valid: false,
+              details: "Invalid moviment"
+            })
           )
           |> Repo.insert!()
 
         winner_id = fetch_next_player_id(match)
-        match |> update_match!(%{next_player_id: nil, winner_id: winner_id, status: TicTacToeMatch.winner})
+
+        match
+        |> update_match!(%{
+          next_player_id: nil,
+          winner_id: winner_id,
+          status: TicTacToeMatch.winner()
+        })
 
         moviment
     end
-
   rescue
     e in Ecto.InvalidChangesetError -> error(e)
     e in Ecto.ConstraintError -> error(e)

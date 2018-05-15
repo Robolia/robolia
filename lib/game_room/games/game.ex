@@ -8,7 +8,7 @@ defmodule GameRoom.Games.Game do
     field(:slug, :string)
     field(:image_url, :string)
 
-    has_many :repositories, {"game_repositories", GameRepository}
+    has_many(:repositories, {"game_repositories", GameRepository})
 
     timestamps()
   end

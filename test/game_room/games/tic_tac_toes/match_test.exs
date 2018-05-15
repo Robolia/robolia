@@ -45,28 +45,80 @@ defmodule GameRoom.Games.TicTacToes.MatchTest do
         next_player_id: nil,
         game_id: ctx.game_id,
         winner_id: ctx.first_player_id,
-        status: TicTacToeMatch.winner
+        status: TicTacToeMatch.winner()
       }
 
       expected_moviments = [
-        %{position: 1, tic_tac_toe_match_id: match.id, valid: true, details: nil, player_id: ctx.first_player_id},
-        %{position: 2, tic_tac_toe_match_id: match.id, valid: true, details: nil, player_id: ctx.second_player_id},
-        %{position: 3, tic_tac_toe_match_id: match.id, valid: true, details: nil, player_id: ctx.first_player_id},
-        %{position: 4, tic_tac_toe_match_id: match.id, valid: true, details: nil, player_id: ctx.second_player_id},
-        %{position: 5, tic_tac_toe_match_id: match.id, valid: true, details: nil, player_id: ctx.first_player_id},
-        %{position: 6, tic_tac_toe_match_id: match.id, valid: true, details: nil, player_id: ctx.second_player_id},
-        %{position: 7, tic_tac_toe_match_id: match.id, valid: true, details: nil, player_id: ctx.first_player_id}
+        %{
+          position: 1,
+          tic_tac_toe_match_id: match.id,
+          valid: true,
+          details: nil,
+          player_id: ctx.first_player_id
+        },
+        %{
+          position: 2,
+          tic_tac_toe_match_id: match.id,
+          valid: true,
+          details: nil,
+          player_id: ctx.second_player_id
+        },
+        %{
+          position: 3,
+          tic_tac_toe_match_id: match.id,
+          valid: true,
+          details: nil,
+          player_id: ctx.first_player_id
+        },
+        %{
+          position: 4,
+          tic_tac_toe_match_id: match.id,
+          valid: true,
+          details: nil,
+          player_id: ctx.second_player_id
+        },
+        %{
+          position: 5,
+          tic_tac_toe_match_id: match.id,
+          valid: true,
+          details: nil,
+          player_id: ctx.first_player_id
+        },
+        %{
+          position: 6,
+          tic_tac_toe_match_id: match.id,
+          valid: true,
+          details: nil,
+          player_id: ctx.second_player_id
+        },
+        %{
+          position: 7,
+          tic_tac_toe_match_id: match.id,
+          valid: true,
+          details: nil,
+          player_id: ctx.first_player_id
+        }
       ]
 
       testable_match =
-        Map.take(match, [:id, :first_player_id, :second_player_id, :next_player_id, :game_id, :winner_id, :status])
+        Map.take(match, [
+          :id,
+          :first_player_id,
+          :second_player_id,
+          :next_player_id,
+          :game_id,
+          :winner_id,
+          :status
+        ])
 
-      result_moviments = TicTacToeMoviment
-                         |> Queries.for_match(match)
-                         |> Repo.all()
+      result_moviments =
+        TicTacToeMoviment
+        |> Queries.for_match(match)
+        |> Repo.all()
 
       testable_moviments =
-        for m <- result_moviments, do: Map.take(m, [:position, :tic_tac_toe_match_id, :player_id, :valid, :details])
+        for m <- result_moviments,
+            do: Map.take(m, [:position, :tic_tac_toe_match_id, :player_id, :valid, :details])
 
       assert testable_match == match_expected
       assert testable_moviments == expected_moviments
@@ -86,22 +138,38 @@ defmodule GameRoom.Games.TicTacToes.MatchTest do
         next_player_id: nil,
         game_id: ctx.game_id,
         winner_id: ctx.second_player_id,
-        status: TicTacToeMatch.winner
+        status: TicTacToeMatch.winner()
       }
 
       expected_moviments = [
-        %{position: nil, tic_tac_toe_match_id: match.id, valid: false, details: "Invalid moviment", player_id: ctx.first_player_id},
+        %{
+          position: nil,
+          tic_tac_toe_match_id: match.id,
+          valid: false,
+          details: "Invalid moviment",
+          player_id: ctx.first_player_id
+        }
       ]
 
       testable_match =
-        Map.take(match, [:id, :first_player_id, :second_player_id, :next_player_id, :game_id, :winner_id, :status])
+        Map.take(match, [
+          :id,
+          :first_player_id,
+          :second_player_id,
+          :next_player_id,
+          :game_id,
+          :winner_id,
+          :status
+        ])
 
-      result_moviments = TicTacToeMoviment
-                         |> Queries.for_match(match)
-                         |> Repo.all()
+      result_moviments =
+        TicTacToeMoviment
+        |> Queries.for_match(match)
+        |> Repo.all()
 
       testable_moviments =
-        for m <- result_moviments, do: Map.take(m, [:position, :tic_tac_toe_match_id, :player_id, :valid, :details])
+        for m <- result_moviments,
+            do: Map.take(m, [:position, :tic_tac_toe_match_id, :player_id, :valid, :details])
 
       assert testable_match == match_expected
       assert testable_moviments == expected_moviments
