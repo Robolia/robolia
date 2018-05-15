@@ -1,6 +1,6 @@
 defmodule GameRoom.Games.TicTacToes.MatchTest do
   use GameRoom.DataCase
-  alias GameRoom.Games.TicTacToes.Match
+  alias GameRoom.Games.TicTacToes.{Match, Queries, TicTacToeMoviment}
   alias GameRoom.Repo
   import Mox
 
@@ -57,8 +57,12 @@ defmodule GameRoom.Games.TicTacToes.MatchTest do
       result =
         Map.take(match, [:id, :first_player_id, :second_player_id, :next_player_id, :game_id])
 
+      moviments = TicTacToeMoviment
+                  |> Queries.for_match(match)
+                  |> Repo.all()
+
       result_moviments =
-        for m <- match.moviments, do: Map.take(m, [:position, :tic_tac_toe_match_id, :player_id])
+        for m <- moviments, do: Map.take(m, [:position, :tic_tac_toe_match_id, :player_id])
 
       assert result == match_expected
       assert result_moviments == expected_moviments

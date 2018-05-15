@@ -22,7 +22,8 @@ defmodule GameRoom.Factory do
       repository_url: sequence("url_"),
       language: "elixir",
       game_id: build(:game).id,
-      user_id: build(:user).id
+      user_id: build(:user).id,
+      active: false
     }
   end
 

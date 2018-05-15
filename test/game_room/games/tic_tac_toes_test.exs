@@ -271,7 +271,7 @@ defmodule GameRoom.Games.TicTacToesTest do
           |> TicTacToes.add_moviment!(%{
             position: position,
             player_id: ctx.second_player.id,
-            turn: 1
+            turn: position
           })
 
         assert %TicTacToeMoviment{} = result
