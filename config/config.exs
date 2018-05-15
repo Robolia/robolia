@@ -41,7 +41,7 @@ config :ueberauth, Ueberauth.Strategy.Github.OAuth,
 config :game_room, player_script_runner: GameRoom.PlayerScript
 
 config :game_room, GameRoomWeb.Github.WebhookCreation,
-  access_token: {:system, "GITHUB_ACCESS_TOKEN_WEBHOOK"},
+  access_token: {:system, "GITHUB_ACCESS_TOKEN_WEBHOOK", ""},
   uri_scheme: {:system, "URI_SCHEME", "http"},
   uri_host: {:system, "URI_HOST", "localhost:4000"}
 
