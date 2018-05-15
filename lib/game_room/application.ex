@@ -7,7 +7,9 @@ defmodule GameRoom.Application do
     import Supervisor.Spec
     Confex.resolve_env!(:game_room)
 
-    :ok = GameRoomWeb.Github.WebhookCreation.create_fork_hook()
+    if Mix.env() != :test do
+      :ok = GameRoomWeb.Github.WebhookCreation.create_fork_hook()
+    end
 
     # Define workers and child supervisors to be supervised
     children = [
