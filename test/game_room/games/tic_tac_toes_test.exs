@@ -374,32 +374,6 @@ defmodule GameRoom.Games.TicTacToesTest do
         })
       end
     end
-
-    test "raises a GameError exception when given a position above 9", ctx do
-      position = 10
-
-      assert_raise GameError, fn ->
-        ctx.match
-        |> TicTacToes.add_moviment!(%{
-          position: position,
-          player_id: ctx.second_player.id,
-          turn: 1
-        })
-      end
-    end
-
-    test "raises a GameError exception when given a position below 1", ctx do
-      position = 0
-
-      assert_raise GameError, fn ->
-        ctx.match
-        |> TicTacToes.add_moviment!(%{
-          position: position,
-          player_id: ctx.second_player.id,
-          turn: 1
-        })
-      end
-    end
   end
 
   describe "next_turn/1" do

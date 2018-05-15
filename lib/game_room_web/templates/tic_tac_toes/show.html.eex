@@ -11,7 +11,11 @@
 
         <ol>
           <%= for moviment <- @moviments do %>
-          <li><%= moviment.player.user |> user_name %> played at <strong><%= moviment.position %></strong></li>
+            <%= if moviment.valid do %>
+              <li><%= moviment.player.user |> user_name %> played at <strong><%= moviment.position %></strong></li>
+            <% else %>
+              <li><%= moviment.player.user |> user_name %> played an <strong>invalid moviment</strong> and lost.</li>
+            <% end %>
           <% end %>
         </ol>
 

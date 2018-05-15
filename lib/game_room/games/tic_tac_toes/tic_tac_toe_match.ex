@@ -22,11 +22,15 @@ defmodule GameRoom.Games.TicTacToes.TicTacToeMatch do
     timestamps()
   end
 
+  def ongoing, do: 0
+  def draw, do: 1
+  def winner, do: 2
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(%TicTacToeMatch{} = tic_tak_toe, params \\ %{}) do
-    tic_tak_toe
+  def changeset(%TicTacToeMatch{} = tic_tac_toe, params \\ %{}) do
+    tic_tac_toe
     |> cast(params, [
       :first_player_id,
       :second_player_id,

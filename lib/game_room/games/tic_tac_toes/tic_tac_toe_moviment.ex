@@ -22,6 +22,6 @@ defmodule GameRoom.Games.TicTacToes.TicTacToeMoviment do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:turn, :position, :tic_tac_toe_match_id, :player_id, :valid, :details])
-    |> validate_required([:turn, :position, :tic_tac_toe_match_id, :player_id])
+    |> validate_required([:turn, :tic_tac_toe_match_id, :player_id])
   end
 end

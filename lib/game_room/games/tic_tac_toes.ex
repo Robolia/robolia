@@ -18,29 +18,44 @@ defmodule GameRoom.Games.TicTacToes do
   end
 
   def add_moviment!(%TicTacToeMatch{id: match_id} = match, %{position: position} = attrs) do
-    unless valid_position_number?(position),
-      do: raise(GameError, message: "Position #{position} is invalid for this match")
-
     unless match |> player_playing?(attrs),
       do: raise(GameError, message: "Given player is not playing this match")
 
-    moviment =
-      %TicTacToeMoviment{}
-      |> TicTacToeMoviment.changeset(Map.merge(attrs, %{tic_tac_toe_match_id: match_id}))
-      |> Repo.insert!()
 
-    case match_finished?(match) do
-      {true, %{winner: nil}} ->
-        match |> update_match!(%{next_player_id: nil})
+    case valid_position_number?(position) do
+      true ->
+        moviment =
+          %TicTacToeMoviment{}
+          |> TicTacToeMoviment.changeset(Map.merge(attrs, %{tic_tac_toe_match_id: match_id}))
+          |> Repo.insert!()
 
-      {true, %{winner: winner}} ->
-        match |> update_match!(%{next_player_id: nil, winner_id: winner.id})
+        case match_finished?(match) do
+          {true, %{winner: nil}} ->
+            match |> update_match!(%{next_player_id: nil, status: TicTacToeMatch.draw})
 
-      {false, _} ->
-        match |> update_next_player!
+          {true, %{winner: winner}} ->
+            match |> update_match!(%{next_player_id: nil, winner_id: winner.id, status: TicTacToeMatch.winner})
+
+          {false, _} ->
+            match |> update_next_player!
+        end
+
+        moviment
+
+      false ->
+        moviment =
+          %TicTacToeMoviment{}
+          |> TicTacToeMoviment.changeset(
+            Map.merge(attrs, %{tic_tac_toe_match_id: match_id, valid: false, details: "Invalid moviment"})
+          )
+          |> Repo.insert!()
+
+        winner_id = fetch_next_player_id(match)
+        match |> update_match!(%{next_player_id: nil, winner_id: winner_id, status: TicTacToeMatch.winner})
+
+        moviment
     end
 
-    moviment
   rescue
     e in Ecto.InvalidChangesetError -> error(e)
     e in Ecto.ConstraintError -> error(e)
@@ -123,14 +138,17 @@ defmodule GameRoom.Games.TicTacToes do
   end
 
   defp update_next_player!(%TicTacToeMatch{} = match) do
-    next_player_id =
-      if match.next_player_id == match.first_player_id do
-        match.second_player_id
-      else
-        match.first_player_id
-      end
+    next_player_id = fetch_next_player_id(match)
 
     match |> update_match!(%{next_player_id: next_player_id})
+  end
+
+  defp fetch_next_player_id(%TicTacToeMatch{} = match) do
+    if match.next_player_id == match.first_player_id do
+      match.second_player_id
+    else
+      match.first_player_id
+    end
   end
 
   defp error(exception) do
