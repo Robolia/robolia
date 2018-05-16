@@ -53,6 +53,8 @@ defmodule GameRoom.Mixfile do
       {:slugger, "~> 0.2"},
       {:ueberauth_github, "~> 0.7"},
       {:tentacat, "~> 1.0"},
+      {:edeliver, "~> 1.5.0"},
+      {:distillery, "~> 1.0.0", warn_missing: false},
       # Test
       {:ex_machina, "~> 2.2", only: [:test, :dev]},
       {:mox, "~> 0.3", only: [:test]},

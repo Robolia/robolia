@@ -25,6 +25,10 @@ npm-debug.log
 # secrets files as long as you replace their contents by environment
 # variables.
 /config/*.secret.exs
+/rel/config*
+
 
 .env
 *github-ssh
+.deliver/releases/
+.DS_Store

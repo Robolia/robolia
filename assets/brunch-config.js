@@ -68,5 +68,9 @@ exports.config = {
     enabled: true,
     whitelist: ["phoenix", "phoenix_html"],
     styles: {bulma: ["dist/css/bulma.min.css"]}
+  },
+
+  watcher: {
+    usePolling: true
   }
 };

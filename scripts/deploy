@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+mix do deps.get, compile
+mix edeliver build release production --branch=master --verbose
+mix edeliver deploy release to production --verbose
+mix edeliver restart production
+mix edeliver migrate production
