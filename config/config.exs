@@ -31,7 +31,7 @@ config :logger, :console,
 
 config :ueberauth, Ueberauth,
   providers: [
-    github: {Ueberauth.Strategy.Github, []}
+    github: {Ueberauth.Strategy.Github, [send_redirect_uri: false]}
   ]
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
