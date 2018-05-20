@@ -24,6 +24,13 @@ defmodule GameRoom.PlayerScript do
     |> run_cmd
   end
 
+  def delete(%{game: %{slug: game_slug}, player: player}) do
+    """
+    docker rmi #{game_slug}:#{player.id} -f
+    """
+    |> run_cmd
+  end
+
   defp run_cmd(string) do
     string
     |> String.trim()

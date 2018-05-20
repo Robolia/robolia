@@ -54,5 +54,8 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
       })
       |> Repo.preload([:next_player, :game])
       |> Match.play()
+
+    PlayerScript.delete(%{game: game, player: p1})
+    PlayerScript.delete(%{game: game, player: p2})
   end
 end
