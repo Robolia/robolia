@@ -9,17 +9,13 @@ defmodule GameRoom.Tasks.GamesTicTacToesRunAll do
   alias GameRoom.Games.TicTacToes.RunMatchesPipeline
   alias GameRoom.Games.{Game, Queries}
   alias GameRoom.Repo
-  require Logger
 
   def run do
-    Logger.info("Running all Tic Tac Toe games.")
     start_app()
 
     tictactoe = Game |> Queries.for_game(%{slug: "tic-tac-toe"}) |> Repo.one!()
 
     RunMatchesPipeline.call(%{game: tictactoe})
-
-    Logger.info("Done.")
   end
 
   defp start_app do

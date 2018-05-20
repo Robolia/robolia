@@ -2,6 +2,7 @@ defmodule GameRoom.PlayerScript do
   @callback build(data :: map()) :: list()
   def build(%{game: %{slug: game_slug}, player: player}) do
     """
+    cd #{docker_files_dir()} && \
     docker build -t #{game_slug}:#{player.id} \
                  -f Dockerfile_#{player.language} \
                  --build-arg player_repo_url=#{player.repository_clone_url} .
@@ -28,5 +29,9 @@ defmodule GameRoom.PlayerScript do
     |> String.trim()
     |> to_charlist
     |> :os.cmd()
+  end
+
+  defp docker_files_dir do
+    Path.join(:code.priv_dir(:game_room), "dockerfiles/")
   end
 end
