@@ -24,7 +24,9 @@
         <h4 class="subtitle is-4">Resume</h4>
 
         <ul>
-          <li><strong>Winner:</strong> <%= @match.winner.user |> user_name %></li>
+          <li><strong>Status:</strong> <%= @match.status |> status_label %></li>
+          <%= if @match.winner do %><li><strong>Winner:</strong> <%= @match.winner.user |> user_name %></li><% end %>
+          <li><strong>Last update at:</strong> <%= GameRoomWeb.MatchesView.format_match_date(@match.updated_at) %></li>
         </ul>
       </div>
     </div>
