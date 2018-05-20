@@ -13,10 +13,12 @@ DELIVER_TO="/var/www/robolia/release"
 pre_erlang_get_and_update_deps() {
   local _prod_secret_path="/var/www/robolia/config/prod.secret.exs"
   local _rel_config_path="/var/www/robolia/config/rel_config.exs"
+  local _github_key_path="/var/www/robolia/config/github_key_dockerfiles"
   if [ "$TARGET_MIX_ENV" = "prod" ]; then
     __sync_remote "
       ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs' && \
-      ln -sfn '$_rel_config_path' '$BUILD_AT/rel/config.exs'
+      ln -sfn '$_rel_config_path' '$BUILD_AT/rel/config.exs' && \
+      ln -sfn '$_github_key_path' '$BUILD_AT/priv/dockerfiles/github-ssh'
     "
   fi
 }

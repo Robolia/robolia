@@ -3,8 +3,8 @@ defmodule GameRoom.PlayerScript do
   def build(%{game: %{slug: game_slug}, player: player}) do
     """
     cd #{docker_files_dir()} && \
-    docker build -t #{game_slug}:#{player.id} \
-                 -f Dockerfile_#{player.language} \
+    docker build --tag=#{game_slug}:#{player.id} \
+                 -f=Dockerfile_#{player.language} \
                  --build-arg player_repo_url=#{player.repository_clone_url} .
     """
     |> run_cmd
