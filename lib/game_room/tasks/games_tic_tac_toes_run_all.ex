@@ -1,8 +1,4 @@
-defmodule Mix.Tasks.Games.TicTacToes.RunAll do
-  use Mix.Task
-
-  @shortdoc "Run Tic Tac Toes games for all active players"
-
+defmodule GameRoom.Tasks.GamesTicTacToesRunAll do
   @moduledoc """
   This is the trigger for running all the Tic Tac Toe games
   for all the active players.
@@ -13,15 +9,24 @@ defmodule Mix.Tasks.Games.TicTacToes.RunAll do
   alias GameRoom.Games.TicTacToes.RunMatchesPipeline
   alias GameRoom.Games.{Game, Queries}
   alias GameRoom.Repo
-  import Mix.Ecto
+  require Logger
 
-  def run(_args) do
-    Mix.shell().info("Running all Tic Tac Toe games.")
-    ensure_started(GameRoom.Repo, [])
+  def run do
+    Logger.info("Running all Tic Tac Toe games.")
+    start_app()
 
     tictactoe = Game |> Queries.for_game(%{slug: "tic-tac-toe"}) |> Repo.one!()
 
     RunMatchesPipeline.call(%{game: tictactoe})
-    Mix.shell().info("Done.")
+
+    Logger.info("Done.")
+  end
+
+  defp start_app do
+    Application.load(:game_room)
+    Application.ensure_all_started(:postgrex)
+    Application.ensure_all_started(:ecto)
+
+    Repo.start_link()
   end
 end
