@@ -14,7 +14,7 @@ defmodule GameRoomWeb.AccountController do
       players:
         players
         |> Repo.all()
-        |> Repo.preload([:game]),
+        |> Repo.preload([:game, :rating]),
       active_players:
         players
         |> Queries.active()

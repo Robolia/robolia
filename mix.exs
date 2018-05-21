@@ -49,12 +49,15 @@ defmodule GameRoom.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:confex, "~> 3.3.1"},
+      {:edeliver, "~> 1.5.0"},
+      {:distillery, "~> 1.0.0", warn_missing: false},
       {:opus, "~> 0.3"},
       {:slugger, "~> 0.2"},
       {:ueberauth_github, "~> 0.7"},
       {:tentacat, "~> 1.0"},
-      {:edeliver, "~> 1.5.0"},
-      {:distillery, "~> 1.0.0", warn_missing: false},
+      {:redix, "~> 0.7"},
+      # Rating
+      {:elo, "~> 0.1.0"},
       # Test
       {:ex_machina, "~> 2.2", only: [:test, :dev]},
       {:mox, "~> 0.3", only: [:test]},

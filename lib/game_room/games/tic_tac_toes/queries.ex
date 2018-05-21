@@ -3,7 +3,7 @@ defmodule GameRoom.Games.TicTacToes.Queries do
   alias GameRoom.Games.Queries, as: GameQueries
   alias GameRoom.Accounts.Queries, as: AccountQueries
   alias GameRoom.Accounts.Player
-  alias GameRoom.Games.TicTacToes.{TicTacToeMoviment, TicTacToeMatch}
+  alias GameRoom.Games.TicTacToes.{TicTacToeMoviment, TicTacToeMatch, TicTacToeRating}
   alias GameRoom.Repo
 
   defdelegate count(query), to: GameQueries
@@ -32,7 +32,14 @@ defmodule GameRoom.Games.TicTacToes.Queries do
 
   def for_player(filters), do: for_player(TicTacToeMatch, filters)
 
-  def for_player(query, %{id: player_id}) do
+  def for_player(TicTacToeRating = query, %{id: player_id}) do
+    from(
+      q in query,
+      where: q.player_id == ^player_id
+    )
+  end
+
+  def for_player(TicTacToeMatch = query, %{id: player_id}) do
     from(
       q in query,
       where: q.first_player_id == ^player_id or q.second_player_id == ^player_id

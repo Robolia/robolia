@@ -3,7 +3,7 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
 
   alias GameRoom.Accounts.Queries, as: AccountQueries
   alias GameRoom.Accounts.Player
-  alias GameRoom.Games.TicTacToes
+  alias GameRoom.Games.{TicTacToes, Rating}
   alias GameRoom.Games.TicTacToes.{Competition, Match}
   alias GameRoom.PlayerScript
   alias GameRoom.Repo
@@ -36,7 +36,9 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
     |> Enum.each(fn group ->
       Competition.distribute_players(group)
       |> Enum.each(fn match_players ->
+
         run_match(%{match_players: match_players, game: game})
+        |> Rating.update_players_rating()
       end)
     end)
   end
@@ -45,7 +47,7 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
     PlayerScript.build(%{game: game, player: p1})
     PlayerScript.build(%{game: game, player: p2})
 
-    {:ok, _} =
+    {:ok, match} =
       TicTacToes.create_match!(%{
         first_player_id: p1.id,
         second_player_id: p2.id,
@@ -57,5 +59,7 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
 
     PlayerScript.delete(%{game: game, player: p1})
     PlayerScript.delete(%{game: game, player: p2})
+
+    match
   end
 end

@@ -1,12 +1,12 @@
 defmodule GameRoom.Accounts.Queries do
   import Ecto.Query, only: [from: 2]
-  alias GameRoom.Accounts.{Player, User}
+  alias GameRoom.Accounts.{Player, User, PlayerRating}
   alias GameRoom.Games.Game
 
-  def for_game(Player = model, %{game_id: game_id}) do
+  def for_game(query, %{game_id: game_id}) do
     from(
-      p in model,
-      where: p.game_id == ^game_id
+      q in query,
+      where: q.game_id == ^game_id
     )
   end
 
@@ -29,6 +29,20 @@ defmodule GameRoom.Accounts.Queries do
   end
 
   def for_player(Player = query, %{id: player_id}) do
+    from(
+      q in query,
+      where: q.id == ^player_id
+    )
+  end
+
+  def for_player(PlayerRating = query, %{id: player_id}) do
+    from(
+      q in query,
+      where: q.player_id == ^player_id
+    )
+  end
+
+  def for_player(query, %{id: player_id}) do
     from(
       q in query,
       where: q.id == ^player_id

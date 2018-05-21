@@ -1,7 +1,7 @@
 defmodule GameRoom.Accounts.Player do
   use Ecto.Schema
   import Ecto.Changeset
-  alias GameRoom.Accounts.User
+  alias GameRoom.Accounts.{User, PlayerRating}
   alias GameRoom.Games.Game
 
   schema "players" do
@@ -11,6 +11,7 @@ defmodule GameRoom.Accounts.Player do
     field(:active, :boolean)
     belongs_to(:game, Game, foreign_key: :game_id)
     belongs_to(:user, User, foreign_key: :user_id)
+    has_one(:rating, {"player_ratings", PlayerRating})
 
     timestamps()
   end

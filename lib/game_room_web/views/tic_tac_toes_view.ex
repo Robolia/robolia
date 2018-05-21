@@ -1,6 +1,7 @@
 defmodule GameRoomWeb.TicTacToesView do
   use GameRoomWeb, :view
   import GameRoomWeb.Helpers.UserHelper
+  import GameRoomWeb.Helpers.PlayerHelper
 
   def map_by_position(moviments), do: moviments |> Map.new(&{&1.position, &1})
 

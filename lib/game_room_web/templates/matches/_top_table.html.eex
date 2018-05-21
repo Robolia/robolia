@@ -10,9 +10,15 @@
           <div class="is-inline-block">
             <span class="is-block title is-6">
               <a class="has-text-link" href="<%= tic_tac_toes_path(@conn, :show, match.id) %>">
-                <%= match.first_player.user.name |> format_player_name %>
+                <%= match.first_player.user |> user_name %>
+                <span class="is-size-7 has-text-grey-light">#<%= match.first_player |> current_rank_position %></span>
+                <span class="is-size-7 has-text-grey-light">(<%= match.first_player |> fetch_rating %>)</span>
+
                 <span class="versus-mark">x</span>
-                <%= match.second_player.user.name |> format_player_name %>
+
+                <%= match.second_player.user |> user_name %>
+                <span class="is-size-7 has-text-grey-light">#<%= match.second_player |> current_rank_position %></span>
+                <span class="is-size-7 has-text-grey-light">(<%= match.second_player |> fetch_rating %>)</span>
               </a>
             </span>
             <div class="is-block subtitle is-7">

@@ -22,7 +22,11 @@ defmodule GameRoomWeb.TicTacToesController do
           conn,
           "show.html",
           moviments: moviments,
-          match: match |> Repo.preload(winner: :user),
+          match:
+            match
+            |> Repo.preload(winner: :user,
+                            first_player: [:user, :rating],
+                            second_player: [:user, :rating]),
           current_user: conn |> current_user()
         )
     end

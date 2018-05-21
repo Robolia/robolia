@@ -45,6 +45,10 @@ config :game_room, GameRoomWeb.Github.WebhookCreation,
   uri_scheme: {:system, "URI_SCHEME", "http"},
   uri_host: {:system, "URI_HOST", "localhost:4000"}
 
+config :game_room, GameRoom.RedisClient,
+  uri_connection: {:system, "REDIS_URI", "redis://localhost:6379"},
+  redis_client: Redix
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
