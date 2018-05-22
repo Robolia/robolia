@@ -43,7 +43,7 @@ defmodule GameRoom.Accounts do
   end
 
   def current_rank(%Player{} = player) do
-    %{position: redis_run(["ZREVRANK", "players_rank_game_#{player.game_id}", player.id]) + 1, rating: player.rating.rating}
+    %{position: (redis_run(["ZREVRANK", "players_rank_game_#{player.game_id}", player.id]) || 0) + 1, rating: player.rating.rating}
   end
 
   defp redis_run(command) do
