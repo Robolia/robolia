@@ -4,7 +4,6 @@ defmodule GameRoomWeb.MatchesView do
   import GameRoomWeb.LayoutView, only: [maybe_active_navbar_item: 2]
   import GameRoomWeb.Helpers.PlayerHelper
   import GameRoomWeb.Helpers.UserHelper
-  import Enum, only: [at: 2]
 
   def format_match_date(nil), do: "-"
 

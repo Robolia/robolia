@@ -335,16 +335,6 @@ defmodule GameRoom.Games.TicTacToesTest do
       end
     end
 
-    test "raises a GameError exception when given an existent TicTacToeMatch and a player_id which is not playing the given match",
-         ctx do
-      another_player = insert(:player)
-
-      assert_raise GameError, fn ->
-        ctx.match
-        |> TicTacToes.add_moviment!(%{position: 1, player_id: another_player.id, turn: 1})
-      end
-    end
-
     test "raises a GameError exception when given a position already filled by the same player",
          ctx do
       position = 1

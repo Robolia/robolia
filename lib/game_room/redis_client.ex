@@ -7,6 +7,9 @@ defmodule GameRoom.RedisClient do
   @spec connect() :: {:ok, pid()} | {:error, any()}
   def connect, do: redis().start_link(uri_connection(), [sync_connect: true])
 
+  @spec stop(pid()) :: :ok
+  def stop(conn), do: redis().stop(conn)
+
   defp uri_connection, do: config()[:uri_connection]
   defp redis, do: config()[:redis_client]
 end

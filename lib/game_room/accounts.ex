@@ -3,6 +3,7 @@ defmodule GameRoom.Accounts do
   alias GameRoom.Repo
   alias RoboliaRating.Elo, as: EloRating
   alias GameRoom.RedisClient
+  require Logger
 
   def create_user!(attrs) do
     %User{}
@@ -27,7 +28,7 @@ defmodule GameRoom.Accounts do
     |> PlayerRating.changeset(attrs)
     |> Repo.insert()
 
-    redis_run(["ZADD", "players_rank", player_rating.rating, player_rating.player_id])
+    redis_run(["ZADD", "players_rank_game_#{player_rating.game_id}", player_rating.rating, player_rating.player_id])
 
     player_rating
   end
@@ -36,18 +37,22 @@ defmodule GameRoom.Accounts do
     update = Ecto.Changeset.change(player_rating, %{rating: new_rating})
     |> Repo.update()
 
-    redis_run(["ZADD", "players_rank", new_rating, player_rating.player_id])
+    redis_run(["ZADD", "players_rank_game_#{player_rating.game_id}", new_rating, player_rating.player_id])
 
     update
   end
 
   def current_rank(%Player{} = player) do
-    %{position: redis_run(["ZREVRANK", "players_rank", player.id]) + 1, rating: player.rating.rating}
+    %{position: redis_run(["ZREVRANK", "players_rank_game_#{player.game_id}", player.id]) + 1, rating: player.rating.rating}
   end
 
   defp redis_run(command) do
-    {:ok, conn} = RedisClient.connect()
-    {:ok, result} = conn |> RedisClient.command(command)
-    result
+    with {:ok, conn} <- RedisClient.connect(),
+         {:ok, result} = conn |> RedisClient.command(command),
+         :ok <- RedisClient.stop(conn) do
+          result
+    else
+      {:error, error} -> Logger.error("Error on running Redis command #{inspect command}: #{inspect error}")
+    end
   end
 end
