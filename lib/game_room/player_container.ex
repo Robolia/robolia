@@ -1,4 +1,4 @@
-defmodule GameRoom.PlayerScript do
+defmodule GameRoom.PlayerContainer do
   @callback build(data :: map()) :: list()
   def build(%{game: %{slug: game_slug}, player: player}) do
     """
@@ -12,23 +12,19 @@ defmodule GameRoom.PlayerScript do
 
   @callback run(data :: map()) :: list()
   def run(%{
-        game_slug: game_slug,
-        player: player,
+        game: %{slug: game_slug},
+        player: %{id: player_id},
         current_state: current_state,
-        next_turn: next_turn
+        next_turn: next_turn,
+        bot_runner: bot_runner
       }) do
-    """
-    docker run -i #{game_slug}:#{player.id} \
-      sh -c 'mix run -e "IO.puts TicTacToe.play(#{inspect(current_state)}, #{inspect(next_turn)})"'
-    """
-    |> run_cmd
+    command = bot_runner.command(%{current_state: current_state, next_turn: next_turn})
+
+    "docker run -i #{game_slug}:#{player_id} #{command}" |> run_cmd
   end
 
   def delete(%{game: %{slug: game_slug}, player: player}) do
-    """
-    docker rmi #{game_slug}:#{player.id} -f
-    """
-    |> run_cmd
+    "docker rmi #{game_slug}:#{player.id} -f" |> run_cmd
   end
 
   defp run_cmd(string) do

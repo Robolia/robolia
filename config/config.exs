@@ -38,7 +38,7 @@ config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.get_env("GITHUB_CLIENT_ID"),
   client_secret: System.get_env("GITHUB_CLIENT_SECRET")
 
-config :game_room, player_script_runner: GameRoom.PlayerScript
+config :game_room, player_script_runner: GameRoom.PlayerContainer
 
 config :game_room, GameRoomWeb.Github.WebhookCreation,
   access_token: {:system, "GITHUB_ACCESS_TOKEN_WEBHOOK", ""},

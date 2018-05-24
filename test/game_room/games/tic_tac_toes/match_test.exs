@@ -32,7 +32,7 @@ defmodule GameRoom.Games.TicTacToes.MatchTest do
     end
 
     test "returns a finished {:ok, match} when a winner move is found in the game", ctx do
-      GameRoom.PlayerScriptMock |> stub(:run, fn %{next_turn: turn} -> '#{turn}\n' end)
+      GameRoom.PlayerContainerMock |> stub(:run, fn %{next_turn: turn} -> '#{turn}\n' end)
 
       {:ok, match} = Match.play(ctx.match)
 
@@ -125,7 +125,7 @@ defmodule GameRoom.Games.TicTacToes.MatchTest do
     end
 
     test "declares the opponent the winner if current player makes an invalid moviment", ctx do
-      GameRoom.PlayerScriptMock |> stub(:run, fn %{next_turn: _} -> 'ERROR' end)
+      GameRoom.PlayerContainerMock |> stub(:run, fn %{next_turn: _} -> 'ERROR' end)
 
       {:ok, match} = Match.play(ctx.match)
 

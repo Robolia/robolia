@@ -3,6 +3,7 @@ defmodule GameRoom.Games.TicTacToes.Match do
   alias GameRoom.Games.TicTacToes
   alias GameRoom.GameError
   alias GameRoom.Repo
+  alias GameRoom.PlayerContainer.TicTacToe, as: BotRunner
 
   def play(match) do
     case TicTacToes.match_finished?(match) do
@@ -36,10 +37,11 @@ defmodule GameRoom.Games.TicTacToes.Match do
 
   defp fetch_player_moviment(%{match: match, current_state: current_state, next_turn: next_turn}) do
     player_script().run(%{
-      game_slug: match.game.slug,
+      game: match.game,
       player: match.next_player,
       current_state: current_state,
-      next_turn: next_turn
+      next_turn: next_turn,
+      bot_runner: BotRunner
     })
     |> to_string
     |> String.trim()

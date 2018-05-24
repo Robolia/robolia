@@ -5,7 +5,7 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
   alias GameRoom.Accounts.Player
   alias GameRoom.Games.{TicTacToes, Rating}
   alias GameRoom.Games.TicTacToes.{Competition, Match}
-  alias GameRoom.PlayerScript
+  alias GameRoom.PlayerContainer
   alias GameRoom.Repo
 
   @players_per_group 5
@@ -43,8 +43,8 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
   end
 
   def run_match(%{match_players: {p1, p2}, game: game}) do
-    PlayerScript.build(%{game: game, player: p1})
-    PlayerScript.build(%{game: game, player: p2})
+    PlayerContainer.build(%{game: game, player: p1})
+    PlayerContainer.build(%{game: game, player: p2})
 
     {:ok, match} =
       TicTacToes.create_match!(%{
@@ -56,8 +56,8 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
       |> Repo.preload([:next_player, :game])
       |> Match.play()
 
-    PlayerScript.delete(%{game: game, player: p1})
-    PlayerScript.delete(%{game: game, player: p2})
+    PlayerContainer.delete(%{game: game, player: p1})
+    PlayerContainer.delete(%{game: game, player: p2})
 
     match
   end

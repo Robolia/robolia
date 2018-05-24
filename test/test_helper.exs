@@ -3,4 +3,4 @@ ExUnit.start()
 
 Ecto.Adapters.SQL.Sandbox.mode(GameRoom.Repo, :manual)
 
-Mox.defmock(GameRoom.PlayerScriptMock, for: GameRoom.PlayerScript)
+Mox.defmock(GameRoom.PlayerContainerMock, for: GameRoom.PlayerContainer)
