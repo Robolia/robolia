@@ -146,7 +146,7 @@ defmodule GameRoom.Games.TicTacToes.MatchTest do
           position: nil,
           tic_tac_toe_match_id: match.id,
           valid: false,
-          details: "Invalid moviment",
+          details: "position_value_not_allowed",
           player_id: ctx.first_player_id
         }
       ]

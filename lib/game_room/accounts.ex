@@ -12,9 +12,10 @@ defmodule GameRoom.Accounts do
   end
 
   def create_player!(attrs) do
-    player = %Player{}
-    |> Player.changeset(attrs)
-    |> Repo.insert!()
+    player =
+      %Player{}
+      |> Player.changeset(attrs)
+      |> Repo.insert!()
 
     create_player_rating(%{
       player_id: player.id,
@@ -24,35 +25,52 @@ defmodule GameRoom.Accounts do
   end
 
   def create_player_rating(attrs) do
-    {:ok, player_rating} = %PlayerRating{}
-    |> PlayerRating.changeset(attrs)
-    |> Repo.insert()
+    {:ok, player_rating} =
+      %PlayerRating{}
+      |> PlayerRating.changeset(attrs)
+      |> Repo.insert()
 
-    redis_run(["ZADD", "players_rank_game_#{player_rating.game_id}", player_rating.rating, player_rating.player_id])
+    redis_run([
+      "ZADD",
+      "players_rank_game_#{player_rating.game_id}",
+      player_rating.rating,
+      player_rating.player_id
+    ])
 
     player_rating
   end
 
   def update_player_rating(%PlayerRating{} = player_rating, %{new_rating: new_rating}) do
-    update = Ecto.Changeset.change(player_rating, %{rating: new_rating})
-    |> Repo.update()
+    update =
+      Ecto.Changeset.change(player_rating, %{rating: new_rating})
+      |> Repo.update()
 
-    redis_run(["ZADD", "players_rank_game_#{player_rating.game_id}", new_rating, player_rating.player_id])
+    redis_run([
+      "ZADD",
+      "players_rank_game_#{player_rating.game_id}",
+      new_rating,
+      player_rating.player_id
+    ])
 
     update
   end
 
   def current_rank(%Player{} = player) do
-    %{position: (redis_run(["ZREVRANK", "players_rank_game_#{player.game_id}", player.id]) || 0) + 1, rating: player.rating.rating}
+    %{
+      position:
+        (redis_run(["ZREVRANK", "players_rank_game_#{player.game_id}", player.id]) || 0) + 1,
+      rating: player.rating.rating
+    }
   end
 
   defp redis_run(command) do
     with {:ok, conn} <- RedisClient.connect(),
          {:ok, result} = conn |> RedisClient.command(command),
          :ok <- RedisClient.stop(conn) do
-          result
+      result
     else
-      {:error, error} -> Logger.error("Error on running Redis command #{inspect command}: #{inspect error}")
+      {:error, error} ->
+        Logger.error("Error on running Redis command #{inspect(command)}: #{inspect(error)}")
     end
   end
 end

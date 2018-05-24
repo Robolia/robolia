@@ -5,9 +5,9 @@ defmodule GameRoom.Accounts.PlayerRating do
   alias GameRoom.Games.Game
 
   schema "player_ratings" do
-    field :rating, :float
-    belongs_to :player, Player, foreign_key: :player_id
-    belongs_to :game, Game, foreign_key: :game_id
+    field(:rating, :float)
+    belongs_to(:player, Player, foreign_key: :player_id)
+    belongs_to(:game, Game, foreign_key: :game_id)
 
     timestamps()
   end

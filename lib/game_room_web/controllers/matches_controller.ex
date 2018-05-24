@@ -16,7 +16,11 @@ defmodule GameRoomWeb.MatchesController do
           last_tic_tac_toe_matches:
             Queries.lasts(%{limit: 20})
             |> Repo.all()
-            |> Repo.preload([:game, first_player: [:user, :rating], second_player: [:user, :rating]])
+            |> Repo.preload([
+              :game,
+              first_player: [:user, :rating],
+              second_player: [:user, :rating]
+            ])
         })
     end
   end
@@ -35,7 +39,11 @@ defmodule GameRoomWeb.MatchesController do
             |> Queries.for_user(%{id: user.id})
             |> Queries.lasts(%{limit: 20})
             |> Repo.all()
-            |> Repo.preload([:game, first_player: [:user, :rating], second_player: [:user, :rating]])
+            |> Repo.preload([
+              :game,
+              first_player: [:user, :rating],
+              second_player: [:user, :rating]
+            ])
         })
     end
   end

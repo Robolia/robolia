@@ -36,7 +36,6 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
     |> Enum.each(fn group ->
       Competition.distribute_players(group)
       |> Enum.each(fn match_players ->
-
         run_match(%{match_players: match_players, game: game})
         |> Rating.update_players_rating()
       end)
