@@ -49,6 +49,13 @@ config :game_room, GameRoom.RedisClient,
   uri_connection: {:system, "REDIS_URI", "redis://localhost:6379"},
   redis_client: Redix
 
+config :game_room, GameRoom.Schedulers.BattleScheduler,
+  global: true,
+  timezone: :utc,
+  jobs: [
+    {"* 19 * * *", {GameRoom.Tasks.GamesTicTacToesRunAll, :run, []}}
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

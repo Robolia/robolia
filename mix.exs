@@ -54,10 +54,11 @@ defmodule GameRoom.Mixfile do
       {:opus, "~> 0.3"},
       {:slugger, "~> 0.2"},
       {:ueberauth_github, "~> 0.7"},
-      {:tentacat, "~> 1.0"},
+      {:tentacat, "~> 1.0"}, # github
       {:redix, "~> 0.7"},
-      # Rating
-      {:elo, "~> 0.1.0"},
+      {:quantum, "~> 2.2"}, # scheduler
+      {:timex, "~> 3.0"},
+      {:elo, "~> 0.1.0"}, # rating system
       # Test
       {:ex_machina, "~> 2.2", only: [:test, :dev]},
       {:mox, "~> 0.3", only: [:test]},

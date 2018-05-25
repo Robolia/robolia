@@ -11,12 +11,9 @@ defmodule GameRoom.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Start the Ecto repository
       supervisor(GameRoom.Repo, []),
-      # Start the endpoint when the application starts
-      supervisor(GameRoomWeb.Endpoint, [])
-      # Start your own worker by calling: GameRoom.Worker.start_link(arg1, arg2, arg3)
-      # worker(GameRoom.Worker, [arg1, arg2, arg3]),
+      supervisor(GameRoomWeb.Endpoint, []),
+      worker(GameRoom.Schedulers.BattleScheduler, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
