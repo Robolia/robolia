@@ -1,15 +1,17 @@
 defmodule GameRoomWeb.TicTacToesController do
   use GameRoomWeb, :controller
+  plug(GameRoomWeb.Plugs.Authentication)
+
   alias GameRoom.Games.TicTacToes.{TicTacToeMoviment, TicTacToeMatch}
   alias GameRoom.Games.TicTacToes.Queries
   alias GameRoom.Repo
 
-  def show(conn, %{"match_id" => match_id}) do
+  def show(%{assigns: %{user: user}} = conn, %{"match_id" => match_id}) do
     case TicTacToeMatch |> Repo.get(match_id) do
       nil ->
         conn
         |> put_status(:not_found)
-        |> render("404.html", current_user: conn |> current_user())
+        |> render("404.html", current_user: user)
 
       match ->
         moviments =
@@ -29,10 +31,8 @@ defmodule GameRoomWeb.TicTacToesController do
               first_player: [:user, :rating],
               second_player: [:user, :rating]
             ),
-          current_user: conn |> current_user()
+          current_user: user
         )
     end
   end
-
-  defp current_user(conn), do: get_session(conn, :current_user)
 end

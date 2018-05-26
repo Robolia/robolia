@@ -1,15 +1,17 @@
 defmodule GameRoomWeb.PlayersController do
   use GameRoomWeb, :controller
+  plug(GameRoomWeb.Plugs.Authentication)
+
   alias GameRoom.Repo
   alias GameRoom.Games.Game
   alias GameRoom.Games.Queries, as: GameQueries
   alias GameRoom.Accounts.{Player, Queries}
 
-  def new(conn, _params) do
+  def new(%{assigns: %{user: user}} = conn, _) do
     render(
       conn,
       "new.html",
-      current_user: conn |> current_user(),
+      current_user: user,
       games: Game |> Repo.all(),
       games_count:
         Queries.count_bots_per_game()
@@ -19,7 +21,7 @@ defmodule GameRoomWeb.PlayersController do
     )
   end
 
-  def new_for_game(conn, %{"game_slug" => game_slug}) do
+  def new_for_game(%{assigns: %{user: user}} = conn, %{"game_slug" => game_slug}) do
     case Game |> GameQueries.for_game(%{slug: game_slug}) |> Repo.one() do
       nil ->
         conn |> put_status(404) |> render("404.html")
@@ -28,7 +30,7 @@ defmodule GameRoomWeb.PlayersController do
         conn
         |> render(
           "new_for_game.html",
-          current_user: conn |> current_user(),
+          current_user: user,
           game: game |> Repo.preload([:repositories]),
           languages_count:
             game
@@ -40,11 +42,14 @@ defmodule GameRoomWeb.PlayersController do
     end
   end
 
-  def update(conn, %{"id" => player_id, "player" => %{"active" => active}}) do
+  def update(%{assigns: %{user: user}} = conn, %{
+        "id" => player_id,
+        "player" => %{"active" => active}
+      }) do
     player =
       Player
       |> Queries.for_player(%{id: player_id})
-      |> Queries.for_user(%{id: current_user(conn).id})
+      |> Queries.for_user(%{id: user.id})
       |> Repo.one()
 
     case player do
@@ -60,6 +65,4 @@ defmodule GameRoomWeb.PlayersController do
         conn |> redirect(to: account_path(conn, :index))
     end
   end
-
-  defp current_user(conn), do: get_session(conn, :current_user)
 end

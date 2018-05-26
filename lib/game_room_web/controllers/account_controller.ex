@@ -1,12 +1,14 @@
 defmodule GameRoomWeb.AccountController do
   use GameRoomWeb, :controller
+  plug(GameRoomWeb.Plugs.Authentication)
+
   alias GameRoom.Accounts.{Queries, Player}
   alias GameRoom.Repo
 
-  def index(conn, _params) do
+  def index(%{assigns: %{user: user}} = conn, _) do
     players =
       Player
-      |> Queries.for_user(%{id: current_user(conn).id})
+      |> Queries.for_user(%{id: user.id})
 
     conn
     |> render(
@@ -20,9 +22,7 @@ defmodule GameRoomWeb.AccountController do
         |> Queries.active()
         |> Repo.all()
         |> Enum.count(),
-      current_user: current_user(conn)
+      current_user: user
     )
   end
-
-  defp current_user(conn), do: get_session(conn, :current_user)
 end
