@@ -53,7 +53,7 @@ config :game_room, GameRoom.Schedulers.BattleScheduler,
   global: true,
   timezone: :utc,
   jobs: [
-    {"* 19 * * *", {GameRoom.Tasks.GamesTicTacToesRunAll, :run, []}}
+    {"* 19 * * *", {GameRoom.Tasks.TicTacToesRegularCompetition, :run, []}}
   ]
 
 # Import environment specific config. This must remain at the bottom
