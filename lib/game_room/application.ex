@@ -13,7 +13,8 @@ defmodule GameRoom.Application do
     children = [
       supervisor(GameRoom.Repo, []),
       supervisor(GameRoomWeb.Endpoint, []),
-      worker(GameRoom.Schedulers.BattleScheduler, [])
+      worker(GameRoom.Schedulers.BattleScheduler, []),
+      worker(GameRoom.PlayerContainer.Image, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

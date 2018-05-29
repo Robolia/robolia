@@ -30,7 +30,7 @@ defmodule GameRoom.Accounts do
       |> PlayerRating.changeset(attrs)
       |> Repo.insert()
 
-    redis_run([
+    RedisClient.run([
       "ZADD",
       "players_rank_game_#{player_rating.game_id}",
       player_rating.rating,
@@ -45,7 +45,7 @@ defmodule GameRoom.Accounts do
       Ecto.Changeset.change(player_rating, %{rating: new_rating})
       |> Repo.update()
 
-    redis_run([
+    RedisClient.run([
       "ZADD",
       "players_rank_game_#{player_rating.game_id}",
       new_rating,
@@ -58,19 +58,8 @@ defmodule GameRoom.Accounts do
   def current_rank(%Player{} = player) do
     %{
       position:
-        (redis_run(["ZREVRANK", "players_rank_game_#{player.game_id}", player.id]) || 0) + 1,
+        (RedisClient.run(["ZREVRANK", "players_rank_game_#{player.game_id}", player.id]) || 0) + 1,
       rating: player.rating.rating
     }
-  end
-
-  defp redis_run(command) do
-    with {:ok, conn} <- RedisClient.connect(),
-         {:ok, result} = conn |> RedisClient.command(command),
-         :ok <- RedisClient.stop(conn) do
-      result
-    else
-      {:error, error} ->
-        Logger.error("Error on running Redis command #{inspect(command)}: #{inspect(error)}")
-    end
   end
 end

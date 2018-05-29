@@ -1,30 +1,33 @@
 defmodule GameRoom.PlayerContainer do
-  @callback build(data :: map()) :: list()
-  def build(%{game: %{slug: game_slug}, player: player}) do
-    """
-    cd #{docker_files_dir()} && \
-    docker build --tag=#{game_slug}:#{player.id} \
-                 -f=Dockerfile_#{player.language} \
-                 --build-arg player_repo_url=#{player.repository_clone_url} .
-    """
-    |> run_cmd
-  end
+  alias GameRoom.PlayerContainer.{BuildPipeline, Register}
+  require Logger
+
+  @callback build(data :: map()) :: {:ok, any()} | {:error, any()}
+  def build(%{game: _, player: _} = build_attrs), do: BuildPipeline.call(build_attrs)
 
   @callback run(data :: map()) :: list()
   def run(%{
-        game: %{slug: game_slug},
-        player: %{id: player_id},
+        player: %{id: player_id, language: language},
         current_state: current_state,
         next_turn: next_turn,
         bot_runner: bot_runner
       }) do
-    command = bot_runner.command(%{current_state: current_state, next_turn: next_turn})
+    bot_command =
+      bot_runner.command(%{language: language, current_state: current_state, next_turn: next_turn})
 
-    "docker run -i #{game_slug}:#{player_id} #{command}" |> run_cmd
+    container_id = Register.container_id_for(player_id)
+
+    Logger.info "docker container exec #{container_id} #{bot_command}"
+    "docker container exec #{container_id} #{bot_command}" |> run_cmd
   end
 
-  def delete(%{game: %{slug: game_slug}, player: player}) do
-    "docker rmi #{game_slug}:#{player.id} -f" |> run_cmd
+  def delete(%{game: %{id: game_id}, player: %{id: player_id}}) do
+    container_id = Register.container_id_for(player_id)
+    bot_local_storage_path = "/tmp/robolia/#{game_id}/#{player_id}/"
+
+    "docker rm #{container_id} --force" |> run_cmd
+    "rm -rf #{bot_local_storage_path}" |> run_cmd
+    Register.delete(player_id)
   end
 
   defp run_cmd(string) do
@@ -32,9 +35,5 @@ defmodule GameRoom.PlayerContainer do
     |> String.trim()
     |> to_charlist
     |> :os.cmd()
-  end
-
-  defp docker_files_dir do
-    Path.join(:code.priv_dir(:game_room), "dockerfiles/")
   end
 end

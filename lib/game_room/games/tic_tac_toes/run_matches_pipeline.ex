@@ -27,7 +27,8 @@ defmodule GameRoom.Games.TicTacToes.RunMatchesPipeline do
   end
 
   def run_matches(%{players: players, game: game}) do
-    for {p1, p2} <- Competition.generate_matches(%{players: players, per_group: @players_per_group}) do
+    for {p1, p2} <-
+          Competition.generate_matches(%{players: players, per_group: @players_per_group}) do
       PlayerContainer.build(%{game: game, player: p1})
       PlayerContainer.build(%{game: game, player: p2})
 

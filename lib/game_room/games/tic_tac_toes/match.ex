@@ -37,7 +37,6 @@ defmodule GameRoom.Games.TicTacToes.Match do
 
   defp fetch_player_moviment(%{match: match, current_state: current_state, next_turn: next_turn}) do
     player_script().run(%{
-      game: match.game,
       player: match.next_player,
       current_state: current_state,
       next_turn: next_turn,

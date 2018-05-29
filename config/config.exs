@@ -56,6 +56,8 @@ config :game_room, GameRoom.Schedulers.BattleScheduler,
     {"* 19 * * *", {GameRoom.Tasks.TicTacToesRegularCompetition, :run, []}}
   ]
 
+config :game_room, GameRoom.PlayerContainer.Image, languages: [:elixir]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
