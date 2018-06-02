@@ -1,4 +1,4 @@
-defmodule GameRoomWeb.ChannelCase do
+defmodule RoboliaWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule GameRoomWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint GameRoomWeb.Endpoint
+      @endpoint RoboliaWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(GameRoom.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Robolia.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(GameRoom.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Robolia.Repo, {:shared, self()})
     end
 
     :ok

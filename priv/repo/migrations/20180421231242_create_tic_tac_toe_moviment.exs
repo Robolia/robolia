@@ -1,4 +1,4 @@
-defmodule GameRoom.Repo.Migrations.CreateTicTacToeMoviment do
+defmodule Robolia.Repo.Migrations.CreateTicTacToeMoviment do
   use Ecto.Migration
 
   def change do

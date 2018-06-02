@@ -1,8 +1,8 @@
-defmodule GameRoom.Factory do
-  use ExMachina.Ecto, repo: GameRoom.Repo
-  alias GameRoom.Games.TicTacToes.{TicTacToeMatch, TicTacToeMoviment}
-  alias GameRoom.Games.Game
-  alias GameRoom.Accounts.{User, Player}
+defmodule Robolia.Factory do
+  use ExMachina.Ecto, repo: Robolia.Repo
+  alias Robolia.Games.TicTacToes.{TicTacToeMatch, TicTacToeMoviment}
+  alias Robolia.Games.Game
+  alias Robolia.Accounts.{User, Player}
 
   def user_factory do
     %User{

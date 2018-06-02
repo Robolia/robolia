@@ -1,6 +1,6 @@
 {:ok, _} = Application.ensure_all_started(:ex_machina)
 ExUnit.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(GameRoom.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(Robolia.Repo, :manual)
 
-Mox.defmock(GameRoom.PlayerContainerMock, for: GameRoom.PlayerContainer)
+Mox.defmock(Robolia.PlayerContainerMock, for: Robolia.PlayerContainer)

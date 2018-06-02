@@ -1,4 +1,4 @@
-defmodule GameRoomWeb.ConnCase do
+defmodule RoboliaWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -19,18 +19,18 @@ defmodule GameRoomWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      import GameRoomWeb.Router.Helpers
+      import RoboliaWeb.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint GameRoomWeb.Endpoint
+      @endpoint RoboliaWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(GameRoom.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Robolia.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(GameRoom.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Robolia.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

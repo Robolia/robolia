@@ -1,4 +1,4 @@
-defmodule GameRoom.Repo.Migrations.CreateUser do
+defmodule Robolia.Repo.Migrations.CreateUser do
   use Ecto.Migration
 
   def change do

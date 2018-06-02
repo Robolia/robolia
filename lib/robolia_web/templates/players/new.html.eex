@@ -1,0 +1,21 @@
+<%= render RoboliaWeb.LayoutView, "_navbar.html", assigns %>
+
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <%= render RoboliaWeb.AccountView, "_sidebar.html", conn: @conn %>
+
+      <div class="column">
+        <h3 class="title is-4">Create a new bot for which game?</h3>
+
+        <hr />
+
+        <div class="columns is-multiline">
+          <%= for game <- @games do %>
+            <%= render RoboliaWeb.GamesView, "_game_horizontal_card.html", game: game, games_count: @games_count, conn: @conn %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

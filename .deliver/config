@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-APP="game_room"
+APP="robolia"
 
 BUILD_HOST="robolia"
 BUILD_USER="deploy"

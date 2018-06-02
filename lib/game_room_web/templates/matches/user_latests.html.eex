@@ -1,9 +1,0 @@
-<%= render GameRoomWeb.LayoutView, "_navbar.html", assigns %>
-<%= render "_subnavbar.html", assigns %>
-
-<section class="section">
-  <div class="container">
-    <h4 class="title is-5">My matches</h4>
-    <%= render "_top_table.html", conn: @conn, matches: @user_last_tic_tac_toe_matches %>
-  </div>
-</section>

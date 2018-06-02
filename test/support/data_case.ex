@@ -1,4 +1,4 @@
-defmodule GameRoom.DataCase do
+defmodule Robolia.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -16,21 +16,21 @@ defmodule GameRoom.DataCase do
 
   using do
     quote do
-      alias GameRoom.Repo
+      alias Robolia.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import GameRoom.DataCase
-      import GameRoom.Factory
+      import Robolia.DataCase
+      import Robolia.Factory
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(GameRoom.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Robolia.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(GameRoom.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Robolia.Repo, {:shared, self()})
     end
 
     :ok

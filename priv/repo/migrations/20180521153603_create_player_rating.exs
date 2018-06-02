@@ -1,4 +1,4 @@
-defmodule GameRoom.Repo.Migrations.CreatePlayerRating do
+defmodule Robolia.Repo.Migrations.CreatePlayerRating do
   use Ecto.Migration
 
   def change do
