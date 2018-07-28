@@ -1,4 +1,4 @@
-defmodule Robolia.PlayerContainer.Image do
+defmodule Robolia.PlayerContainer.ImagesSetup do
   use GenServer
   use Confex, otp_app: :robolia
 

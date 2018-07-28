@@ -1,10 +1,11 @@
 defmodule Robolia.PlayerContainer.BuildPipeline do
-  use Opus.Pipeline
-  alias Robolia.PlayerContainer.Register
   require Logger
+  use Opus.Pipeline
+  alias Robolia.PlayerContainer.{Register, ContainerSetup}
 
   check :valid_params?, with: &match?(%{game: %{id: _}, player: %{id: _}}, &1)
 
+  step(:assign_language)
   step(:clone_player_bot)
   step(:create_bot_container)
   step(:start_bot_container)
@@ -23,7 +24,7 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
     pipeline |> put_in([:bot_local_storage_path], bot_local_storage_path)
   end
 
-  def create_bot_container(%{player: %{language: language}} = pipeline) do
+  def create_bot_container(%{language: language} = pipeline) do
     container_id =
       "docker container create robolia:#{language}"
       |> run_cmd
@@ -58,19 +59,23 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
     pipeline
   end
 
-  def prepare_bot_to_run(%{container_id: container_id} = pipeline) do
+  def prepare_bot_to_run(pipeline) do
     result =
-      "docker container exec #{container_id} mix compile"
+      pipeline
+      |> ContainerSetup.generate_command()
       |> run_cmd
 
-    Logger.info("[#{__MODULE__}] Compile: #{result}")
+    Logger.info("[#{__MODULE__}] Compile: #{inspect result}")
     pipeline
   end
 
   def register_new_container(%{container_id: container_id, player: %{id: player_id}}) do
     result = container_id |> Register.new_for(player_id)
-    Logger.info("[#{__MODULE__}] Register new container: #{result}")
+    Logger.info("[#{__MODULE__}] Register new container: #{inspect result}")
   end
+
+  def assign_language(%{player: %{language: language}} = pipeline), do:
+    put_in(pipeline, [:language], language |> to_string())
 
   defp run_cmd(command) do
     command
