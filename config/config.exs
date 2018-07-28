@@ -51,7 +51,7 @@ config :robolia, Robolia.RedisClient,
   uri_connection: {:system, "REDIS_URI", "redis://localhost:6379"},
   redis_client: Redix
 
-config :robolia, Robolia.PlayerContainer.ImagesSetup, languages: [:elixir]
+config :robolia, Robolia.PlayerContainer.ImagesSetup, languages: [:elixir, :python]
 
 config :robolia, Robolia.Tasks.Calibrations.TicTacToes,
   scheduling_hour: {:system, "CALIBRATION_SCHEDULING_HOUR", 20}

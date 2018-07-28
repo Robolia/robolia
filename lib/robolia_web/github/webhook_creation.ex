@@ -3,7 +3,7 @@ defmodule RoboliaWeb.Github.WebhookCreation do
   use GenServer
 
   @github_account_name "Robolia"
-  @fork_hook_repos ["tic-tac-toe-elixir"]
+  @fork_hook_repos ["tic-tac-toe-elixir", "tic-tac-toe-python"]
 
   def start_link(name \\ __MODULE__, state \\ []) do
     GenServer.start_link(name, state)
