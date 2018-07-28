@@ -54,6 +54,8 @@ defmodule Robolia.Mixfile do
       {:opus, "~> 0.3"},
       {:slugger, "~> 0.2"},
       {:ueberauth_github, "~> 0.7"},
+      # metrics
+      {:dogstatsd, "~> 0.0"},
       # github
       {:tentacat, "~> 1.0"},
       {:redix, "~> 0.7"},

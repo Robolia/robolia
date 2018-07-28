@@ -8,10 +8,11 @@ defmodule Robolia.Tasks.TicTacToesRegularCompetition do
 
   alias Robolia.Games.TicTacToes.RunMatchesPipeline
   alias Robolia.Games.{Game, Queries}
-  alias Robolia.Repo
+  alias Robolia.{Repo, Metrics}
 
   def run do
     tictactoe = Game |> Queries.for_game(%{slug: "tic-tac-toe"}) |> Repo.one!()
     RunMatchesPipeline.call(%{game: tictactoe})
+    Metrics.increment("competitions.tic_tac_toes.regular")
   end
 end
