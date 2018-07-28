@@ -54,7 +54,7 @@ config :robolia, Robolia.RedisClient,
 config :robolia, Robolia.PlayerContainer.ImagesSetup, languages: [:elixir]
 
 config :robolia, Robolia.Tasks.Calibrations.TicTacToes,
-  scheduling_hour: 20
+  scheduling_hour: {:system, "CALIBRATION_SCHEDULING_HOUR", 20}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

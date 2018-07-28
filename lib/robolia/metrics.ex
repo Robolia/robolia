@@ -16,9 +16,5 @@ defmodule Robolia.Metrics do
     statsd
   end
 
-  defp statsd_server, do: "localhost"
-
-  defp statsd_port, do: 8125
-
   defp metric_prefix, do: "robolia"
 end

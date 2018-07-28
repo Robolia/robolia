@@ -3,6 +3,8 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
   use Opus.Pipeline
   alias Robolia.PlayerContainer.{Register, ContainerSetup}
 
+  @resource_limit_options "--cpus=0.3 --memory=100m --network=none"
+
   check :valid_params?, with: &match?(%{game: %{id: _}, player: %{id: _}}, &1)
 
   step(:assign_language)
@@ -26,7 +28,7 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
 
   def create_bot_container(%{language: language} = pipeline) do
     container_id =
-      "docker container create robolia:#{language}"
+      "docker container create #{@resource_limit_options} robolia:#{language}"
       |> run_cmd
 
     Logger.info("[#{__MODULE__}] Container created: #{container_id}")
