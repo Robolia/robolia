@@ -52,5 +52,5 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
     Process.send_after(self(), :run, @one_hour)
   end
 
-  defp scheduling_hour, do: config()[:scheduling_hour] |> String.to_integer()
+  defp scheduling_hour, do: config()[:scheduling_hour]
 end
