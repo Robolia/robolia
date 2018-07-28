@@ -59,9 +59,6 @@ defmodule Robolia.Mixfile do
       # github
       {:tentacat, "~> 1.0"},
       {:redix, "~> 0.7"},
-      # scheduler
-      {:quantum, "~> 2.2"},
-      {:timex, "~> 3.0"},
       # rating system
       {:elo, "~> 0.1.0"},
       # Test

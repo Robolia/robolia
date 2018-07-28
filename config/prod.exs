@@ -22,6 +22,8 @@ config :robolia, RoboliaWeb.Endpoint,
   root: '.',
   version: Application.spec(:robolia, :vsn)
 
+config :robolia, Robolia.Application, env: :prod
+
 # Do not print debug messages in production
 config :logger, level: :info
 

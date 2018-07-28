@@ -8,6 +8,8 @@ use Mix.Config
 # General application configuration
 config :robolia, ecto_repos: [Robolia.Repo]
 
+config :robolia, Robolia.Application, env: :dev
+
 # Configures the endpoint
 config :robolia, RoboliaWeb.Endpoint,
   url: [host: "localhost"],
@@ -49,14 +51,10 @@ config :robolia, Robolia.RedisClient,
   uri_connection: {:system, "REDIS_URI", "redis://localhost:6379"},
   redis_client: Redix
 
-config :robolia, Robolia.Schedulers.BattleScheduler,
-  global: true,
-  timezone: :utc,
-  jobs: [
-    {"* 19 * * *", {Robolia.Tasks.TicTacToesRegularCompetition, :run, []}}
-  ]
-
 config :robolia, Robolia.PlayerContainer.Image, languages: [:elixir]
+
+config :robolia, Robolia.Tasks.Calibrations.TicTacToes,
+  scheduling_hour: 20
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

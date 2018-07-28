@@ -6,6 +6,8 @@ config :robolia, RoboliaWeb.Endpoint,
   http: [port: 4001],
   server: false
 
+config :robolia, Robolia.Application, env: :test
+
 # Print only warnings and errors during test
 config :logger, level: :warn
 
