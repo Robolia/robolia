@@ -21,6 +21,13 @@ game = Robolia.Games.create_game!(%{
   game_id: game.id
 } |> Robolia.Repo.insert()
 
+{:ok, _} = %Robolia.Games.GameRepository{
+  repository_url: "https://github.com/Robolia/tic-tac-toe-python",
+  language: "python",
+  image_url: "https://avatars0.githubusercontent.com/u/1525981?s=200&v=4",
+  game_id: game.id
+} |> Robolia.Repo.insert()
+
 user = Robolia.Accounts.create_user!(%{
   name: "Robolia",
   github_id: -1,

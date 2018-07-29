@@ -22,13 +22,13 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
       "git clone #{player.repository_clone_url} #{bot_local_storage_path}"
       |> run_cmd
 
-    Logger.info("[#{__MODULE__}] Clone bot: #{result}")
+    Logger.info("[#{__MODULE__}] Clone bot: #{inspect(result)}")
     pipeline |> put_in([:bot_local_storage_path], bot_local_storage_path)
   end
 
   def create_bot_container(%{language: language} = pipeline) do
     container_id =
-      "docker container create #{@resource_limit_options} robolia:#{language}"
+      "docker container create #{@resource_limit_options} -it robolia:#{language}"
       |> run_cmd
 
     Logger.info("[#{__MODULE__}] Container created: #{container_id}")
@@ -40,7 +40,7 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
       "docker container start #{container_id}"
       |> run_cmd
 
-    Logger.info("[#{__MODULE__}] Start bot: #{result}")
+    Logger.info("[#{__MODULE__}] Start bot: #{inspect(result)}")
     pipeline
   end
 
@@ -57,27 +57,28 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
       "docker cp #{bot_local_storage_path}. #{container_id}:/app"
       |> run_cmd
 
-    Logger.info("[#{__MODULE__}] Copied bot to container: #{result}")
+    Logger.info("[#{__MODULE__}] Copied bot to container: #{inspect(result)}")
     pipeline
   end
 
   def prepare_bot_to_run(pipeline) do
-    result =
-      pipeline
-      |> ContainerSetup.generate_command()
-      |> run_cmd
+    cmd = pipeline |> ContainerSetup.generate_command()
 
-    Logger.info("[#{__MODULE__}] Compile: #{inspect result}")
+    if !is_nil(cmd) do
+      result = run_cmd(cmd)
+      Logger.info("[#{__MODULE__}] Preparation result: #{inspect(result)} for #{inspect(cmd)}")
+    end
+
     pipeline
   end
 
   def register_new_container(%{container_id: container_id, player: %{id: player_id}}) do
     result = container_id |> Register.new_for(player_id)
-    Logger.info("[#{__MODULE__}] Register new container: #{inspect result}")
+    Logger.info("[#{__MODULE__}] Register new container: #{inspect(result)}")
   end
 
-  def assign_language(%{player: %{language: language}} = pipeline), do:
-    put_in(pipeline, [:language], language |> to_string())
+  def assign_language(%{player: %{language: language}} = pipeline),
+    do: put_in(pipeline, [:language], language |> to_string())
 
   defp run_cmd(command) do
     command

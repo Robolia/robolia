@@ -13,9 +13,11 @@
         <div class="has-text-centered">
           <h5 class="subtitle is-5">1. Choose the language of your new bot</h5>
 
-          <%= for repository <- @game.repositories do %>
-            <%= render "_language_horizontal_card.html", conn: @conn, repository: repository, languages_count: @languages_count %>
-          <% end %>
+          <div class="columns">
+            <%= for repository <- @game.repositories do %>
+              <%= render "_language_horizontal_card.html", conn: @conn, repository: repository, languages_count: @languages_count %>
+            <% end %>
+          </div>
 
           <br />
           <br />

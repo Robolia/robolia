@@ -22,19 +22,25 @@ defmodule Robolia.Application do
 
   defp children do
     [:framework, :app_setup, :calibrations]
-    |> Enum.map(fn stage -> children(stage, config()) end)
+    |> Enum.map(fn stage -> children(stage, config() |> Map.new()) end)
     |> List.flatten()
   end
 
+  defp children(:framework, %{redis: redis}) do
+    redis = Map.new(redis)
 
-  defp children(:framework, _) do
     [
       supervisor(Robolia.Repo, []),
       supervisor(RoboliaWeb.Endpoint, []),
+      worker(redis.client, [
+        [host: redis.host, port: redis.port],
+        [name: :redis, sync_connect: redis.sync_connect]
+      ])
     ]
   end
 
-  defp children(:app_setup, [env: :test]), do: []
+  defp children(:app_setup, %{env: :test}), do: []
+
   defp children(:app_setup, _) do
     [
       worker(RoboliaWeb.Github.WebhookCreation, []),
@@ -42,7 +48,8 @@ defmodule Robolia.Application do
     ]
   end
 
-  defp children(:calibrations, [env: :test]), do: []
+  defp children(:calibrations, %{env: :test}), do: []
+
   defp children(:calibrations, _) do
     [worker(Robolia.Tasks.Calibrations.TicTacToes, [])]
   end
