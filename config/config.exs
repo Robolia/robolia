@@ -8,7 +8,14 @@ use Mix.Config
 # General application configuration
 config :robolia, ecto_repos: [Robolia.Repo]
 
-config :robolia, Robolia.Application, env: :dev
+config :robolia, Robolia.Application,
+  env: :dev,
+  redis: [
+    client: Redix,
+    host: {:system, :string, "REDIS_HOST", "localhost"},
+    port: {:system, :integer, "REDIS_PORT", 6379},
+    sync_connect: true
+  ]
 
 # Configures the endpoint
 config :robolia, RoboliaWeb.Endpoint,
@@ -47,9 +54,7 @@ config :robolia, RoboliaWeb.Github.WebhookCreation,
   uri_scheme: {:system, "URI_SCHEME", "http"},
   uri_host: {:system, "URI_HOST", "localhost:4000"}
 
-config :robolia, Robolia.RedisClient,
-  uri_connection: {:system, "REDIS_URI", "redis://localhost:6379"},
-  redis_client: Redix
+config :robolia, Robolia.RedisClient, redis_client: Redix
 
 config :robolia, Robolia.PlayerContainer.ImagesSetup, languages: [:elixir, :python]
 

@@ -3,8 +3,5 @@ defmodule Robolia.PlayerContainer.ContainerSetup do
     "docker container exec #{container_id} mix compile"
   end
 
-  def generate_command(attrs) do
-    require Logger
-    Logger.warn("[#{__MODULE__}] No match found setting up the container with: #{inspect attrs}")
-  end
+  def generate_command(_), do: nil
 end

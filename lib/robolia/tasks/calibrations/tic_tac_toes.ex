@@ -16,8 +16,9 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
 
   @one_hour 1 * 60 * 60 * 1000
 
-  def start_link(name \\ __MODULE__, state \\ []), do:
+  def start_link(name \\ __MODULE__, state \\ []) do
     GenServer.start_link(name, state)
+  end
 
   @impl true
   def init(state) do
