@@ -26,6 +26,10 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 `mix run priv/repo/seeds.exs`
 
+## Deployment
+
+`./scripts/deploy`
+
 ## Author
 
 * **Rafael Soares** - https://github.com/rafaels88
