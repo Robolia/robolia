@@ -1,7 +1,10 @@
 defmodule RoboliaWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :robolia
 
-  socket("/socket", RoboliaWeb.UserSocket)
+  socket("/socket", RoboliaWeb.UserSocket,
+    websocket: true
+    # longpool: [check_origin: "..."]
+  )
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -29,7 +32,7 @@ defmodule RoboliaWeb.Endpoint do
     Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Jason
   )
 
   plug(Plug.MethodOverride)

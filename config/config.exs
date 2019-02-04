@@ -5,6 +5,22 @@
 # is restricted to this project.
 use Mix.Config
 
+config :phoenix, :json_library, Jason
+
+config :ueberauth, Ueberauth,
+  providers: [
+    github: {Ueberauth.Strategy.Github, [send_redirect_uri: false, default_scope: "user,user:email,public_repo"]}
+  ]
+
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: System.get_env("GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
+
+# Configures Elixir's Logger
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:user_id]
+
 # General application configuration
 config :robolia, ecto_repos: [Robolia.Repo]
 
@@ -26,26 +42,11 @@ config :robolia, RoboliaWeb.Endpoint,
 
 # Configure your database
 config :robolia, Robolia.Repo,
-  adapter: Ecto.Adapters.Postgres,
   username: {:system, "DB_USERNAME", "postgres"},
   password: {:system, "DB_PASSWORD", "postgres"},
   hostname: {:system, "DB_HOSTNAME", "localhost"},
   database: {:system, "DB_DATABASE", "robolia_dev"},
   pool_size: 10
-
-# Configures Elixir's Logger
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:user_id]
-
-config :ueberauth, Ueberauth,
-  providers: [
-    github: {Ueberauth.Strategy.Github, [send_redirect_uri: false]}
-  ]
-
-config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: System.get_env("GITHUB_CLIENT_ID"),
-  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
 
 config :robolia, player_script_runner: Robolia.PlayerContainer
 

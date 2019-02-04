@@ -3,7 +3,7 @@ defmodule RoboliaWeb.UserFromProvider do
   Retrieve the user information from an auth request
   """
   require Logger
-  require Poison
+  require Jason
 
   alias Ueberauth.Auth
 

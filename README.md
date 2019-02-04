@@ -6,7 +6,7 @@ Robolia is a platform for bot battles on top of different games.
 
 ## Prerequisites
 
-* Elixir >= 1.6
+* Elixir >= 1.8
 * Postgresql >= 10
 
 ## Installing

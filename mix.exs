@@ -5,7 +5,7 @@ defmodule Robolia.Mixfile do
     [
       app: :robolia,
       version: "0.0.1",
-      elixir: "~> 1.4",
+      elixir: "~> 1.8",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -40,25 +40,29 @@ defmodule Robolia.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.2"},
+      {:phoenix, "~> 1.4.0"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2"},
+      {:ecto_sql, "~> 3.0"},
+      {:phoenix_ecto, "~> 4.0"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"},
+      {:plug_cowboy, "~> 2.0"},
+      {:plug, "~> 1.7"},
+      {:jason, "~> 1.0"},
       {:confex, "~> 3.3.1"},
       {:edeliver, "~> 1.5.0"},
       {:distillery, "~> 1.0.0", warn_missing: false},
       {:opus, "~> 0.3"},
       {:slugger, "~> 0.2"},
       {:ueberauth_github, "~> 0.7"},
+      {:poison, "~> 3.1"},
       # metrics
       {:dogstatsd, "~> 0.0"},
       # github
       {:tentacat, "~> 1.0"},
-      {:redix, "~> 0.7"},
+      {:redix, "~> 0.9"},
       # rating system
       {:elo, "~> 0.1.0"},
       # Test

@@ -1,5 +1,7 @@
 defmodule Robolia.Repo do
-  use Ecto.Repo, otp_app: :robolia
+  use Ecto.Repo,
+    otp_app: :robolia,
+    adapter: Ecto.Adapters.Postgres
 
   @doc """
   Dynamically loads the repository url from the

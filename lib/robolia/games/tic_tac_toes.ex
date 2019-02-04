@@ -14,7 +14,7 @@ defmodule Robolia.Games.TicTacToes do
     |> TicTacToeMatch.changeset(attrs)
     |> Repo.insert!()
   rescue
-    e in Ecto.InvalidChangesetError -> error(e)
+    e in Ecto.InvalidChangesetError -> error(e, __STACKTRACE__)
   end
 
   def update_match!(%TicTacToeMatch{} = match, attrs) do
@@ -83,8 +83,8 @@ defmodule Robolia.Games.TicTacToes do
         moviment
     end
   rescue
-    e in Ecto.InvalidChangesetError -> error(e)
-    e in Ecto.ConstraintError -> error(e)
+    e in Ecto.InvalidChangesetError -> error(e, __STACKTRACE__)
+    e in Ecto.ConstraintError -> error(e, __STACKTRACE__)
   end
 
   def current_state(%TicTacToeMatch{} = match) do
@@ -129,7 +129,7 @@ defmodule Robolia.Games.TicTacToes do
     |> count() > 0
   end
 
-  defp error(exception) do
-    reraise GameError, [exception: exception], System.stacktrace()
+  defp error(exception, stacktrace) do
+    reraise GameError, [exception: exception], stacktrace
   end
 end

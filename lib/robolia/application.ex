@@ -33,8 +33,7 @@ defmodule Robolia.Application do
       supervisor(Robolia.Repo, []),
       supervisor(RoboliaWeb.Endpoint, []),
       worker(redis.client, [
-        [host: redis.host, port: redis.port],
-        [name: :redis, sync_connect: redis.sync_connect]
+        [host: redis.host, port: redis.port, name: :redis]
       ])
     ]
   end
