@@ -8,13 +8,17 @@ Robolia is a platform for bot battles on top of different games.
 
 * Elixir >= 1.8
 * Postgresql >= 10
+* Docker
 
 ## Installing
 
+* You must login in Docker CLI before starting the application, by doing `docker login`
 * Copy `.env.sample` to `.env` and change the values might need
 * Install dependencies with `mix deps.get`
 * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
 * Start Phoenix endpoint with `mix phx.server`
+
+In the background, the application will start creating the docker images for the languages. Wait untill all of them are created.
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 

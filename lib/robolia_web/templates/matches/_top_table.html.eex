@@ -23,7 +23,7 @@
             </span>
             <div class="is-block subtitle is-7">
               <ul class="info-list">
-                <li class="is-inline"><%= match.status |> status_label %></li>
+                <li class="is-inline">(status)</li>
                 <li class="is-inline">Last update at <%= format_match_date(match.updated_at) %></li>
               </ul>
             </div>

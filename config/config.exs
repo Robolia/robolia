@@ -9,7 +9,9 @@ config :phoenix, :json_library, Jason
 
 config :ueberauth, Ueberauth,
   providers: [
-    github: {Ueberauth.Strategy.Github, [send_redirect_uri: false, default_scope: "user,user:email,public_repo"]}
+    github:
+      {Ueberauth.Strategy.Github,
+       [send_redirect_uri: false, default_scope: "user,user:email,public_repo"]}
   ]
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,

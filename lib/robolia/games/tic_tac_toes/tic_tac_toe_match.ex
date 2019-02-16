@@ -10,7 +10,7 @@ defmodule Robolia.Games.TicTacToes.TicTacToeMatch do
 
   schema "tic_tac_toe_matches" do
     field(:status, :integer)
-    field(:finished_at, :utc_datetime)
+    field(:finished_at, :naive_datetime)
 
     belongs_to(:first_player, Player, foreign_key: :first_player_id)
     belongs_to(:second_player, Player, foreign_key: :second_player_id)

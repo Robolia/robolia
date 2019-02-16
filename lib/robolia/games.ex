@@ -3,7 +3,7 @@ defmodule Robolia.Games do
   alias Robolia.Repo
 
   def create_game!(%{name: name} = attrs) do
-    attrs = attrs |> Enum.into(%{slug: name |> Slugger.slugify_downcase()})
+    attrs = Enum.into(attrs, %{slug: Slugger.slugify_downcase(name)})
 
     %Game{}
     |> Game.changeset(attrs)

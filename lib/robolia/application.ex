@@ -43,7 +43,8 @@ defmodule Robolia.Application do
   defp children(:app_setup, _) do
     [
       worker(RoboliaWeb.Github.WebhookCreation, []),
-      worker(Robolia.PlayerContainer.ImagesSetup, [])
+      worker(Robolia.PlayerContainer.ImagesSetup, []),
+      worker(RoboliaWeb.Subscriber, [])
     ]
   end
 

@@ -15,11 +15,15 @@ defmodule Robolia.Games.TicTacToes.Queries do
     )
   end
 
-  def for_match(TicTacToeMoviment = query, %{id: match_id}) do
+  def for_match(TicTacToeMoviment = query, %{id: match_id} = conds) do
+    for_match(query, conds, %{ordered: :turn})
+  end
+
+  def for_match(TicTacToeMoviment = query, %{id: match_id}, %{ordered: :turn}) do
     from(
       q in query,
       where: q.tic_tac_toe_match_id == ^match_id,
-      order_by: q.inserted_at
+      order_by: q.turn
     )
   end
 

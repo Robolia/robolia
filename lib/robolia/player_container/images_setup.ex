@@ -17,9 +17,14 @@ defmodule Robolia.PlayerContainer.ImagesSetup do
   end
 
   def build(language) do
+    require Logger
+    Logger.info("[#{__MODULE__}] Building Docker Image for #{inspect(language)}, please wait...")
+
     "cd #{docker_files_dir()} && docker build --tag=robolia:#{language} -f=Dockerfile_#{language} ."
     |> to_charlist
     |> :os.cmd()
+
+    Logger.info("[#{__MODULE__}] Docker Image for #{inspect(language)} created.")
   end
 
   def languages, do: config()[:languages]

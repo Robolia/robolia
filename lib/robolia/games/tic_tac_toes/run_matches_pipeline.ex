@@ -1,6 +1,7 @@
 defmodule Robolia.Games.TicTacToes.RunMatchesPipeline do
   use Opus.Pipeline
 
+  alias Phoenix.PubSub
   alias Robolia.Accounts.Queries, as: AccountQueries
   alias Robolia.Accounts.Player
   alias Robolia.Games.{TicTacToes, Rating}
@@ -45,7 +46,9 @@ defmodule Robolia.Games.TicTacToes.RunMatchesPipeline do
       PlayerContainer.delete(%{game: game, player: p1})
       PlayerContainer.delete(%{game: game, player: p2})
 
+      match = TicTacToes.update_match!(match, %{finished_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)})
       Rating.update_players_rating(match)
+      PubSub.broadcast(Robolia.PubSub, "match_finished", %{match: match, event: "match_finished"})
     end
   end
 end

@@ -1,4 +1,5 @@
 defmodule Robolia.Games.TicTacToes.Match do
+  alias Phoenix.PubSub
   alias TicTacToeBoard
   alias Robolia.Games.TicTacToes
   alias Robolia.GameError
@@ -11,11 +12,10 @@ defmodule Robolia.Games.TicTacToes.Match do
         {:ok, match}
 
       {false, _} ->
-        current_state = match |> TicTacToes.current_state()
-        next_turn = current_state |> TicTacToeBoard.next_turn()
+        current_state = TicTacToes.current_state(match)
+        next_turn = TicTacToeBoard.next_turn(current_state)
 
-        match
-        |> TicTacToes.add_moviment!(%{
+        TicTacToes.add_moviment!(match, %{
           position:
             fetch_player_moviment(%{
               match: match,
@@ -25,6 +25,8 @@ defmodule Robolia.Games.TicTacToes.Match do
           player_id: match.next_player_id,
           turn: next_turn
         })
+
+        PubSub.broadcast(Robolia.PubSub, "moviment_created", %{match: match, event: "moviment_created"})
 
         match
         |> TicTacToes.refresh()

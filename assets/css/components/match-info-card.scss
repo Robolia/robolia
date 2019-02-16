@@ -1,0 +1,20 @@
+.match-info-card {
+  .moviment-list {
+    counter-reset: li-counter;
+    list-style-type: none;
+
+    li {
+      font-weight: bold;
+      letter-spacing: 18px;
+    }
+
+    li:before {
+      content: counter(li-counter);
+      counter-increment: li-counter;
+      font-style: italic;
+      font-weight: normal;
+      padding-left: 3px;
+      padding-right: 20px;
+    }
+  }
+}

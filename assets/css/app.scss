@@ -1,2 +1,11 @@
 /* This file is for your main application css. */
 @import "bulma";
+@import "navbar";
+
+@import "match";
+@import "components/player";
+@import "components/match-info-card";
+
+@import "boards/tic-tac-toe";
+
+@import url('https://fonts.googleapis.com/css?family=Caveat:700');

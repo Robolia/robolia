@@ -1,0 +1,49 @@
+$square-border: #333 solid 2px;
+
+.tic-tac-toes {
+  &.board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(130px, 180px));
+    grid-template-rows: repeat(3, 180px);
+    place-content: center;
+
+    .square {
+      font-family: 'Caveat', cursive;
+      font-size: 3rem;
+      line-height: 150px;
+      text-align: center;
+      text-transform: capitalize;
+
+      &.x { color: blue }
+      &.o { color: red }
+
+      &:nth-child(1) {
+        border-bottom: $square-border;
+      }
+      &:nth-child(2) {
+        border-bottom: $square-border;
+        border-left: $square-border;
+        border-right: $square-border;
+      }
+      &:nth-child(3) {
+        border-bottom: $square-border;
+      }
+
+      &:nth-child(5) {
+        border-right: $square-border;
+        border-left: $square-border;
+      }
+      &:nth-child(7) {
+        border-top: $square-border;
+      }
+      &:nth-child(8) {
+        border-top: $square-border;
+        border-left: $square-border;
+        border-right: $square-border;
+      }
+      &:nth-child(9) {
+        border-top: $square-border;
+      }
+    }
+  }
+}
