@@ -1,4 +1,4 @@
-defmodule Robolia.Competitions.RandomGroupedAllAgainstAll do
+defmodule Competitions.RandomGroupedAllAgainstAll do
   @doc """
   Generate a list of tuples where each tuple has the players that are going to battle
   against each other.
@@ -17,18 +17,19 @@ defmodule Robolia.Competitions.RandomGroupedAllAgainstAll do
   ### Usage
 
   iex> players = [player1, player2, player3, player4]
-  iex> GroupedAllAgainstAll.generate_matches(%{players: players, per_group: 2})
+  iex> RandomGroupedAllAgainstAll.generate_matches(%{players: players, per_group: 2})
   [{player1, player2}, {player2, player1}, {player3, player4}, {player4, player3}]
 
   iex> players = [player1, player2, player3]
-  iex> GroupedAllAgainstAll.generate_matches(%{players: players, per_group: 3})
+  iex> RandomGroupedAllAgainstAll.generate_matches(%{players: players, per_group: 3})
   [{player1, player2}, {player1, player3}, {player2, player1}, {player2, player3}, {player3, player1}, {player3, player2}]
 
   Note that on the examples above, players are not shuffled. But in practice they will be.
   """
   @spec generate_matches(%{players: list(), per_group: integer()}) :: list(tuple())
   def generate_matches(%{players: players, per_group: per_group}) when is_integer(per_group) do
-    generate_groups(%{players: players, per_group: per_group})
+    %{players: players, per_group: per_group}
+    |> generate_groups()
     |> Enum.flat_map(&organize_matches/1)
   end
 
@@ -67,7 +68,8 @@ defmodule Robolia.Competitions.RandomGroupedAllAgainstAll do
   defp distribute_last_group_between_others(groups, per_group) do
     last_group = groups |> List.last() |> fill_group_with_nil(per_group)
 
-    Enum.drop(groups, -1)
+    groups
+    |> Enum.drop(-1)
     |> Enum.zip(last_group)
     |> Enum.map(fn group ->
       (elem(group, 0) ++ [elem(group, 1)]) |> Enum.reject(&is_nil/1)

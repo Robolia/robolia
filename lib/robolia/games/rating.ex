@@ -23,7 +23,7 @@ defmodule Robolia.Games.Rating do
       EloRating.calculate_new_rate(%{
         player_rating: player_rating.rating,
         opponent_rating: opponent_rating.rating,
-        result: match |> fetch_result_for_p1
+        result: fetch_result_for_p1(match)
       })
 
     Accounts.update_player_rating(player_rating, %{new_rating: player_new_rating})

@@ -10,10 +10,10 @@ defmodule Robolia.PlayerContainer do
         player: %{id: player_id, language: language},
         current_state: current_state,
         next_turn: next_turn,
-        bot_runner: bot_runner
+        runner_adapter: runner_adapter
       }) do
     bot_command =
-      bot_runner.command(%{language: language, current_state: current_state, next_turn: next_turn})
+      runner_adapter.command(%{language: language, current_state: current_state, next_turn: next_turn})
 
     container_id = Register.container_id_for(player_id)
 
@@ -33,7 +33,7 @@ defmodule Robolia.PlayerContainer do
   defp run_cmd(string) do
     string
     |> String.trim()
-    |> to_charlist
+    |> to_charlist()
     |> :os.cmd()
   end
 end

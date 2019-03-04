@@ -15,7 +15,7 @@ defmodule Robolia.Games.TicTacToes.Queries do
     )
   end
 
-  def for_match(TicTacToeMoviment = query, %{id: match_id} = conds) do
+  def for_match(TicTacToeMoviment = query, %{id: _match_id} = conds) do
     for_match(query, conds, %{ordered: :turn})
   end
 

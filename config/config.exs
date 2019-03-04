@@ -50,7 +50,7 @@ config :robolia, Robolia.Repo,
   database: {:system, "DB_DATABASE", "robolia_dev"},
   pool_size: 10
 
-config :robolia, player_script_runner: Robolia.PlayerContainer
+config :robolia, player_bot_runner: Robolia.PlayerContainer
 
 config :robolia, RoboliaWeb.Github.WebhookCreation,
   access_token: {:system, "GITHUB_ACCESS_TOKEN_WEBHOOK", ""},

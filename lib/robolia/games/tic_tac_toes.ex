@@ -1,7 +1,7 @@
 defmodule Robolia.Games.TicTacToes do
+  alias Boards.TicTacToeBoard
   alias Robolia.Games.TicTacToes.{TicTacToeMatch, TicTacToeMoviment, Queries}
   alias Robolia.{GameError, Repo}
-  alias TicTacToeBoard
 
   def refresh(%TicTacToeMatch{} = match) do
     TicTacToeMatch
@@ -18,12 +18,13 @@ defmodule Robolia.Games.TicTacToes do
   end
 
   def update_match!(%TicTacToeMatch{} = match, attrs) do
-    Ecto.Changeset.change(match, attrs)
+    match
+    |> Ecto.Changeset.change(attrs)
     |> Repo.update!()
   end
 
   def add_moviment!(%TicTacToeMatch{id: match_id} = match, %{position: position} = attrs) do
-    unless match |> player_playing?(attrs),
+    unless player_playing?(match, attrs),
       do: raise(GameError, message: "Given player is not playing this match")
 
     case match |> current_state |> TicTacToeBoard.valid_position?(position) do
@@ -88,7 +89,7 @@ defmodule Robolia.Games.TicTacToes do
   end
 
   def current_state(%TicTacToeMatch{} = match) do
-    match = match |> Repo.preload(:moviments)
+    match = Repo.preload(match, :moviments)
 
     match.moviments
     |> Enum.map(fn %{player_id: player_id} = mov ->
@@ -97,7 +98,7 @@ defmodule Robolia.Games.TicTacToes do
       {String.to_atom("p#{mov.position}"), mark}
     end)
     |> Map.new()
-    |> Enum.into(%{
+    |> Enum.into(%{ # TODO: fetch this initial state from the Board
       p1: nil,
       p2: nil,
       p3: nil,

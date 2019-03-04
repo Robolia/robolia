@@ -1,6 +1,6 @@
-defmodule Robolia.Competitions.RandomGroupedAllAgainstAllTest do
+defmodule Competitions.RandomGroupedAllAgainstAllTest do
   use ExUnit.Case
-  alias Robolia.Competitions.RandomGroupedAllAgainstAll, as: Subject
+  alias Competitions.RandomGroupedAllAgainstAll, as: Subject
 
   describe "generate_matches/1" do
     test "returns a list of players to battle against each other when 4 players with 1 groups" do

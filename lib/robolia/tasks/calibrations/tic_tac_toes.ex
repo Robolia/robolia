@@ -10,8 +10,7 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
   use GenServer
   use Confex, otp_app: :robolia
 
-  alias Robolia.Games.TicTacToes.RunMatchesPipeline
-  alias Robolia.Games.{Game, Queries}
+  alias Robolia.Games.{Game, Queries, RunMatches}
   alias Robolia.{Repo, Metrics}
 
   @one_hour 1 * 60 * 60 * 1000
@@ -29,7 +28,7 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
 
   @impl true
   def handle_info(:run, state) do
-    if Time.utc_now() |> scheduling_hour?() do
+    if scheduling_hour?(Time.utc_now()) do
       run()
     end
 
@@ -37,10 +36,30 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
     {:noreply, state}
   end
 
+  @impl true
+  def handle_call(:run, _from, state) do
+    Logger.info("[#{__MODULE__}] Running calibration for Tic Tac Toes in background...")
+    run()
+
+    {:reply, state}
+  end
+
   defp run do
     Logger.info("[#{__MODULE__}] Running")
-    tictactoe = Game |> Queries.for_game(%{slug: "tic-tac-toe"}) |> Repo.one!()
-    RunMatchesPipeline.call(%{game: tictactoe})
+
+    tictactoe =
+      Game
+      |> Queries.for_game(%{slug: "tic-tac-toe"})
+      |> Repo.one!()
+
+    RunMatches.call(%{
+      competition: Competitions.RandomGroupedAllAgainstAll,
+      competition_opts: %{per_group: 5},
+      emulator: Robolia.Games.TicTacToes.Emulator,
+      game: tictactoe,
+      game_aggregator: Robolia.Games.TicTacToes
+    })
+
     Metrics.increment("competitions.tic_tac_toes.regular")
   end
 
