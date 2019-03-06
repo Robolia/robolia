@@ -41,7 +41,7 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
     Logger.info("[#{__MODULE__}] Running calibration for Tic Tac Toes in background...")
     run()
 
-    {:reply, state}
+    {:noreply, state}
   end
 
   defp run do
@@ -52,10 +52,14 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
       |> Queries.for_game(%{slug: "tic-tac-toe"})
       |> Repo.one!()
 
-    RunMatches.call(%{
+    {:ok, _} = RunMatches.call(%{
       competition: Competitions.RandomGroupedAllAgainstAll,
       competition_opts: %{per_group: 5},
-      emulator: Robolia.Games.TicTacToes.Emulator,
+      emulator: Robolia.Emulators.BoardGamesEmulator,
+      emulator_config: %{
+        board: Boards.TicTacToeBoard,
+        bot_runner_adapter: Robolia.Games.TicTacToes.BotRunnerAdapter
+      },
       game: tictactoe,
       game_aggregator: Robolia.Games.TicTacToes
     })

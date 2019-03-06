@@ -7,17 +7,22 @@ defmodule Robolia.Games.RunMatches do
   alias Robolia.Accounts.Queries, as: AccountQueries
   alias Robolia.Games.Rating
 
-  check :valid_params?, with: &match?(%{
-    competition: _,
-    competition_opts: _,
-    emulator: _,
-    game: _,
-    game_aggregator: _
-  }, &1)
+  check :valid_params?,
+    with:
+      &match?(
+        %{
+          competition: _,
+          competition_opts: _,
+          emulator: _,
+          game: _,
+          game_aggregator: _
+        },
+        &1
+      )
 
-  step :fetch_players
-  step :generate_matches
-  step :run_matches
+  step(:fetch_players)
+  step(:generate_matches)
+  step(:run_matches)
 
   def fetch_players(%{game: game} = data) do
     players =
@@ -29,7 +34,9 @@ defmodule Robolia.Games.RunMatches do
     put_in(data, [:players], players)
   end
 
-  def generate_matches(%{players: players, competition: competition, competition_opts: competition_opts} = data) do
+  def generate_matches(
+        %{players: players, competition: competition, competition_opts: competition_opts} = data
+      ) do
     matches =
       %{players: players}
       |> Map.merge(competition_opts)
@@ -38,9 +45,18 @@ defmodule Robolia.Games.RunMatches do
     put_in(data, [:matches], matches)
   end
 
-  def run_matches(%{game: game, matches: matches, emulator: emulator, game_aggregator: game_aggregator} = data) do
+  def run_matches(
+        %{game: game, matches: matches, emulator: emulator, game_aggregator: game_aggregator, emulator_config: emulator_config} =
+          data
+      ) do
     for players_of_match <- matches do
-      {:ok, match} = emulator.run_match(%{players: players_of_match, game: game, game_aggregator: game_aggregator})
+      {:ok, match} =
+        emulator.run_match(%{
+          players: players_of_match,
+          game: game,
+          game_aggregator: game_aggregator,
+          config: emulator_config
+        })
 
       match = game_aggregator.update_match!(match, %{finished_at: current_datetime()})
       Rating.update_players_rating(match)

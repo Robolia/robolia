@@ -1,4 +1,5 @@
 defmodule Robolia.PlayerContainer.ImagesSetup do
+  require Logger
   use GenServer
   use Confex, otp_app: :robolia
 
@@ -12,12 +13,11 @@ defmodule Robolia.PlayerContainer.ImagesSetup do
   end
 
   def handle_info(:build_images, state) do
-    languages() |> Enum.each(&build/1)
+    Enum.each(languages(), &build/1)
     {:noreply, state}
   end
 
   def build(language) do
-    require Logger
     Logger.info("[#{__MODULE__}] Building Docker Image for #{inspect(language)}, please wait...")
 
     "cd #{docker_files_dir()} && docker build --tag=robolia:#{language} -f=Dockerfile_#{language} ."

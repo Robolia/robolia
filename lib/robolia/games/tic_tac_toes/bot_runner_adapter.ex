@@ -1,4 +1,4 @@
-defmodule Robolia.PlayerContainer.TicTacToe do
+defmodule Robolia.Games.TicTacToes.BotRunnerAdapter do
   import Robolia.Data, only: [into_python_repr: 1]
 
   def command(%{language: "elixir", current_state: board, next_turn: next_turn}) do
@@ -12,4 +12,12 @@ defmodule Robolia.PlayerContainer.TicTacToe do
   end
 
   def command(_), do: nil
+
+  def parse_bot_response(response) do
+    response
+    |> to_string()
+    |> String.trim()
+    |> Integer.parse()
+    |> elem(0)
+  end
 end

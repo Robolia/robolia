@@ -12,6 +12,7 @@ defmodule RoboliaWeb.Subscriber do
   @match_finished_event "match_finished"
 
   def start_link, do: start_link(%{name: @name})
+
   def start_link(%{name: name}) do
     {:ok, _server} = GenServer.start_link(@name, nil, name: name)
   end

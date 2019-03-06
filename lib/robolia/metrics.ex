@@ -9,7 +9,7 @@ defmodule Robolia.Metrics do
 
   @doc "Increment the counter for a given metric"
   @spec increment(String.t()) :: any()
-  def increment(metric), do: connection() |> DogStatsd.increment("#{metric_prefix()}.#{metric}")
+  def increment(metric), do: DogStatsd.increment(connection(), "#{metric_prefix()}.#{metric}")
 
   defp connection do
     {:ok, statsd} = DogStatsd.new("localhost", 8125)

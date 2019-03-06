@@ -27,6 +27,7 @@ defmodule RoboliaWeb.MatchChannel do
         match: MatchSerializer.serialize(match)
       }
     )
+
     {:noreply, socket}
   end
 end

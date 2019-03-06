@@ -98,7 +98,8 @@ defmodule Robolia.Games.TicTacToes do
       {String.to_atom("p#{mov.position}"), mark}
     end)
     |> Map.new()
-    |> Enum.into(%{ # TODO: fetch this initial state from the Board
+    # TODO: fetch this initial state from the Board
+    |> Enum.into(%{
       p1: nil,
       p2: nil,
       p3: nil,
