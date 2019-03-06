@@ -2,10 +2,9 @@ defmodule Robolia.Games.RunMatches do
   use Opus.Pipeline
 
   alias Phoenix.PubSub
-  alias Robolia.Repo
+  alias Robolia.{Rating, Repo}
   alias Robolia.Accounts.Player
   alias Robolia.Accounts.Queries, as: AccountQueries
-  alias Robolia.Games.Rating
 
   check :valid_params?,
     with:
@@ -46,8 +45,13 @@ defmodule Robolia.Games.RunMatches do
   end
 
   def run_matches(
-        %{game: game, matches: matches, emulator: emulator, game_aggregator: game_aggregator, emulator_config: emulator_config} =
-          data
+        %{
+          game: game,
+          matches: matches,
+          emulator: emulator,
+          game_aggregator: game_aggregator,
+          emulator_config: emulator_config
+        } = data
       ) do
     for players_of_match <- matches do
       {:ok, match} =

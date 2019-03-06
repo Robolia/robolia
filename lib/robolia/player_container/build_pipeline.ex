@@ -25,7 +25,8 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
   end
 
   def create_bot_container(%{language: language} = pipeline) do
-    container_id = run_cmd("docker container create #{@resource_limit_options} -it robolia:#{language}")
+    container_id =
+      run_cmd("docker container create #{@resource_limit_options} -it robolia:#{language}")
 
     Logger.info("[#{__MODULE__}] Container created: #{container_id}")
     put_in(pipeline, [:container_id], container_id)

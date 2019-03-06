@@ -2,7 +2,12 @@ defmodule Robolia.Emulators.BoardGamesEmulator do
   alias Phoenix.PubSub
   alias Robolia.{GameError, Repo}
 
-  def run_match(%{players: {p1, p2} = players, game: game, game_aggregator: game_aggregator, config: config}) do
+  def run_match(%{
+        players: {p1, p2} = players,
+        game: game,
+        game_aggregator: game_aggregator,
+        config: config
+      }) do
     build_container_for(%{game: game, players: players})
 
     match =
@@ -22,7 +27,11 @@ defmodule Robolia.Emulators.BoardGamesEmulator do
     {:ok, match}
   end
 
-  def run_match(%{match: match, game_aggregator: game_aggregator, config: %{board: board} = config}) do
+  def run_match(%{
+        match: match,
+        game_aggregator: game_aggregator,
+        config: %{board: board} = config
+      }) do
     case game_aggregator.match_finished?(match) do
       {true, _} ->
         {:ok, match}
@@ -71,7 +80,12 @@ defmodule Robolia.Emulators.BoardGamesEmulator do
     end
   end
 
-  defp fetch_player_moviment(%{match: match, current_state: current_state, next_turn: next_turn, bot_runner_adapter: runner_adapter}) do
+  defp fetch_player_moviment(%{
+         match: match,
+         current_state: current_state,
+         next_turn: next_turn,
+         bot_runner_adapter: runner_adapter
+       }) do
     player_bot().run(%{
       player: match.next_player,
       current_state: current_state,

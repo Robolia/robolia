@@ -1,4 +1,4 @@
-defmodule Robolia.Games.Rating do
+defmodule Robolia.Rating do
   alias RoboliaRating.Elo, as: EloRating
   alias Robolia.Accounts
   alias Robolia.Accounts.{PlayerRating, Queries}
