@@ -1,6 +1,6 @@
-defmodule Robolia.Tasks.Calibrations.TicTacToes do
+defmodule Robolia.Tasks.Calibrations.Chess do
   @moduledoc """
-  This is the trigger for running all the Tic Tac Toe games
+  This is the trigger for running all the Chess games
   for all the active players.
 
   This task is meant to be running by a scheduler.
@@ -39,7 +39,7 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
 
   @impl true
   def handle_call(:run, _from, state) do
-    Logger.info("[#{__MODULE__}] Running calibration for Tic Tac Toes in background...")
+    Logger.info("[#{__MODULE__}] Running calibration for Chess in background...")
     run()
 
     {:noreply, state}
@@ -48,10 +48,7 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
   defp run do
     Logger.info("[#{__MODULE__}] Running")
 
-    tictactoe =
-      Game
-      |> Queries.for_game(%{slug: "tic-tac-toe"})
-      |> Repo.one!()
+    chess = Game |> Queries.for_game(%{slug: "chess"}) |> Repo.one!()
 
     {:ok, _} =
       RunMatches.call(%{
@@ -59,14 +56,14 @@ defmodule Robolia.Tasks.Calibrations.TicTacToes do
         competition_opts: %{per_group: 5},
         emulator: Robolia.Emulators.BoardGamesEmulator,
         emulator_config: %{
-          board: Boards.TicTacToeBoard,
-          bot_runner_adapter: Robolia.Games.TicTacToes.BotRunnerAdapter
+          board: Boards.ChessBoard,
+          bot_runner_adapter: Robolia.Games.Chess.BotRunnerAdapter
         },
-        game: tictactoe,
-        game_aggregator: Robolia.Games.TicTacToes
+        game: chess,
+        game_aggregator: Robolia.Games.Chess
       })
 
-    Metrics.increment("competitions.tic_tac_toes.regular")
+    Metrics.increment("competitions.chess.regular")
   end
 
   defp scheduling_hour?(current_time) do

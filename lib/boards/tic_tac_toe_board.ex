@@ -2,6 +2,7 @@ defmodule Boards.TicTacToeBoard do
   @moduledoc """
   Board logic for TicTacToe game
   """
+  @behaviour Boards.Board
 
   defguard allowed_position_number?(value) when is_integer(value) and value >= 1 and value <= 9
 
@@ -28,7 +29,7 @@ defmodule Boards.TicTacToeBoard do
   returns `{:ok, true}` if the number is between `1` and `9` and is not a filled position in
   the board, otherwise returns `{:error, :error_message}`.
   """
-  @spec valid_position?(board(), integer()) :: {:ok, true} | {:error, atom()}
+  @impl true
   def valid_position?(map, position) when allowed_position_number?(position) do
     case position_available?(map, position) do
       true -> {:ok, true}
@@ -42,7 +43,7 @@ defmodule Boards.TicTacToeBoard do
   Returns `true` if the position is not already filled,
   otherwise return `false`.
   """
-  @spec position_available?(board(), integer()) :: boolean()
+  @impl true
   def position_available?(map, position) when is_integer(position) do
     map |> Access.get("p#{position}" |> String.to_atom()) |> is_nil
   end
@@ -54,7 +55,7 @@ defmodule Boards.TicTacToeBoard do
   * All 9 positions are filled;
   * One of the players won;
   """
-  @spec match_finished?(board()) :: boolean()
+  @impl true
   def match_finished?(map) do
     positions_filled(map) >= @max_positions || fetch_winner(map) |> is_nil == false
   end
@@ -64,7 +65,7 @@ defmodule Boards.TicTacToeBoard do
   Returns `{true, nil}` All 9 positions are filled and no winner;
   Returns `{false, nil}` if have not finished;
   """
-  @spec match_finished?(board(), any(), any()) :: {boolean(), any()}
+  @impl true
   def match_finished?(map, p1, p2) do
     case fetch_winner(map, p1, p2) do
       nil ->
@@ -82,7 +83,7 @@ defmodule Boards.TicTacToeBoard do
   @doc """
   Returns the number of filled positions on the board
   """
-  @spec positions_filled(board()) :: integer()
+  @impl true
   def positions_filled(map) do
     map
     |> Enum.reduce(0, fn {_, v}, acc ->
@@ -97,7 +98,7 @@ defmodule Boards.TicTacToeBoard do
 
   If all positions are filled, then returns `nil`.
   """
-  @spec next_turn(board()) :: integer() | nil
+  @impl true
   def next_turn(map) do
     case map |> positions_filled do
       9 -> nil
@@ -108,7 +109,7 @@ defmodule Boards.TicTacToeBoard do
   @doc """
   Returns the next player or `nil` if there is any possible moviments to make.
   """
-  @spec fetch_winner(board(), any(), any()) :: any() | nil
+  @impl true
   def fetch_next_player(map, p1, p2) do
     case map |> match_finished? do
       true ->
@@ -126,7 +127,7 @@ defmodule Boards.TicTacToeBoard do
   @doc """
   Returns the position value for the winner or `nil` if no winner is found
   """
-  @spec fetch_winner(board()) :: atom() | nil
+  @impl true
   def fetch_winner(map), do: fetch_winner_value(map)
 
   @doc """
@@ -151,7 +152,7 @@ defmodule Boards.TicTacToeBoard do
   Example where the board has no winner:
     iex> TicTacToeBoard.fetch_winner(board, first_player, second_player) == nil
   """
-  @spec fetch_winner(board(), any(), any()) :: any() | nil
+  @impl true
   def fetch_winner(map, p1, p2) do
     case fetch_winner_value(map) do
       :x -> p1

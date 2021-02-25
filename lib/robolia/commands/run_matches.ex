@@ -1,4 +1,4 @@
-defmodule Robolia.Games.RunMatches do
+defmodule Robolia.Commands.RunMatches do
   use Opus.Pipeline
 
   alias Phoenix.PubSub

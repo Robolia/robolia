@@ -18,9 +18,10 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
   def clone_player_bot(%{game: game, player: player} = pipeline) do
     bot_local_storage_path = "/tmp/robolia/#{game.id}/#{player.id}/"
 
+    Logger.debug("[#{__MODULE__}] Cloning bot from #{player.repository_clone_url} to #{bot_local_storage_path}")
     result = run_cmd("git clone #{player.repository_clone_url} #{bot_local_storage_path}")
 
-    Logger.info("[#{__MODULE__}] Clone bot: #{inspect(result)}")
+    Logger.debug("[#{__MODULE__}] Clone bot: #{inspect(result)}")
     put_in(pipeline, [:bot_local_storage_path], bot_local_storage_path)
   end
 
@@ -28,14 +29,14 @@ defmodule Robolia.PlayerContainer.BuildPipeline do
     container_id =
       run_cmd("docker container create #{@resource_limit_options} -it robolia:#{language}")
 
-    Logger.info("[#{__MODULE__}] Container created: #{container_id}")
+    Logger.debug("[#{__MODULE__}] Container created: #{container_id}")
     put_in(pipeline, [:container_id], container_id)
   end
 
   def start_bot_container(%{container_id: container_id} = pipeline) do
     result = run_cmd("docker container start #{container_id}")
 
-    Logger.info("[#{__MODULE__}] Start bot: #{inspect(result)}")
+    Logger.debug("[#{__MODULE__}] Start bot: #{inspect(result)}")
     pipeline
   end
 
