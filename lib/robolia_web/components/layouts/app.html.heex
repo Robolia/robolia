@@ -1,0 +1,66 @@
+<header class="bg-white">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+    <div class="flex lg:flex-1">
+      <a href="/" class="-m-1.5 p-1.5">
+        <span class="sr-only">Robolia</span>
+        <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
+      </a>
+    </div>
+    <%!-- <div class="hidden lg:flex lg:gap-x-12">
+      <a href="#" class="text-sm/6 font-semibold text-gray-900">Features</a>
+      <a href="#" class="text-sm/6 font-semibold text-gray-900">Marketplace</a>
+
+      <div class="relative">
+        <button type="button" class="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900" aria-expanded="false">
+          Company
+          <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+            <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+        <div class="absolute -left-8 top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg ring-1 ring-gray-900/5">
+          <a href="#" class="block rounded-lg px-3 py-2 text-sm/6 font-semibold text-gray-900 hover:bg-gray-50">About us</a>
+          <a href="#" class="block rounded-lg px-3 py-2 text-sm/6 font-semibold text-gray-900 hover:bg-gray-50">Careers</a>
+          <a href="#" class="block rounded-lg px-3 py-2 text-sm/6 font-semibold text-gray-900 hover:bg-gray-50">Support</a>
+          <a href="#" class="block rounded-lg px-3 py-2 text-sm/6 font-semibold text-gray-900 hover:bg-gray-50">Press</a>
+          <a href="#" class="block rounded-lg px-3 py-2 text-sm/6 font-semibold text-gray-900 hover:bg-gray-50">Blog</a>
+        </div>
+      </div>
+    </div> --%>
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <%= if @current_user do %>
+      <a href={~p"/account/players/new"} class="text-sm/6 font-semibold text-gray-900">
+        Create a bot<span aria-hidden="true">&rarr;</span>
+      </a>
+      <div class="relative ml-4">
+        <button type="button" class="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900" aria-expanded="false">
+          <img class="h-8 w-8 rounded-full" src={"#{@current_user.avatar}.png"} alt="Avatar">
+          <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+            <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+        <div class="absolute -left-8 top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg ring-1 ring-gray-900/5">
+          <a href={~p"/account"} class="block rounded-lg px-3 py-2 text-sm/6 font-semibold text-gray-900 hover:bg-gray-50">Settings</a>
+          <.link href={~p"/auth/logout"}, method="delete", class="block rounded-lg px-3 py-2 text-sm/6 font-semibold text-gray-900 hover:bg-gray-50">
+          Logout
+          </.link>
+        </div>
+      </div>
+      <% else %>
+      <a href="/auth/github?scope=public_repo" class="text-sm/6 font-semibold text-gray-900">
+        <span class="icon">
+          <i class="fab fa-github"></i>
+        </span>
+        Log in<span aria-hidden="true">&rarr;</span>
+      </a>
+      <% end %>
+    </div>
+  </nav>
+</header>
+
+<main class="px-4 py-20 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-2xl">
+    <.flash_group flash={@flash} />
+    <%= @inner_content %>
+  </div>
+</main>
+

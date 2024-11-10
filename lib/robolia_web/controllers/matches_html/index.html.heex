@@ -1,0 +1,48 @@
+<.flash_group flash={@flash} />
+
+<section class="py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h4 class="text-xl font-medium text-gray-900">Latest matches</h4>
+    <div class="text-sm text-gray-600">Next round of battles at 19:00 UTC</div>
+
+    <div class="mt-6 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+      <table class="min-w-full divide-y divide-gray-300">
+        <tbody class="divide-y divide-gray-200 bg-white">
+          <%= for match <- @last_tic_tac_toe_matches do %>
+            <tr>
+              <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
+                <div class="flex items-center">
+                  <div class="h-8 w-8 flex-shrink-0">
+                    <img src={match.game.image_url} alt={match.game.name} title={match.game.name} class="h-8 w-8 rounded-full" />
+                  </div>
+                  
+                  <div class="ml-4">
+                    <div class="font-medium text-gray-900">
+                      <a href={~p"/matches/tic_tac_toes/#{match.id}"} class="text-indigo-600 hover:text-indigo-900">
+                        <%= match.first_player.user() |> user_name() %>
+                        <span class="text-xs text-gray-500">#<%= match.first_player |> current_rank_position %></span>
+                        <span class="text-xs text-gray-500">(<%= match.first_player |> fetch_rating %>)</span>
+
+                        <span class="mx-2 text-gray-500">vs</span>
+
+                        <%= match.second_player.user |> user_name %>
+                        <span class="text-xs text-gray-500">#<%= match.second_player |> current_rank_position %></span>
+                        <span class="text-xs text-gray-500">(<%= match.second_player |> fetch_rating %>)</span>
+                      </a>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                      <span>(<%= match.status %>)</span>
+                      <span class="mx-2">•</span>
+                      <span>Last update at <%= format_match_date(match.updated_at) %></span>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>

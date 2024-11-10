@@ -1,0 +1,31 @@
+<section class="py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <%!-- <%= render "_sidebar.html", conn: @conn %> --%>
+
+      <div class="flex-1">
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="w-full md:w-1/4">
+            <div class="aspect-square overflow-hidden rounded-lg">
+              <img src={@current_user.avatar} class="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div class="w-full md:w-3/4">
+            <ul class="space-y-2">
+              <li class="text-2xl font-semibold"><%= @current_user.name %></li>
+              <li class="text-sm text-gray-600">Active bot(s): <%= @active_players %></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <%= for player <- @players do %>
+              <._player_horizontal_card player={player} conn={@conn} />
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

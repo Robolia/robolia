@@ -1,0 +1,35 @@
+<section class="py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <div class="flex-1">
+        <h3 class="text-2xl font-bold mb-4">Create a new <%= @game.name %> bot</h3>
+
+        <hr class="my-6 border-gray-200" />
+
+        <div class="text-center">
+          <h5 class="text-xl font-semibold mb-6">1. Choose the language of your new bot</h5>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <%= for repository <- @game.repositories do %>
+              <._language_horizontal_card conn={@conn} repository={repository} languages_count={@languages_count} />
+            <% end %>
+          </div>
+
+          <div class="my-12"></div>
+
+          <h5 class="text-xl font-semibold mb-6">2. Fork the chosen repository into your Github account. That's all!</h5>
+
+          <p class="text-left mb-4">
+            After forking the repository, you just need to <span class="font-bold">wait a few moments</span> for your new bot appears in your account.
+          </p>
+
+          <p class="text-left">
+            By default, your bot will be <span class="font-bold">inactive</span>.
+            When you think your bot is ready to battle, just go to <.link href={~p"/account"} class="text-indigo-600 hover:text-indigo-500">your profile</.link> and click on the
+            <span class="font-bold italic">Activate</span> button on your bot. And you're done!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

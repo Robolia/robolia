@@ -1,0 +1,221 @@
+<script>
+  window.CONFIG = {
+    match_id: <%= @match.id %>,
+    match_type: "tic-tac-toe"
+  }
+</script>
+
+<section class="py-12">
+
+  <div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center">
+    <div class="text-right">
+      <%= if @current_user.id == @match.first_player_id, do: "(You)" %>
+      <%= @match.first_player.user().name %> 
+      <%= if @match.winner_id == @match.first_player_id, do: "(Winner)" %></div>
+    <div>vs</div>
+    <div class="text-left">
+      <%= if @current_user.id == @match.second_player_id, do: "(You)" %>
+      <%= @match.second_player.user().name %>
+      <%= if @match.winner_id == @match.second_player_id, do: "(Winner)" %>
+      </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <div class="w-full lg:w-7/12">
+        <div id="tic-tac-toe-board" phx-hook="TicTacToe" data-moviments={@moviments_as_json}>
+          <div class="flex justify-center gap-4 mb-4">
+            <button id="prev-turn" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <span id="turn-display" class="py-2">Turno: 1</span>
+            <button id="next-turn" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+          <div class="grid grid-cols-3 gap-2 w-full max-w-md mx-auto">
+            <%= for i <- 0..8 do %>
+              <div class="aspect-square border-2 border-gray-300 rounded-lg flex items-center justify-center" data-position={i}>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", () => {
+            const board = document.getElementById("tic-tac-toe-board");
+            const moviments = JSON.parse(board.dataset.moviments);
+            const positions = board.querySelectorAll("[data-position]");
+            const prevBtn = document.getElementById("prev-turn");
+            const nextBtn = document.getElementById("next-turn");
+            const turnDisplay = document.getElementById("turn-display");
+            let currentTurn = 0;
+
+            const renderBoard = (turn) => {
+              positions.forEach(pos => pos.innerHTML = "");
+              
+              const currentMoviments = moviments.filter(m => m.turn <= turn);
+              
+              currentMoviments.forEach((mov, idx) => {
+                const symbol = idx % 2 === 0 ? 
+                  `<svg class="w-16 h-16 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                   </svg>` :
+                  `<svg class="w-16 h-16 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="8" stroke-width="2"></circle>
+                   </svg>`;
+                
+                positions[mov.position].innerHTML = symbol;
+              });
+
+              turnDisplay.textContent = `Turno: ${turn}`;
+            };
+
+            prevBtn.addEventListener("click", () => {
+              if (currentTurn > 0) {
+                currentTurn--;
+                renderBoard(currentTurn);
+              }
+            });
+
+            nextBtn.addEventListener("click", () => {
+              if (currentTurn < moviments.length) {
+                currentTurn++;
+                renderBoard(currentTurn);
+              }
+            });
+
+            renderBoard(currentTurn);
+          });
+        </script>
+      </div>
+      <div class="w-full lg:w-4/12 lg:ml-8">
+        <div id="match-info-card"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<%!-- <div class="mt-8">
+  <div class="max-w-md mx-auto">
+    <div class="grid grid-cols-8 gap-0">
+      <!-- Linha 8 -->
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♜</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♞</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♝</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♛</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♚</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♝</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♞</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♜</span>
+      </div>
+
+      <!-- Linha 7 -->
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♟</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♟</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♟</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♟</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♟</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♟</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♟</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl">♟</span>
+      </div>
+
+      <!-- Linhas 6-3 (vazias) -->
+      <%= for row <- 6..3 do %>
+        <%= for col <- 1..8 do %>
+          <div class={"aspect-square #{if rem(row + col, 2) == 1, do: "bg-white", else: "bg-gray-200"} border border-gray-300"}></div>
+        <% end %>
+      <% end %>
+
+      <!-- Linha 2 -->
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♙</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♙</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♙</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♙</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♙</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♙</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♙</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♙</span>
+      </div>
+
+      <!-- Linha 1 -->
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♖</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♘</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♗</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♕</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♔</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♗</span>
+      </div>
+      <div class="aspect-square bg-gray-200 flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♘</span>
+      </div>
+      <div class="aspect-square bg-white flex items-center justify-center border border-gray-300">
+        <span class="text-4xl text-black">♖</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+ --%>
